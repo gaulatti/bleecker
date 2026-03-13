@@ -1,0 +1,51 @@
+name: Publish Package
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@gaulatti'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Publish
+        run: pnpm publish --no-git-checks --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+
+      - name: Summary
+        run: |
+          echo "## Publish Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Package**: @gaulatti/bleecker" >> $GITHUB_STEP_SUMMARY
+          VERSION=$(node -p 'require("./package.json").version')
+          echo "- **Version**: ${VERSION}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Registry**: GitHub Packages" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: ✅ Published" >> $GITHUB_STEP_SUMMARY
