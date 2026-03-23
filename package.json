@@ -1,6 +1,14 @@
 {
   "name": "@gaulatti/bleecker",
   "version": "0.1.4",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gaulatti/bleecker"
+  },
+  "bugs": {
+    "url": "https://github.com/gaulatti/bleecker/issues"
+  },
+  "homepage": "https://github.com/gaulatti/bleecker",
   "files": [
     "dist",
     "src/styles/compiled.css",
