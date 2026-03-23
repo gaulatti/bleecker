@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -25,9 +25,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '22.14.0'
           cache: 'pnpm'
-          registry-url: 'https://npm.pkg.github.com'
+          registry-url: 'https://registry.npmjs.org'
           scope: '@gaulatti'
 
       - name: Install dependencies
@@ -38,8 +38,6 @@ jobs:
 
       - name: Publish
         run: pnpm publish --no-git-checks --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
 
       - name: Summary
         run: |
@@ -47,5 +45,5 @@ jobs:
           echo "- **Package**: @gaulatti/bleecker" >> $GITHUB_STEP_SUMMARY
           VERSION=$(node -p 'require("./package.json").version')
           echo "- **Version**: ${VERSION}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Registry**: GitHub Packages" >> $GITHUB_STEP_SUMMARY
+          echo "- **Registry**: npmjs" >> $GITHUB_STEP_SUMMARY
           echo "- **Status**: ✅ Published" >> $GITHUB_STEP_SUMMARY
