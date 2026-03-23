@@ -3,7 +3,8 @@
   "version": "0.1.1",
   "files": [
     "dist",
-    "src/styles/compiled.css"
+    "src/styles/compiled.css",
+    "src/styles/global.css"
   ],
   "type": "module",
   "sideEffects": [
@@ -18,7 +19,8 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./styles.css": "./src/styles/compiled.css"
+    "./styles.css": "./src/styles/compiled.css",
+    "./styles.base.css": "./src/styles/global.css"
   },
   "scripts": {
     "build:css": "tailwindcss -i src/styles/global.css -o src/styles/compiled.css --minify",
