@@ -9,6 +9,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment: bleecker
     permissions:
       contents: read
       id-token: write
@@ -37,7 +38,7 @@ jobs:
         run: pnpm build
 
       - name: Publish
-        run: pnpm publish --no-git-checks --access public
+        run: npm publish --access public --provenance
 
       - name: Summary
         run: |
