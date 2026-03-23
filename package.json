@@ -24,9 +24,9 @@
   },
   "scripts": {
     "build:css": "tailwindcss -i src/styles/global.css -o src/styles/compiled.css --minify",
-    "build": "pnpm build:css && tsc",
-    "storybook": "pnpm build:css && storybook dev -p 6006",
-    "build-storybook": "pnpm build:css && storybook build",
+    "build": "npm run build:css && tsc",
+    "storybook": "npm run build:css && storybook dev -p 6006",
+    "build-storybook": "npm run build:css && storybook build",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "peerDependencies": {
