@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronRight } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import React from 'react';
 
 import { cn } from '../utils/cn';
@@ -33,11 +33,10 @@ export function Accordion({ className, defaultExpandedId = null, items }: Accord
                 onClick={() => setExpandedId(isExpanded ? null : item.id)}
               >
                 <div className='flex min-w-0 items-center gap-3'>
-                  {isExpanded ? (
-                    <ChevronDown size={16} className='flex-shrink-0 text-text-secondary' />
-                  ) : (
-                    <ChevronRight size={16} className='flex-shrink-0 text-text-secondary' />
-                  )}
+                  <ChevronDown
+                    size={16}
+                    className={cn('flex-shrink-0 text-text-secondary transition-transform duration-300 ease-in-out', isExpanded ? 'rotate-0' : '-rotate-90')}
+                  />
                   <div className='min-w-0'>
                     <div className='text-sm font-medium text-text-primary dark:text-text-primary'>{item.title}</div>
                     {item.subtitle ? <div className='mt-0.5 text-xs text-text-secondary dark:text-text-secondary'>{item.subtitle}</div> : null}
@@ -49,7 +48,11 @@ export function Accordion({ className, defaultExpandedId = null, items }: Accord
                   </div>
                 ) : null}
               </div>
-              {isExpanded ? <div className='bg-sand/5 dark:bg-sand/5'>{item.content}</div> : null}
+              <div className={cn('grid transition-[grid-template-rows] duration-300 ease-in-out', isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]')}>
+                <div className='overflow-hidden'>
+                  <div className='bg-sand/5 dark:bg-sand/5'>{item.content}</div>
+                </div>
+              </div>
             </li>
           );
         })}

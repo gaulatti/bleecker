@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
 
-import { SortableTableHeader } from '../../src/components/sortable-table-header';
+import { SortableTableHeader } from '../../src/components/table';
 
 const meta = {
   component: SortableTableHeader,
