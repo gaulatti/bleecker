@@ -11,7 +11,7 @@
   "homepage": "https://github.com/gaulatti/bleecker",
   "files": [
     "dist",
-    "src/styles/compiled.css",
+    "dist/styles.css",
     "src/styles/global.css"
   ],
   "type": "module",
@@ -27,11 +27,11 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./styles.css": "./src/styles/compiled.css",
+    "./styles.css": "./dist/styles.css",
     "./styles.base.css": "./src/styles/global.css"
   },
   "scripts": {
-    "build:css": "tailwindcss -i src/styles/global.css -o src/styles/compiled.css --minify",
+    "build:css": "node -e \"require('node:fs').mkdirSync('dist',{recursive:true})\" && tailwindcss -i src/styles/global.css -o dist/styles.css --minify",
     "build": "npm run build:css && tsc && node scripts/fix-esm-imports.mjs",
     "storybook": "npm run build:css && storybook dev -p 6006",
     "build-storybook": "npm run build:css && storybook build",

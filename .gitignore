@@ -4,3 +4,4 @@ storybook-static
 coverage
 .DS_Store
 debug-storybook.log
+src/styles/compiled.css
