@@ -2,7 +2,7 @@ import { ArrowUpDown, Filter, X } from 'lucide-react';
 import React from 'react';
 
 import { Select } from './select';
-import type { SortState } from './sortable-table-header';
+import type { SortState } from './table';
 import { cn } from '../utils/cn';
 
 export interface CollectionFilterOption {
@@ -61,7 +61,9 @@ export function CollectionFilters({
         >
           <Filter size={18} />
           Filters
-          {activeFilterCount > 0 ? <span className='ml-1 rounded-full bg-sea px-2 py-0.5 text-xs text-white dark:bg-accent-blue'>{activeFilterCount}</span> : null}
+          {activeFilterCount > 0 ? (
+            <span className='ml-1 rounded-full bg-sea px-2 py-0.5 text-xs text-white dark:bg-accent-blue'>{activeFilterCount}</span>
+          ) : null}
         </button>
 
         <div className='flex items-center gap-2'>
