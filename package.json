@@ -32,7 +32,7 @@
   },
   "scripts": {
     "build:css": "tailwindcss -i src/styles/global.css -o src/styles/compiled.css --minify",
-    "build": "npm run build:css && tsc",
+    "build": "npm run build:css && tsc && node scripts/fix-esm-imports.mjs",
     "storybook": "npm run build:css && storybook dev -p 6006",
     "build-storybook": "npm run build:css && storybook build",
     "typecheck": "tsc --noEmit -p tsconfig.json"
