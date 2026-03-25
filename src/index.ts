@@ -41,6 +41,7 @@ export * from './components/collection-filters';
 export * from './components/command-spotlight';
 export * from './components/select';
 export * from './components/section-header';
+export * from './assets/logo';
 export * from './components/panel';
 export * from './components/status-badge';
 export * from './components/table';
