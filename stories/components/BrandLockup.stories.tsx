@@ -33,10 +33,3 @@ export const LongName: Story = {
     logoSrc: 'https://placehold.co/32x32/1a1a2e/ffffff?text=BD'
   }
 };
-
-export const LongName: Story = {
-  args: {
-    name: 'Bleecker Design System',
-    logoSrc: 'https://placehold.co/32x32/1a1a2e/ffffff?text=BD'
-  }
-};
