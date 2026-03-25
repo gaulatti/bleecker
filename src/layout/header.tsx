@@ -8,12 +8,13 @@ export interface HeaderProps {
   actions?: React.ReactNode;
   brand: BrandLockupProps;
   className?: string;
+  fullWidth?: boolean;
   mobileActions?: React.ReactNode;
   navigation: NavItem[];
   renderLink?: RenderLink;
 }
 
-export function Header({ actions, brand, className, mobileActions, navigation, renderLink }: HeaderProps) {
+export function Header({ actions, brand, className, fullWidth = false, mobileActions, navigation, renderLink }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   return (
@@ -23,7 +24,7 @@ export function Header({ actions, brand, className, mobileActions, navigation, r
         className
       )}
     >
-      <div className='container mx-auto px-4'>
+      <div className={cn(fullWidth ? 'w-full px-4' : 'container mx-auto px-4')}>
         <div className='flex h-20 items-center justify-between gap-6'>
           <BrandLockup {...brand} renderLink={renderLink} />
 
@@ -49,7 +50,7 @@ export function Header({ actions, brand, className, mobileActions, navigation, r
           mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         )}
       >
-        <div className='container mx-auto flex flex-col gap-5 px-4 py-6'>
+        <div className={cn(fullWidth ? 'w-full' : 'container mx-auto', 'flex flex-col gap-5 px-4 py-6')}>
           {mobileActions ? <div className='flex items-center gap-3'>{mobileActions}</div> : null}
           <NavMenu direction='vertical' items={navigation} onItemClick={() => setMobileMenuOpen(false)} renderLink={renderLink} />
         </div>
