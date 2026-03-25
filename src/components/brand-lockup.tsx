@@ -1,18 +1,19 @@
 import React from 'react';
 
 import { type NavItem, renderDefaultLink, type RenderLink } from './nav-menu';
+import { gaulattiLogoSrc } from '../assets/logo';
 import { cn } from '../utils/cn';
 
 export interface BrandLockupProps {
   className?: string;
   href: string;
-  logoAlt: string;
-  logoSrc: string;
+  logoAlt?: string;
+  logoSrc?: string;
   name: string;
   renderLink?: RenderLink<NavItem>;
 }
 
-export function BrandLockup({ className, href, logoAlt, logoSrc, name, renderLink }: BrandLockupProps) {
+export function BrandLockup({ className, href, logoAlt = 'gaulatti', logoSrc = gaulattiLogoSrc, name, renderLink }: BrandLockupProps) {
   const linkRenderer = renderLink ?? renderDefaultLink;
 
   return (
