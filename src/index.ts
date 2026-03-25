@@ -38,6 +38,7 @@ export * from './components/modal';
 export * from './components/nav-menu';
 export * from './components/pagination';
 export * from './components/collection-filters';
+export * from './components/command-spotlight';
 export * from './components/select';
 export * from './components/section-header';
 export * from './components/table';
