@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { BrandLockupProps } from '../components/brand-lockup';
+import { BrandLockup, type BrandLockupProps } from '../components/brand-lockup';
 import { type NavItem, type RenderLink, renderDefaultLink } from '../components/nav-menu';
 import { cn } from '../utils/cn';
 
@@ -25,20 +25,6 @@ export function Footer({ bottomLeft, bottomRight, brand, className, renderLink, 
   const linkRenderer = renderLink ?? renderDefaultLink;
   const githubItem = sections.flatMap((section) => section.items).find((item) => item.href.includes('github.com'));
   const brandColumnClassName = sections.length <= 2 ? 'lg:col-span-2' : undefined;
-  const brandLink = linkRenderer({
-    item: {
-      href: brand.href,
-      label: brand.name
-    },
-    className: 'group inline-flex items-center gap-4 transition-all duration-400',
-    children: (
-      <>
-        <img src={brand.logoSrc} alt={brand.logoAlt} className='h-12 w-auto fill-current opacity-90 transition-opacity duration-400 group-hover:opacity-100 dark:invert' />
-        <div className='h-12 w-px bg-gradient-to-b from-sunset/0 via-sunset to-sunset/0'></div>
-        <span className='font-[family-name:var(--font-header)] text-3xl font-bold tracking-tight text-text-primary dark:text-text-primary'>{brand.name}</span>
-      </>
-    )
-  });
   const resolvedBottomRight =
     bottomRight ??
     (githubItem
@@ -56,7 +42,7 @@ export function Footer({ bottomLeft, bottomRight, brand, className, renderLink, 
       <div className='container mx-auto px-4 py-20'>
         <div className='grid grid-cols-1 gap-16 md:grid-cols-2 lg:grid-cols-4'>
           <div className={cn(brandColumnClassName)}>
-            {brandLink}
+            <BrandLockup {...brand} size='lg' renderLink={renderLink} />
             {brand.description ? (
               <p className='mt-8 max-w-md leading-relaxed tracking-refined text-text-secondary dark:text-text-secondary'>{brand.description}</p>
             ) : null}
