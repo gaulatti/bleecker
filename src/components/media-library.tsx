@@ -1,6 +1,7 @@
 import { Copy, Search, Trash2, X } from 'lucide-react';
 import React from 'react';
 
+import { IconButton } from './icon-button';
 import { Modal } from './modal';
 import { cn } from '../utils/cn';
 
@@ -91,17 +92,17 @@ export function MediaLibrary({
             <div className='absolute inset-0 flex flex-col justify-end bg-black/50 p-4 opacity-0 transition-opacity group-hover:opacity-100'>
               <p className='mb-2 truncate text-sm text-white'>{media.filename}</p>
               {onDelete ? (
-                <button
-                  type='button'
+                <IconButton
                   onClick={(event) => {
                     event.stopPropagation();
                     onDelete(media.id);
                   }}
-                  className='self-end rounded-lg bg-white p-2 text-terracotta transition-colors hover:bg-gray-100'
+                  className='self-end rounded-lg border-0 bg-white p-2 text-terracotta shadow-none backdrop-blur-none hover:translate-y-0 hover:scale-100 hover:bg-gray-100 dark:bg-white dark:text-terracotta dark:hover:bg-gray-100'
                   title='Delete'
+                  aria-label='Delete media item'
                 >
                   <Trash2 size={16} />
-                </button>
+                </IconButton>
               ) : null}
             </div>
           </div>
@@ -114,20 +115,22 @@ export function MediaLibrary({
         {selectedMedia ? (
           <div className='space-y-4'>
             <div className='flex items-center justify-center overflow-hidden rounded-lg bg-black/5 dark:bg-black/20'>
-              {selectedMedia.url ? <img src={selectedMedia.url} alt={selectedMedia.alt || selectedMedia.filename} className='max-h-[60vh] w-auto object-contain' /> : null}
+              {selectedMedia.url ? (
+                <img src={selectedMedia.url} alt={selectedMedia.alt || selectedMedia.filename} className='max-h-[60vh] w-auto object-contain' />
+              ) : null}
             </div>
 
             <div className='space-y-3'>
               <div className='flex items-center gap-2'>
                 <h3 className='flex-1 text-xl font-bold text-text-primary dark:text-text-primary'>{selectedMedia.filename}</h3>
-                <button
-                  type='button'
+                <IconButton
                   onClick={() => handleCopy(selectedMedia.filename)}
-                  className='rounded p-2 text-text-primary transition-colors hover:bg-sand/20 dark:text-text-primary dark:hover:bg-sand/30'
+                  className='border-0 bg-transparent p-2 shadow-none backdrop-blur-none hover:translate-y-0 hover:scale-100 hover:bg-sand/20 dark:bg-transparent dark:hover:bg-sand/30'
                   title='Copy filename'
+                  aria-label='Copy filename'
                 >
                   <Copy size={18} />
-                </button>
+                </IconButton>
               </div>
 
               {selectedMedia.alt ? (
@@ -142,17 +145,22 @@ export function MediaLibrary({
                   <div>
                     <label className='text-sm font-medium text-text-secondary dark:text-text-secondary'>URL:</label>
                     <div className='flex items-center gap-2'>
-                      <a href={selectedMedia.url} target='_blank' rel='noreferrer noopener' className='flex-1 break-all text-sm text-sea hover:underline dark:text-accent-blue'>
+                      <a
+                        href={selectedMedia.url}
+                        target='_blank'
+                        rel='noreferrer noopener'
+                        className='flex-1 break-all text-sm text-sea hover:underline dark:text-accent-blue'
+                      >
                         {selectedMedia.url}
                       </a>
-                      <button
-                        type='button'
+                      <IconButton
                         onClick={() => handleCopy(selectedMedia.url || '')}
-                        className='flex-shrink-0 rounded p-1.5 text-text-primary transition-colors hover:bg-sand/20 dark:text-text-primary dark:hover:bg-sand/30'
+                        className='shrink-0 border-0 bg-transparent p-1.5 shadow-none backdrop-blur-none hover:translate-y-0 hover:scale-100 hover:bg-sand/20 dark:bg-transparent dark:hover:bg-sand/30'
                         title='Copy URL'
+                        aria-label='Copy URL'
                       >
                         <Copy size={14} />
-                      </button>
+                      </IconButton>
                     </div>
                   </div>
                 ) : null}
