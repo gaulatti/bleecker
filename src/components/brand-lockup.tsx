@@ -11,10 +11,12 @@ export interface BrandLockupProps {
   logoSrc?: string;
   name: string;
   renderLink?: RenderLink<NavItem>;
+  size?: 'sm' | 'lg';
 }
 
-export function BrandLockup({ className, href, logoAlt = 'gaulatti', logoSrc = gaulattiLogoSrc, name, renderLink }: BrandLockupProps) {
+export function BrandLockup({ className, href, logoAlt = 'gaulatti', logoSrc = gaulattiLogoSrc, name, renderLink, size = 'sm' }: BrandLockupProps) {
   const linkRenderer = renderLink ?? renderDefaultLink;
+  const isLarge = size === 'lg';
 
   return (
     <>
@@ -26,9 +28,20 @@ export function BrandLockup({ className, href, logoAlt = 'gaulatti', logoSrc = g
         className: cn('group inline-flex items-center gap-4 transition-all duration-400', className),
         children: (
           <>
-            <img src={logoSrc} alt={logoAlt} className='h-8 w-auto opacity-90 transition-opacity duration-400 group-hover:opacity-100 dark:invert' />
-            <div className='h-8 w-px bg-gradient-to-b from-sunset/0 via-sunset to-sunset/0'></div>
-            <span className='font-[family-name:var(--font-header)] text-xl font-bold tracking-tight text-text-primary dark:text-text-primary'>{name}</span>
+            <img
+              src={logoSrc}
+              alt={logoAlt}
+              className={cn('w-auto opacity-90 transition-opacity duration-400 group-hover:opacity-100 dark:invert', isLarge ? 'h-12' : 'h-8')}
+            />
+            <div className={cn('w-px bg-gradient-to-b from-sunset/0 via-sunset to-sunset/0', isLarge ? 'h-12' : 'h-8')} />
+            <span
+              className={cn(
+                'font-[family-name:var(--font-display)] font-bold tracking-tight text-text-primary dark:text-text-primary',
+                isLarge ? 'text-3xl' : 'text-xl'
+              )}
+            >
+              {name}
+            </span>
           </>
         )
       })}
