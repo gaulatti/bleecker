@@ -2,6 +2,7 @@ import { AlertTriangle } from 'lucide-react';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
+import { Button } from './button';
 import { cn } from '../utils/cn';
 
 export interface AlertDialogProps {
@@ -89,23 +90,12 @@ export function AlertDialog({
           </div>
         </div>
         <div className='flex justify-end gap-3'>
-          <button
-            type='button'
-            onClick={onCancel}
-            className='inline-flex items-center justify-center rounded-full border border-sand/20 bg-white/65 px-4 py-2 text-sm font-medium tracking-refined text-text-primary transition-all duration-400 hover:-translate-y-0.5 hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-sea dark:border-sand/50 dark:bg-sand/20 dark:text-text-primary dark:hover:bg-sand/30 dark:focus-visible:ring-accent-blue'
-          >
+          <Button variant='secondary' size='sm' onClick={onCancel}>
             {cancelLabel}
-          </button>
-          <button
-            type='button'
-            onClick={onConfirm}
-            className={cn(
-              'inline-flex items-center justify-center rounded-full border-transparent px-4 py-2 text-sm font-medium tracking-refined text-white transition-all duration-400 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-sea disabled:pointer-events-none disabled:opacity-50 dark:focus-visible:ring-accent-blue',
-              variant === 'destructive' ? 'bg-terracotta hover:opacity-90' : 'bg-sea hover:bg-desert'
-            )}
-          >
+          </Button>
+          <Button variant={variant === 'destructive' ? 'destructive' : 'primary'} size='sm' onClick={onConfirm}>
             {confirmLabel}
-          </button>
+          </Button>
         </div>
       </div>
     </dialog>,

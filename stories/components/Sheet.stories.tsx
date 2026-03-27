@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Sheet } from '../../src/components/sheet';
 import { Button } from '../../src/components/button';
+import { SectionHeader } from '../../src/components/section-header';
 
 const meta = {
   component: Sheet,
@@ -19,12 +20,18 @@ export const Right: Story = {
     return (
       <>
         <Button onClick={() => setOpen(true)}>Open right sheet</Button>
-        <Sheet isOpen={open} onClose={() => setOpen(false)} side='right' title='Account settings' description='Manage your profile and preferences.'>
-          <div className='space-y-4'>
-            <p className='text-sm text-text-secondary dark:text-text-secondary'>Sheet content goes here. You can put forms, lists, or any other content.</p>
-            <Button variant='secondary' onClick={() => setOpen(false)}>
-              Close
-            </Button>
+        <Sheet isOpen={open} onClose={() => setOpen(false)} side='right' title='Publish changes'>
+          <div className='space-y-6'>
+            <SectionHeader
+              title='Review before publishing'
+              description='This sheet now uses the same shared action patterns as the modal so the button styling is directly comparable.'
+            />
+            <div className='flex flex-wrap gap-3'>
+              <Button onClick={() => setOpen(false)}>Confirm</Button>
+              <Button variant='secondary' onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+            </div>
           </div>
         </Sheet>
       </>
@@ -41,13 +48,9 @@ export const Left: Story = {
         <Sheet isOpen={open} onClose={() => setOpen(false)} side='left' title='Navigation'>
           <nav className='space-y-1'>
             {['Dashboard', 'Projects', 'Reports', 'Settings'].map((item) => (
-              <button
-                key={item}
-                type='button'
-                className='flex w-full rounded-lg px-3 py-2 text-sm text-text-primary hover:bg-sand/10 dark:text-text-primary dark:hover:bg-sand/15'
-              >
+              <Button key={item} variant='ghost' className='w-full justify-start rounded-lg px-3 py-2'>
                 {item}
-              </button>
+              </Button>
             ))}
           </nav>
         </Sheet>
@@ -65,13 +68,9 @@ export const Bottom: Story = {
         <Sheet isOpen={open} onClose={() => setOpen(false)} side='bottom' title='Options'>
           <div className='space-y-2'>
             {['Edit', 'Duplicate', 'Share', 'Archive'].map((item) => (
-              <button
-                key={item}
-                type='button'
-                className='flex w-full rounded-lg px-3 py-2 text-sm text-text-primary hover:bg-sand/10 dark:text-text-primary dark:hover:bg-sand/15'
-              >
+              <Button key={item} variant='ghost' className='w-full justify-start rounded-lg px-3 py-2'>
                 {item}
-              </button>
+              </Button>
             ))}
           </div>
         </Sheet>
