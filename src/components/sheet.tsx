@@ -1,7 +1,7 @@
-import { X } from 'lucide-react';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
+import { DialogCloseButton } from './dialog-close-button';
 import { cn } from '../utils/cn';
 
 export type SheetSide = 'left' | 'right' | 'top' | 'bottom';
@@ -45,7 +45,9 @@ export function Sheet({ children, className, description, isOpen, onClose, side 
 
   React.useEffect(() => {
     if (isOpen) {
-      requestAnimationFrame(() => setVisible(true));
+      requestAnimationFrame(() => {
+        setVisible(true);
+      });
     } else {
       setVisible(false);
     }
@@ -77,7 +79,7 @@ export function Sheet({ children, className, description, isOpen, onClose, side 
         aria-modal='true'
         aria-label={title}
         className={cn(
-          'absolute flex flex-col border border-sand/10 bg-white shadow-2xl transition-transform duration-300 ease-in-out dark:border-sand/20 dark:bg-dark-sand',
+          'absolute flex flex-col border border-sand/10 bg-white text-text-primary shadow-2xl outline-none transition-transform duration-300 ease-in-out dark:border-sand/20 dark:bg-dark-sand dark:text-text-primary',
           panel,
           visible ? enter : leave,
           (side === 'left' || side === 'right') && 'rounded-none',
@@ -86,21 +88,22 @@ export function Sheet({ children, className, description, isOpen, onClose, side 
           className
         )}
       >
-        <div className='flex items-center justify-between border-b border-sand/10 px-6 py-4 dark:border-sand/20'>
-          <div>
-            {title ? <h2 className='text-base font-semibold text-text-primary dark:text-text-primary'>{title}</h2> : null}
-            {description ? <p className='mt-0.5 text-sm text-text-secondary dark:text-text-secondary'>{description}</p> : null}
-          </div>
-          <button
-            type='button'
-            onClick={onClose}
-            className='inline-flex items-center justify-center rounded-full p-2 text-text-secondary transition-colors duration-200 hover:bg-sand/10 hover:text-text-primary dark:text-text-secondary dark:hover:bg-sand/20 dark:hover:text-text-primary'
-            aria-label='Close'
-          >
-            <X size={18} />
-          </button>
+        <div className='flex flex-1 flex-col p-6 md:p-8'>
+          {title || description ? (
+            <div className='mb-5 flex items-start justify-between gap-4'>
+              <div className='min-w-0 flex-1'>
+                {title ? <h2 className='text-2xl text-text-primary dark:text-text-primary'>{title}</h2> : null}
+                {description ? <p className='mt-1.5 text-sm leading-relaxed text-text-secondary dark:text-text-secondary'>{description}</p> : null}
+              </div>
+              <DialogCloseButton onClick={onClose} aria-label='Close' />
+            </div>
+          ) : (
+            <div className='mb-5 flex justify-end'>
+              <DialogCloseButton onClick={onClose} aria-label='Close' />
+            </div>
+          )}
+          <div className='flex-1 overflow-y-auto'>{children}</div>
         </div>
-        <div className='flex-1 overflow-y-auto p-6'>{children}</div>
       </div>
     </div>,
     document.body

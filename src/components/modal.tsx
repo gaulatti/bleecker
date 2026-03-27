@@ -1,7 +1,7 @@
-import { X } from 'lucide-react';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
+import { DialogCloseButton } from './dialog-close-button';
 import { cn } from '../utils/cn';
 
 export interface ModalProps {
@@ -53,13 +53,7 @@ export function Modal({ children, className, isOpen, onClose, title }: ModalProp
       <div className='p-6 md:p-8'>
         <div className='mb-5 flex items-center justify-between gap-4'>
           <h3 className='text-2xl text-text-primary dark:text-text-primary'>{title}</h3>
-          <button
-            type='button'
-            onClick={onClose}
-            className='inline-flex items-center justify-center rounded-full p-2 text-text-secondary transition-colors duration-400 hover:bg-sand/10 hover:text-text-primary dark:text-text-secondary dark:hover:bg-sand/20 dark:hover:text-text-primary'
-          >
-            <X size={20} />
-          </button>
+          <DialogCloseButton onClick={onClose} aria-label='Close' />
         </div>
         <div>{children}</div>
       </div>

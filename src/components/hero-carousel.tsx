@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import React from 'react';
 
 import { cn } from '../utils/cn';
@@ -167,8 +168,7 @@ export function HeroCarousel({
                   <div
                     className='absolute inset-0 mix-blend-soft-light opacity-45'
                     style={{
-                      backgroundImage:
-                        'radial-gradient(120% 90% at 50% 55%, rgba(26,55,77,0.9) 0%, rgba(193,129,77,0.45) 45%, rgba(0,0,0,0) 75%)'
+                      backgroundImage: 'radial-gradient(120% 90% at 50% 55%, rgba(26,55,77,0.9) 0%, rgba(193,129,77,0.45) 45%, rgba(0,0,0,0) 75%)'
                     }}
                   />
                   <div
@@ -239,9 +239,7 @@ export function HeroCarousel({
               onClick={() => setCurrentSlide((previous) => (previous - 1 + items.length) % items.length)}
               type='button'
             >
-              <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor' strokeWidth={2} className='h-5 w-5'>
-                <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5 8.25 12l7.5-7.5' />
-              </svg>
+              <ChevronLeft size={20} />
             </button>
 
             {showIndicators ? (
@@ -269,9 +267,7 @@ export function HeroCarousel({
               onClick={() => setCurrentSlide((previous) => (previous + 1) % items.length)}
               type='button'
             >
-              <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor' strokeWidth={2} className='h-5 w-5'>
-                <path strokeLinecap='round' strokeLinejoin='round' d='m8.25 4.5 7.5 7.5-7.5 7.5' />
-              </svg>
+              <ChevronRight size={20} />
             </button>
           </div>
         ) : null}
