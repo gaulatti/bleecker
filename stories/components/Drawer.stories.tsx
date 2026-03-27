@@ -22,13 +22,9 @@ export const Default: Story = {
         <Drawer isOpen={open} onClose={() => setOpen(false)} title='Quick actions' description='Choose an action to perform.'>
           <div className='space-y-2'>
             {['Edit profile', 'Change password', 'Export data', 'Delete account'].map((item) => (
-              <button
-                key={item}
-                type='button'
-                className='flex w-full rounded-xl px-4 py-3 text-sm text-text-primary hover:bg-sand/10 dark:text-text-primary dark:hover:bg-sand/15'
-              >
+              <Button key={item} variant='ghost' className='w-full justify-start rounded-xl px-4 py-3 hover:translate-y-0'>
                 {item}
-              </button>
+              </Button>
             ))}
           </div>
         </Drawer>
@@ -49,13 +45,14 @@ export const WithContent: Story = {
               <p className='mb-2 text-sm font-medium text-text-primary dark:text-text-primary'>Category</p>
               <div className='flex flex-wrap gap-2'>
                 {['Music', 'News', 'Sports', 'Technology', 'Science'].map((cat) => (
-                  <button
+                  <Button
                     key={cat}
-                    type='button'
-                    className='rounded-full border border-sand/20 px-3 py-1 text-xs text-text-secondary hover:border-sea hover:text-sea dark:border-sand/40 dark:hover:border-accent-blue dark:hover:text-accent-blue'
+                    variant='secondary'
+                    size='sm'
+                    className='rounded-full bg-transparent px-3 py-1 text-xs text-text-secondary hover:border-sea hover:bg-transparent hover:text-sea dark:bg-transparent dark:text-text-secondary dark:hover:border-accent-blue dark:hover:bg-transparent dark:hover:text-accent-blue'
                   >
                     {cat}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>

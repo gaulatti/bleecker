@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { HoverCard } from '../../src/components/hover-card';
 import { Avatar } from '../../src/components/avatar';
+import { Button } from '../../src/components/button';
 
 const meta = {
   component: HoverCard,
@@ -29,7 +30,13 @@ export const Default: Story = {
         </div>
       }
     >
-      <button className='text-sm font-medium text-sea underline-offset-2 hover:underline dark:text-accent-blue'>@gaulatti</button>
+      <Button
+        variant='ghost'
+        size='sm'
+        className='h-auto rounded-none border-0 px-0 py-0 font-medium text-sea hover:translate-y-0 hover:bg-transparent hover:text-sea hover:underline dark:text-accent-blue dark:hover:bg-transparent dark:hover:text-accent-blue'
+      >
+        @gaulatti
+      </Button>
     </HoverCard>
   )
 };

@@ -2,6 +2,7 @@ import { Search } from 'lucide-react';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
+import { Button } from './button';
 import { Kbd } from './kbd';
 import { cn } from '../utils/cn';
 
@@ -98,23 +99,12 @@ export function CommandSpotlight({
     }
 
     return actions.filter((action) => {
-      const haystack = normalize(
-        [
-          action.title,
-          action.description || '',
-          action.group || '',
-          ...(action.keywords || []),
-          action.href || ''
-        ].join(' ')
-      );
+      const haystack = normalize([action.title, action.description || '', action.group || '', ...(action.keywords || []), action.href || ''].join(' '));
       return haystack.includes(normalizedQuery);
     });
   }, [actions, query]);
 
-  const selectableActionIds = React.useMemo(
-    () => filteredActions.filter((action) => !action.disabled).map((action) => action.id),
-    [filteredActions]
-  );
+  const selectableActionIds = React.useMemo(() => filteredActions.filter((action) => !action.disabled).map((action) => action.id), [filteredActions]);
 
   const groupedActions = React.useMemo(() => {
     const groups = new Map<string, CommandSpotlightAction[]>();
@@ -145,8 +135,7 @@ export function CommandSpotlight({
       }
 
       const currentIndex = selectedActionId ? selectableActionIds.indexOf(selectedActionId) : -1;
-      const nextIndex =
-        currentIndex < 0 ? 0 : (currentIndex + direction + selectableActionIds.length) % selectableActionIds.length;
+      const nextIndex = currentIndex < 0 ? 0 : (currentIndex + direction + selectableActionIds.length) % selectableActionIds.length;
 
       setSelectedActionId(selectableActionIds[nextIndex]);
     },
@@ -273,13 +262,15 @@ export function CommandSpotlight({
   }, [hotkey, isMacLike]);
 
   const renderTrigger = showTrigger ? (
-    <button
+    <Button
       type='button'
+      variant='secondary'
+      size='sm'
       onClick={() => {
         setIsOpen(true);
       }}
       className={cn(
-        'inline-flex items-center gap-2 rounded-full border border-sand/20 bg-white/35 px-3 py-1.5 text-sm text-text-primary shadow-sm backdrop-blur-md transition-colors duration-200 hover:bg-white/65 dark:border-sand/70 dark:bg-sand/25 dark:hover:bg-sand/35',
+        'border-sand/20 bg-white/35 px-3 py-1.5 text-text-primary shadow-sm backdrop-blur-md hover:bg-white/65 dark:border-sand/70 dark:bg-sand/25 dark:hover:bg-sand/35',
         triggerClassName
       )}
       aria-label='Open command spotlight'
@@ -287,13 +278,13 @@ export function CommandSpotlight({
       <Search size={15} className='text-text-secondary dark:text-text-secondary' />
       <span className='hidden sm:inline'>{triggerLabel}</span>
       <Kbd keys={hotkeyHint} className='hidden sm:inline-flex' />
-    </button>
+    </Button>
   ) : null;
 
   const renderOverlay =
     isOpen && typeof document !== 'undefined'
       ? createPortal(
-          <div className={cn('fixed inset-0 z-[9999] flex items-start justify-center px-4 pt-[12vh]', overlayClassName)}>
+          <div className={cn('fixed inset-0 z-9999 flex items-start justify-center px-4 pt-[12vh]', overlayClassName)}>
             <button type='button' onClick={closeSpotlight} className='absolute inset-0 bg-black/45 backdrop-blur-sm' aria-label='Close command spotlight' />
 
             <div
@@ -306,7 +297,7 @@ export function CommandSpotlight({
               onClick={(event) => event.stopPropagation()}
             >
               <div className='flex items-center gap-3 border-b border-sand/15 px-4 py-3 dark:border-sand/20'>
-                <Search size={18} className='flex-shrink-0 text-text-secondary dark:text-text-secondary' />
+                <Search size={18} className='shrink-0 text-text-secondary dark:text-text-secondary' />
                 <input
                   ref={inputRef}
                   type='text'
@@ -378,7 +369,7 @@ export function CommandSpotlight({
                             >
                               <div className='flex min-w-0 items-center gap-3'>
                                 {action.icon ? (
-                                  <span className='flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-sand/10 text-text-secondary dark:bg-sand/20 dark:text-text-secondary'>
+                                  <span className='flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sand/10 text-text-secondary dark:bg-sand/20 dark:text-text-secondary'>
                                     {action.icon}
                                   </span>
                                 ) : null}

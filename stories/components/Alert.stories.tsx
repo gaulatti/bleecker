@@ -2,6 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Alert } from '../../src/components/alert';
+import { Button } from '../../src/components/button';
 
 const meta = {
   component: Alert,
@@ -21,9 +22,9 @@ export const Info: Story = {
     return visible ? (
       <Alert type='info' message='Your session will expire in 5 minutes.' onClose={() => setVisible(false)} duration={0} />
     ) : (
-      <button className='text-sm underline' onClick={() => setVisible(true)}>
+      <Button variant='ghost' size='sm' className='px-0 hover:translate-y-0 hover:bg-transparent hover:underline' onClick={() => setVisible(true)}>
         Show alert
-      </button>
+      </Button>
     );
   }
 };
@@ -34,9 +35,9 @@ export const Success: Story = {
     return visible ? (
       <Alert type='success' message='Changes saved successfully.' onClose={() => setVisible(false)} duration={0} />
     ) : (
-      <button className='text-sm underline' onClick={() => setVisible(true)}>
+      <Button variant='ghost' size='sm' className='px-0 hover:translate-y-0 hover:bg-transparent hover:underline' onClick={() => setVisible(true)}>
         Show alert
-      </button>
+      </Button>
     );
   }
 };
@@ -47,9 +48,9 @@ export const Warning: Story = {
     return visible ? (
       <Alert type='warning' message='This action may affect other users in your organization.' onClose={() => setVisible(false)} duration={0} />
     ) : (
-      <button className='text-sm underline' onClick={() => setVisible(true)}>
+      <Button variant='ghost' size='sm' className='px-0 hover:translate-y-0 hover:bg-transparent hover:underline' onClick={() => setVisible(true)}>
         Show alert
-      </button>
+      </Button>
     );
   }
 };
@@ -60,9 +61,9 @@ export const Error: Story = {
     return visible ? (
       <Alert type='error' message='Failed to save changes. Please try again.' onClose={() => setVisible(false)} duration={0} />
     ) : (
-      <button className='text-sm underline' onClick={() => setVisible(true)}>
+      <Button variant='ghost' size='sm' className='px-0 hover:translate-y-0 hover:bg-transparent hover:underline' onClick={() => setVisible(true)}>
         Show alert
-      </button>
+      </Button>
     );
   }
 };

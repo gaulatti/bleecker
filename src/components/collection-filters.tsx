@@ -1,6 +1,8 @@
 import { ArrowUpDown, Filter, X } from 'lucide-react';
 import React from 'react';
 
+import { Button } from './button';
+import { IconButton } from './icon-button';
 import { Select } from './select';
 import type { SortState } from './table';
 import { cn } from '../utils/cn';
@@ -54,17 +56,18 @@ export function CollectionFilters({
   return (
     <div className={cn('mb-6 space-y-4', className)}>
       <div className='flex flex-wrap items-center gap-3'>
-        <button
-          type='button'
+        <Button
+          variant='secondary'
+          size='sm'
           onClick={() => setShowFilters((open) => !open)}
-          className='inline-flex items-center gap-2 rounded-lg border border-sand/30 bg-white px-4 py-2 text-text-primary transition-colors hover:bg-sand/5 dark:border-sand/50 dark:bg-sand/10 dark:text-text-primary dark:hover:bg-sand/20'
+          className='rounded-lg border-sand/30 bg-white hover:bg-sand/5 dark:border-sand/50 dark:bg-sand/10 dark:hover:bg-sand/20'
         >
           <Filter size={18} />
           Filters
           {activeFilterCount > 0 ? (
             <span className='ml-1 rounded-full bg-sea px-2 py-0.5 text-xs text-white dark:bg-accent-blue'>{activeFilterCount}</span>
           ) : null}
-        </button>
+        </Button>
 
         <div className='flex items-center gap-2'>
           <Select
@@ -72,25 +75,26 @@ export function CollectionFilters({
             onChange={(value) => onSortChange({ field: value, order: currentSort.order })}
             options={sortOptions.map((option) => ({ label: option.label, value: option.field }))}
           />
-          <button
-            type='button'
+          <IconButton
             onClick={() => onSortChange({ field: currentSort.field, order: currentSort.order === 'asc' ? 'desc' : 'asc' })}
-            className='rounded-lg border border-sand/30 bg-white p-2 text-text-primary transition-colors hover:bg-sand/5 dark:border-sand/50 dark:bg-sand/10 dark:text-text-primary dark:hover:bg-sand/20'
+            className='rounded-lg border-sand/30 bg-white p-2 shadow-none backdrop-blur-none hover:translate-y-0 hover:scale-100 hover:bg-sand/5 dark:border-sand/50 dark:bg-sand/10 dark:hover:bg-sand/20'
             title={`Sort ${currentSort.order === 'asc' ? 'Descending' : 'Ascending'}`}
+            aria-label={`Sort ${currentSort.order === 'asc' ? 'descending' : 'ascending'}`}
           >
             <ArrowUpDown size={18} className={currentSort.order === 'desc' ? 'rotate-180' : ''} />
-          </button>
+          </IconButton>
         </div>
 
         {activeFilterCount > 0 ? (
-          <button
-            type='button'
+          <Button
+            variant='ghost'
+            size='sm'
             onClick={() => onFilterChange({})}
-            className='inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-terracotta transition-colors hover:bg-sand/5 dark:hover:bg-sand/10'
+            className='rounded-lg px-3 text-terracotta hover:bg-sand/5 hover:text-terracotta dark:hover:bg-sand/10 dark:hover:text-terracotta'
           >
             <X size={16} />
             Clear all
-          </button>
+          </Button>
         ) : null}
       </div>
 

@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
 
 import { CommandSpotlight, type CommandSpotlightAction } from '../../src/components/command-spotlight';
+import { Kbd } from '../../src/components/kbd';
 
 const sampleActions: CommandSpotlightAction[] = [
   {
@@ -114,7 +115,7 @@ export const ShortcutOnly: Story = {
   render: (args) => (
     <div className='min-h-[14rem]'>
       <p className='text-sm text-text-secondary dark:text-text-secondary'>
-        Press <kbd className='rounded border border-sand/30 px-1.5 py-0.5 text-xs'>Cmd/Ctrl + K</kbd> to open.
+        Press <Kbd keys={['Cmd/Ctrl', 'K']} className='mx-1' /> to open.
       </p>
       <CommandSpotlight {...args} actions={sampleActions} />
     </div>
