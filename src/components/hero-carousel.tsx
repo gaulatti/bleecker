@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import React from 'react';
 
+import { IconButton } from './icon-button';
 import { cn } from '../utils/cn';
 
 export type HeroCarouselItemKind = 'post' | 'project';
@@ -134,7 +135,7 @@ export function HeroCarousel({
   if (items.length === 0) {
     return (
       <section className={cn('relative w-full overflow-hidden', className)}>
-        <div className={cn('flex h-[600px] w-full items-center justify-center pt-16 text-white', fallbackBackgroundClassName)}>
+        <div className={cn('flex h-150 w-full items-center justify-center pt-16 text-white', fallbackBackgroundClassName)}>
           {emptyState ?? <p className='text-xl'>No featured content available</p>}
         </div>
       </section>
@@ -145,7 +146,7 @@ export function HeroCarousel({
 
   return (
     <section className={cn('relative w-full overflow-hidden', className)}>
-      <div className='hero-carousel flex h-[600px] w-full' onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
+      <div className='hero-carousel flex h-150 w-full' onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
         {items.map((item, index) => (
           <div
             key={item.id ?? `${item.title}:${item.href}`}
@@ -163,8 +164,8 @@ export function HeroCarousel({
                     fetchPriority={index === 0 ? 'high' : 'auto'}
                   />
                   <div className='absolute inset-0 bg-black/20' />
-                  <div className='absolute inset-0 bg-gradient-to-b from-black/70 via-black/25 to-black/85' />
-                  <div className='absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/60' />
+                  <div className='absolute inset-0 bg-linear-to-b from-black/70 via-black/25 to-black/85' />
+                  <div className='absolute inset-0 bg-linear-to-r from-black/60 via-transparent to-black/60' />
                   <div
                     className='absolute inset-0 mix-blend-soft-light opacity-45'
                     style={{
@@ -211,7 +212,7 @@ export function HeroCarousel({
                         </div>
                       ) : null}
 
-                      <h1 className='mb-4 text-3xl font-bold transition-colors [text-wrap:balance] drop-shadow-[0_0_14px_rgba(0,0,0,0.5)] group-hover:text-white/90 light:text-white sm:text-4xl lg:text-5xl'>
+                      <h1 className='mb-4 text-3xl font-bold text-balance transition-colors drop-shadow-[0_0_14px_rgba(0,0,0,0.5)] group-hover:text-white/90 light:text-white sm:text-4xl lg:text-5xl'>
                         {item.title}
                       </h1>
 
@@ -232,15 +233,15 @@ export function HeroCarousel({
 
         {showNavigation ? (
           <div className='absolute bottom-8 left-4 right-4 flex items-center justify-between'>
-            <button
-              className='rounded-full bg-black/20 p-2 text-white/75 transition-colors backdrop-blur-sm hover:bg-black/30 hover:text-white'
+            <IconButton
+              className='border-0 bg-black/20 p-2 text-white/75 shadow-none backdrop-blur-sm hover:translate-y-0 hover:scale-100 hover:bg-black/30 hover:text-white dark:bg-black/20 dark:hover:bg-black/30'
               data-carousel-prev
               aria-label='Previous slide'
               onClick={() => setCurrentSlide((previous) => (previous - 1 + items.length) % items.length)}
               type='button'
             >
               <ChevronLeft size={20} />
-            </button>
+            </IconButton>
 
             {showIndicators ? (
               <div className='flex gap-2 rounded-full bg-black/20 p-2 backdrop-blur-sm'>
@@ -260,15 +261,15 @@ export function HeroCarousel({
               </div>
             ) : null}
 
-            <button
-              className='rounded-full bg-black/20 p-2 text-white/75 transition-colors backdrop-blur-sm hover:bg-black/30 hover:text-white'
+            <IconButton
+              className='border-0 bg-black/20 p-2 text-white/75 shadow-none backdrop-blur-sm hover:translate-y-0 hover:scale-100 hover:bg-black/30 hover:text-white dark:bg-black/20 dark:hover:bg-black/30'
               data-carousel-next
               aria-label='Next slide'
               onClick={() => setCurrentSlide((previous) => (previous + 1) % items.length)}
               type='button'
             >
               <ChevronRight size={20} />
-            </button>
+            </IconButton>
           </div>
         ) : null}
       </div>

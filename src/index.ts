@@ -9,6 +9,7 @@ export * from './components/alert-dialog';
 export * from './components/avatar';
 export * from './components/breadcrumb';
 export * from './components/date-picker';
+export * from './components/dialog-close-button';
 export * from './components/drawer';
 export * from './components/empty';
 export * from './components/hover-card';

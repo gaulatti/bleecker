@@ -1,6 +1,8 @@
+import { Menu, X } from 'lucide-react';
 import React from 'react';
 
 import { BrandLockup, type BrandLockupProps } from '../components/brand-lockup';
+import { IconButton } from '../components/icon-button';
 import { NavMenu, type NavItem, type RenderLink } from '../components/nav-menu';
 import { cn } from '../utils/cn';
 
@@ -20,7 +22,7 @@ export function Header({ actions, brand, className, fullWidth = false, mobileAct
   return (
     <header
       className={cn(
-        'fixed top-0 z-50 w-full bg-white/90 font-[family-name:var(--font-header)] backdrop-blur-2xl shadow-[0_1px_3px_0_rgb(0,0,0,0.02)] dark:bg-dark-sand/95 dark:shadow-[0_1px_3px_0_rgb(0,0,0,0.3)]',
+        'fixed top-0 z-50 w-full bg-white/90 font-header backdrop-blur-2xl shadow-[0_1px_3px_0_rgb(0,0,0,0.02)] dark:bg-dark-sand/95 dark:shadow-[0_1px_3px_0_rgb(0,0,0,0.3)]',
         className
       )}
     >
@@ -34,13 +36,14 @@ export function Header({ actions, brand, className, fullWidth = false, mobileAct
 
           <div className='hidden md:flex md:items-center md:gap-3'>{actions}</div>
 
-          <button className='group md:hidden' aria-label='Toggle navigation menu' type='button' onClick={() => setMobileMenuOpen((value) => !value)}>
-            <div className='flex h-5 w-6 flex-col justify-between'>
-              <span className={cn('h-px w-full bg-text-primary transition-all duration-400', mobileMenuOpen && 'translate-y-2 rotate-45')}></span>
-              <span className={cn('h-px w-full bg-text-primary transition-all duration-400', mobileMenuOpen && 'opacity-0')}></span>
-              <span className={cn('h-px w-full bg-text-primary transition-all duration-400', mobileMenuOpen && '-translate-y-2 -rotate-45')}></span>
-            </div>
-          </button>
+          <IconButton
+            className='md:hidden h-10 w-10 border-transparent bg-transparent p-0 shadow-none backdrop-blur-none hover:translate-y-0 hover:scale-100 hover:bg-sand/10 dark:border-transparent dark:bg-transparent dark:hover:bg-sand/15'
+            aria-label='Toggle navigation menu'
+            type='button'
+            onClick={() => setMobileMenuOpen((value) => !value)}
+          >
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </IconButton>
         </div>
       </div>
 
@@ -56,7 +59,7 @@ export function Header({ actions, brand, className, fullWidth = false, mobileAct
         </div>
       </div>
 
-      <div className='h-px w-full bg-gradient-to-r from-transparent via-sunset/30 to-transparent'></div>
+      <div className='h-px w-full bg-linear-to-r from-transparent via-sunset/30 to-transparent'></div>
     </header>
   );
 }

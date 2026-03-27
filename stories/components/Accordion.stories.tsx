@@ -30,9 +30,9 @@ export const GroupsStyle: Story = {
                 <PlusCircle size={14} />
                 Add
               </Button>
-              <button className='inline-flex items-center rounded-lg bg-terracotta px-3 py-1.5 text-xs font-medium text-white transition-opacity hover:opacity-90'>
+              <Button variant='destructive' size='sm' className='rounded-lg px-3 py-1.5 text-xs' aria-label='Delete group' onClick={() => undefined}>
                 <Trash2 size={14} />
-              </button>
+              </Button>
             </>
           ),
           content: (
@@ -43,9 +43,15 @@ export const GroupsStyle: Story = {
                     <p className='text-sm text-text-primary dark:text-text-primary'>{channel}</p>
                     <p className='text-xs text-text-secondary dark:text-text-secondary'>Music</p>
                   </div>
-                  <button className='text-terracotta transition-opacity hover:opacity-80'>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    className='h-auto rounded-lg px-2 py-1 text-terracotta hover:translate-y-0 hover:bg-transparent hover:text-terracotta/80 dark:hover:bg-transparent'
+                    aria-label={`Remove ${channel}`}
+                    onClick={() => undefined}
+                  >
                     <MinusCircle size={16} />
-                  </button>
+                  </Button>
                 </li>
               ))}
             </ul>
