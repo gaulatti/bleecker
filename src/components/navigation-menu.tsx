@@ -77,7 +77,7 @@ export function NavigationMenu<TLink extends NavigationMenuLink>({ className, en
 
             {/* Dropdown */}
             {isOpen && (
-              <div className='absolute left-0 top-full z-50 mt-1.5 min-w-[16rem] rounded-2xl border border-sand/10 bg-white p-2 shadow-xl dark:border-sand/20 dark:bg-dark-sand'>
+              <div className='absolute left-0 top-full z-50 mt-1.5 min-w-[16rem] animate-in fade-in slide-in-from-top-2 duration-200 ease-out-expo rounded-[var(--radius-card)] border-0 ring-1 ring-black/5 bg-white/95 backdrop-blur-xl p-2 shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:ring-white/10 dark:bg-deep-sea/95 dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]'>
                 {entry.items.map((item) => (
                   <React.Fragment key={item.href}>
                     {linkRenderer({

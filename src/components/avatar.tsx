@@ -37,7 +37,7 @@ export function Avatar({ alt, className, fallback, size = 'md', src }: AvatarPro
   return (
     <span
       className={cn(
-        'relative inline-flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full border border-sand/20 bg-sand/10 dark:border-sand/40 dark:bg-sand/20',
+        'relative inline-flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-inset ring-black/10 bg-light-sand dark:ring-white/10 dark:bg-deep-sea',
         sizeClasses[size],
         className
       )}
@@ -75,12 +75,12 @@ export function AvatarGroup({ avatars, className, max = 4, size = 'md' }: Avatar
   return (
     <div className={cn('flex -space-x-2', className)}>
       {visible.map((avatar, index) => (
-        <Avatar key={index} {...avatar} size={size} className='ring-2 ring-white dark:ring-dark-sand' />
+        <Avatar key={index} {...avatar} size={size} className='ring-2 ring-white dark:ring-deep-sea' />
       ))}
       {overflow > 0 && (
         <span
           className={cn(
-            'inline-flex flex-shrink-0 items-center justify-center rounded-full border border-sand/20 bg-sand/10 font-medium text-text-secondary ring-2 ring-white dark:border-sand/40 dark:bg-sand/20 dark:text-text-primary dark:ring-dark-sand',
+            'inline-flex flex-shrink-0 items-center justify-center rounded-full bg-light-sand font-medium text-text-secondary ring-2 ring-white dark:bg-deep-sea dark:text-text-primary dark:ring-deep-sea shadow-sm',
             overflowSizeClasses[size]
           )}
         >

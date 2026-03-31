@@ -22,13 +22,13 @@ export function Empty({ action, className, description, icon, title }: EmptyProp
   return (
     <div
       className={cn(
-        'flex flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-sand/30 px-6 py-16 text-center dark:border-sand/30',
+        'flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed border-black/5 bg-light-sand/30 px-6 py-16 text-center dark:border-white/10 dark:bg-deep-sea/30',
         className
       )}
     >
-      <div className='flex h-14 w-14 items-center justify-center rounded-full bg-sand/10 text-text-secondary dark:bg-sand/15 dark:text-text-primary'>
+      <div className='flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-text-secondary shadow-[0_2px_8px_rgba(0,0,0,0.04)] ring-1 ring-black/5 dark:bg-deep-sea dark:text-text-primary dark:ring-white/10'>
         {icon ?? (
-          <span className='h-7 w-7 text-text-secondary dark:text-text-primary'>
+          <span className='h-8 w-8 text-sea dark:text-accent-blue'>
             <DefaultIcon />
           </span>
         )}

@@ -13,16 +13,26 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(functi
   ref
 ) {
   const checkbox = (
-    <input
-      ref={ref}
-      id={id}
-      type='checkbox'
-      className={cn(
-        'h-4 w-4 rounded border-sand/40 text-sea shadow-sm transition-colors focus:ring-2 focus:ring-sea disabled:cursor-not-allowed disabled:opacity-50 dark:border-sand/50 dark:bg-dark-sand dark:text-accent-blue dark:focus:ring-accent-blue',
-        className
-      )}
-      {...props}
-    />
+    <div className='relative flex h-5 w-5 shrink-0 items-center justify-center'>
+      <input
+        ref={ref}
+        id={id}
+        type='checkbox'
+        className={cn(
+          'peer absolute inset-0 m-0 h-full w-full appearance-none rounded-[5px] border border-sand/60 bg-light-sand shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)] transition-all duration-200 hover:border-sea/40 hover:bg-white checked:border-sea checked:bg-sea checked:shadow-none focus:outline-none focus-visible:ring-2 focus-visible:ring-sea/20 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:cursor-not-allowed disabled:opacity-50 dark:border-dark-sand/50 dark:bg-dark-sand/30 dark:checked:border-accent-blue dark:checked:bg-accent-blue dark:focus-visible:ring-offset-deep-sea',
+          className
+        )}
+        {...props}
+      />
+      <svg
+        className='pointer-events-none relative z-10 h-3.5 w-3.5 scale-50 text-white opacity-0 transition-all duration-200 ease-bouncy peer-checked:scale-100 peer-checked:opacity-100'
+        viewBox='0 0 14 10'
+        fill='none'
+        xmlns='http://www.w3.org/2000/svg'
+      >
+        <path d='M1 5L4.5 8.5L13 1' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' />
+      </svg>
+    </div>
   );
 
   if (!label && !description) {

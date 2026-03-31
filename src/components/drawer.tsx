@@ -52,7 +52,10 @@ export function Drawer({ children, className, description, isOpen, onClose, titl
     <div className='fixed inset-0 z-50'>
       {/* Backdrop */}
       <div
-        className={cn('absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300', visible ? 'opacity-100' : 'opacity-0')}
+        className={cn(
+          'absolute inset-0 bg-deep-sea/40 backdrop-blur-md transition-opacity duration-300 dark:bg-black/70',
+          visible ? 'opacity-100' : 'opacity-0'
+        )}
         onClick={onClose}
         aria-hidden='true'
       />
@@ -65,7 +68,7 @@ export function Drawer({ children, className, description, isOpen, onClose, titl
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         className={cn(
-          'absolute inset-x-0 bottom-0 flex max-h-[90dvh] flex-col rounded-t-3xl border-t border-sand/10 bg-white shadow-2xl transition-transform duration-300 ease-in-out dark:border-sand/20 dark:bg-dark-sand',
+          'absolute inset-x-0 bottom-0 flex max-h-[90dvh] flex-col rounded-t-[32px] border-t border-black/[0.04] bg-white shadow-[0_-8px_40px_rgba(0,0,0,0.08)] transition-transform duration-400 ease-out-expo dark:border-white/10 dark:bg-deep-sea dark:shadow-[0_-8px_40px_rgba(0,0,0,0.4)]',
           visible ? 'translate-y-0' : 'translate-y-full',
           className
         )}

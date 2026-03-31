@@ -65,7 +65,7 @@ function MenuItems({ items, radioGroupValue, onClose }: { items: MenubarMenuItem
     <div className='flex flex-col py-1'>
       {items.map((item, i) => {
         if (item.type === 'separator') {
-          return <div key={i} className='my-1 h-px bg-sand/15 dark:bg-sand/25' role='separator' />;
+          return <div key={i} className='my-1 h-px bg-black/5 dark:bg-white/10' role='separator' />;
         }
 
         if (item.type === 'radioGroup') {
@@ -140,7 +140,7 @@ function MenuItems({ items, radioGroupValue, onClose }: { items: MenubarMenuItem
               </button>
               {isSubOpen && (
                 <div
-                  className='absolute left-full top-0 z-10 min-w-[12rem] rounded-xl border border-sand/10 bg-white shadow-xl dark:border-sand/20 dark:bg-dark-sand'
+                  className='absolute z-[100] left-full top-0 ml-1 min-w-[12rem] animate-in fade-in slide-in-from-left-2 duration-200 ease-out-expo rounded-[var(--radius-card)] border-0 ring-1 ring-black/5 bg-white/95 backdrop-blur-xl p-1 shadow-[0_8px_32px_rgba(0,0,0,0.08)] outline-none dark:ring-white/10 dark:bg-deep-sea/95 dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]'
                   onPointerEnter={() => setOpenSub(i)}
                   onPointerLeave={() => setOpenSub(null)}
                 >
@@ -194,7 +194,7 @@ export function Menubar({ className, menus }: MenubarProps) {
       ref={barRef}
       role='menubar'
       className={cn(
-        'flex items-center gap-1 rounded-xl border border-sand/10 bg-white/80 px-1 py-1 shadow-sm backdrop-blur-md dark:border-sand/20 dark:bg-dark-sand/80',
+        'flex items-center gap-1 rounded-2xl ring-1 ring-black/5 bg-white/80 px-1 py-1 shadow-sm backdrop-blur-md dark:ring-white/10 dark:bg-deep-sea/80',
         className
       )}
     >
@@ -220,7 +220,7 @@ export function Menubar({ className, menus }: MenubarProps) {
             {isOpen && (
               <div
                 role='menu'
-                className='absolute left-0 top-full z-50 mt-1 min-w-[14rem] rounded-xl border border-sand/10 bg-white p-1 shadow-xl dark:border-sand/20 dark:bg-dark-sand'
+                className='absolute z-[100] left-0 top-full mt-1 min-w-[14rem] animate-in fade-in slide-in-from-top-2 duration-200 ease-out-expo rounded-[var(--radius-card)] border-0 ring-1 ring-black/5 bg-white/95 backdrop-blur-xl p-1 shadow-[0_8px_32px_rgba(0,0,0,0.08)] outline-none dark:ring-white/10 dark:bg-deep-sea/95 dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]'
               >
                 <MenuItems items={menu.items} onClose={() => setActiveIndex(null)} />
               </div>

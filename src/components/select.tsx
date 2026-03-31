@@ -77,10 +77,10 @@ export function Select({ className, disabled = false, error = false, onChange, o
           }
         }}
         className={cn(
-          'w-full rounded-[18px] border bg-white px-4 py-3 text-left text-text-primary transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sea dark:bg-dark-sand dark:text-text-primary dark:focus:ring-accent-blue',
-          disabled ? 'cursor-not-allowed opacity-50 bg-sand/10' : 'cursor-pointer hover:border-sea/50 dark:hover:border-accent-blue/50',
-          error ? 'border-terracotta dark:border-terracotta' : 'border-sand/30 dark:border-sand/50',
-          isOpen && 'border-sea ring-2 ring-sea dark:border-accent-blue dark:ring-accent-blue'
+          'w-full rounded-[var(--radius-ui)] border-0 ring-1 ring-inset ring-black/10 bg-light-sand/50 px-4 py-2.5 text-left text-text-primary outline-none transition-all duration-200 hover:bg-white hover:ring-black/20 focus:bg-white focus:ring-2 focus:ring-inset focus:ring-sea dark:bg-deep-sea/50 dark:text-text-primary dark:ring-white/10 dark:hover:bg-deep-sea dark:focus:ring-accent-blue',
+          disabled ? 'cursor-not-allowed opacity-50 bg-sand/10' : 'cursor-pointer',
+          error ? 'ring-terracotta/50 focus:ring-terracotta dark:ring-terracotta/50' : '',
+          isOpen && 'bg-white ring-2 ring-inset ring-sea dark:bg-deep-sea dark:ring-accent-blue'
         )}
       >
         <div className='flex items-center justify-between gap-3'>
@@ -94,7 +94,7 @@ export function Select({ className, disabled = false, error = false, onChange, o
       {isOpen ? (
         <div
           ref={dropdownRef}
-          className='absolute z-50 mt-2 w-full overflow-hidden rounded-[20px] border border-sand/30 bg-white shadow-lg dark:border-sand/50 dark:bg-dark-sand dark:shadow-2xl'
+          className='absolute z-50 mt-2 w-full overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 ease-out-expo rounded-[var(--radius-ui)] border-0 ring-1 ring-black/5 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:bg-deep-sea dark:ring-white/10 dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]'
         >
           {options.length > 5 ? (
             <div className='border-b border-sand/20 p-2 dark:border-sand/40'>
