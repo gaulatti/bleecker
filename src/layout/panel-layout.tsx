@@ -17,29 +17,10 @@ export interface PanelLayoutProps {
 
 export function PanelLayout({ children, className, mode = 'scroll', padding = 'p-6' }: PanelLayoutProps) {
   return (
-    <div
-      className={cn(
-        'flex flex-1 min-h-0',
-        mode === 'scroll' ? 'overflow-x-auto' : 'overflow-x-visible',
-        padding,
-        className
-      )}
-    >
-      <div
-        className={cn(
-          'flex h-full gap-5',
-          mode === 'scroll' ? 'flex-nowrap' : 'flex-wrap flex-1'
-        )}
-      >
+    <div className={cn('flex flex-1 min-h-0', mode === 'scroll' ? 'overflow-x-auto' : 'overflow-x-visible', padding, className)}>
+      <div className={cn('flex h-full min-h-0 gap-5', mode === 'scroll' ? 'flex-nowrap' : 'flex-wrap flex-1')}>
         {React.Children.map(children, (child) => (
-          <div
-            className={cn(
-              'flex flex-col h-full',
-              mode === 'expand' && 'flex-1 min-w-0'
-            )}
-          >
-            {child}
-          </div>
+          <div className={cn('flex flex-col h-full min-h-0', mode === 'expand' && 'flex-1 min-w-0')}>{child}</div>
         ))}
       </div>
     </div>

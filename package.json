@@ -42,8 +42,13 @@
     "react-dom": "^19.0.0"
   },
   "dependencies": {
+    "@radix-ui/react-context-menu": "^2.2.16",
+    "@radix-ui/react-label": "^2.1.8",
+    "@radix-ui/react-popover": "^1.1.15",
+    "@tanstack/react-table": "^8.21.3",
     "clsx": "^2.1.1",
     "lucide-react": "^0.563.0",
+    "recharts": "^3.8.1",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {

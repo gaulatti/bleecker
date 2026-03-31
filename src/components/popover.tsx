@@ -105,8 +105,8 @@ export function Popover({ align = 'center', children, className, content, onOpen
             ref={panelRef}
             role='dialog'
             className={cn(
-              'absolute z-50 min-w-[14rem] rounded-2xl border border-sand/10 bg-white p-1 shadow-xl outline-none dark:border-sand/20 dark:bg-dark-sand',
-              'animate-in fade-in-0 zoom-in-95',
+              'absolute z-50 min-w-[14rem] rounded-[var(--radius-card)] border-0 ring-1 ring-black/5 bg-white/95 backdrop-blur-xl p-1 shadow-[0_8px_32px_rgba(0,0,0,0.08)] outline-none dark:ring-white/10 dark:bg-deep-sea/95 dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]',
+              'animate-in fade-in-0 zoom-in-95 duration-200 ease-out-expo',
               className
             )}
             style={{ top: coords.top, left: coords.left }}

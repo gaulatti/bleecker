@@ -24,9 +24,9 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(fun
       ref={ref}
       rows={rows}
       className={cn(
-        'w-full rounded-[20px] border bg-white text-text-primary shadow-sm outline-none transition-all duration-200 placeholder:text-text-secondary focus:ring-2 focus:ring-sea disabled:cursor-not-allowed disabled:opacity-50 dark:bg-dark-sand dark:text-text-primary dark:placeholder:text-text-secondary dark:focus:ring-accent-blue',
+        'w-full rounded-[var(--radius-ui)] border-0 ring-1 ring-inset ring-black/10 bg-light-sand/50 text-text-primary shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)] outline-none transition-all duration-200 placeholder:text-text-secondary/60 hover:bg-white hover:ring-black/20 focus:bg-white focus:ring-2 focus:ring-inset focus:ring-sea disabled:cursor-not-allowed disabled:opacity-50 dark:bg-deep-sea/50 dark:text-text-primary dark:ring-white/10 dark:placeholder:text-text-secondary dark:hover:bg-deep-sea dark:focus:ring-accent-blue',
         'resize-y',
-        error ? 'border-terracotta dark:border-terracotta' : 'border-sand/30 dark:border-sand/50',
+        error ? 'ring-terracotta/50 focus:ring-terracotta dark:ring-terracotta/50' : '',
         sizeClasses[textareaSize],
         className
       )}

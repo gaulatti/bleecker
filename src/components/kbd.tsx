@@ -18,7 +18,7 @@ export function Kbd({ className, keys, children, ...props }: KbdProps) {
             <kbd
               {...props}
               className={cn(
-                'inline-flex h-5 min-w-5 items-center justify-center rounded border border-sand/30 bg-sand/10 px-1.5 font-mono text-[11px] font-medium text-text-secondary shadow-[inset_0_-1px_0] shadow-sand/20 dark:border-sand/40 dark:bg-sand/15 dark:text-text-primary dark:shadow-sand/30',
+                'inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] border border-black/[0.08] bg-light-sand/50 px-1.5 font-mono text-[11px] font-medium text-text-secondary shadow-[0_1px_0_0_rgba(0,0,0,0.08)] dark:border-white/10 dark:bg-deep-sea/50 dark:text-text-primary dark:shadow-[0_1px_0_0_rgba(255,255,255,0.1)]',
                 className
               )}
             >
@@ -34,7 +34,7 @@ export function Kbd({ className, keys, children, ...props }: KbdProps) {
     <kbd
       {...props}
       className={cn(
-        'inline-flex h-5 min-w-5 items-center justify-center rounded border border-sand/30 bg-sand/10 px-1.5 font-mono text-[11px] font-medium text-text-secondary shadow-[inset_0_-1px_0] shadow-sand/20 dark:border-sand/40 dark:bg-sand/15 dark:text-text-primary dark:shadow-sand/30',
+        'inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] border border-black/[0.08] bg-light-sand/50 px-1.5 font-mono text-[11px] font-medium text-text-secondary shadow-[0_1px_0_0_rgba(0,0,0,0.08)] dark:border-white/10 dark:bg-deep-sea/50 dark:text-text-primary dark:shadow-[0_1px_0_0_rgba(255,255,255,0.1)]',
         className
       )}
     >

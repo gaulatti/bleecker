@@ -15,12 +15,12 @@ const variantClasses: Record<StatusBadgeVariant, { badge: string; dot: string }>
     dot: 'bg-emerald-500 shadow-[0_0_0_2px_rgba(16,185,129,0.2),0_0_8px_rgba(16,185,129,0.4)]'
   },
   offline: {
-    badge: 'bg-red-500/10 border-red-500/20 text-red-500 dark:bg-red-500/10 dark:border-red-500/20 dark:text-red-400',
-    dot: 'bg-red-500 shadow-[0_0_0_2px_rgba(239,68,68,0.2),0_0_8px_rgba(239,68,68,0.4)]'
+    badge: 'bg-terracotta/10 border-terracotta/20 text-terracotta dark:bg-terracotta/10 dark:border-terracotta/20 dark:text-terracotta',
+    dot: 'bg-terracotta shadow-[0_0_0_2px_rgba(166,93,87,0.2),0_0_8px_rgba(166,93,87,0.4)]'
   },
   warning: {
-    badge: 'bg-amber-500/10 border-amber-500/20 text-amber-600 dark:bg-amber-500/10 dark:border-amber-500/20 dark:text-amber-400',
-    dot: 'bg-amber-500 shadow-[0_0_0_2px_rgba(245,158,11,0.2),0_0_8px_rgba(245,158,11,0.4)]'
+    badge: 'bg-desert/10 border-desert/20 text-desert dark:bg-desert/10 dark:border-desert/20 dark:text-desert',
+    dot: 'bg-desert shadow-[0_0_0_2px_rgba(193,129,77,0.2),0_0_8px_rgba(193,129,77,0.4)]'
   },
   info: {
     badge: 'bg-sea/10 border-sea/20 text-sea dark:bg-accent-blue/10 dark:border-accent-blue/20 dark:text-accent-blue',

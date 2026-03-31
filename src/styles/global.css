@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@300;400;500;600;700&family=Libre+Franklin:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@300;400;500;600;700&family=Libre+Franklin:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @source "../**/*.{ts,tsx}";
@@ -25,14 +25,31 @@
   sans-serif;
 
   --tracking-refined: -0.02em;
+  --tracking-ui: 0em;
   --tracking-elegant: 0.05em;
   --letter-spacing-refined: -0.02em;
+  --letter-spacing-ui: 0em;
   --letter-spacing-elegant: 0.05em;
 
-  --duration-400: 400ms;
-  --duration-600: 600ms;
-  --transition-duration-400: 400ms;
-  --transition-duration-600: 600ms;
+  --duration-150: 150ms;
+  --duration-200: 200ms;
+  --duration-300: 300ms;
+  --duration-400: 200ms;
+  /* sped up for snappier interactions */
+  --duration-600: 400ms;
+  /* sped up */
+  --transition-duration-400: 200ms;
+  --transition-duration-600: 400ms;
+
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bouncy: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Geometry & Shapes */
+  --radius-button: 10px;
+  --radius-card: 20px;
+  --radius-ui: 8px;
+  --radius-pill: 9999px;
 
   --spacing-22: 5.5rem;
 
@@ -80,7 +97,7 @@
 
   html {
     color-scheme: light;
-    background-color: var(--color-light-sand);
+    background-color: #ffffff;
     color: var(--color-text-primary);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -129,17 +146,18 @@
 
 @layer utilities {
   .hover-lift {
-    transition: all var(--transition-duration-400) ease-out;
+    transition: all var(--transition-duration-400) var(--ease-out-expo);
     transform: translateY(0);
   }
 
   .hover-lift:hover {
     transform: translateY(-2px);
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    box-shadow: 0 4px 12px 0 rgb(var(--color-deep-sea) / 0.08);
+    /* tinted shadow */
   }
 
   .hover-scale {
-    transition: transform var(--transition-duration-400) ease-out;
+    transition: transform var(--transition-duration-400) var(--ease-spring);
   }
 
   .hover-scale:hover {
@@ -149,16 +167,16 @@
   .text-fade-in {
     opacity: 0;
     transition: opacity var(--transition-duration-600);
-    animation: elegantFadeIn 800ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: elegantFadeIn 600ms var(--ease-out-expo) forwards;
   }
 
   .focus-accent {
-    transition: all 300ms;
+    transition: all 150ms var(--ease-out-expo);
   }
 
   .focus-accent:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--color-accent-gold), 0 0 0 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 0 2px var(--color-light-sand), 0 0 0 4px var(--color-accent-gold);
   }
 
   .shape-rotate {

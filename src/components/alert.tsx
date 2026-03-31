@@ -25,29 +25,29 @@ interface AlertConfigValue {
 const alertConfig: Record<AlertType, AlertConfigValue> = {
   success: {
     icon: CheckCircle,
-    bgColor: 'bg-sea/10 dark:bg-accent-blue/10',
-    borderColor: 'border-sea dark:border-accent-blue',
-    textColor: 'text-sea dark:text-accent-blue',
+    bgColor: 'bg-white/80 dark:bg-deep-sea/80',
+    borderColor: 'ring-sea/20 dark:ring-accent-blue/20',
+    textColor: 'text-text-primary dark:text-text-primary',
     iconColor: 'text-sea dark:text-accent-blue'
   },
   error: {
     icon: AlertCircle,
-    bgColor: 'bg-terracotta/10 dark:bg-terracotta/20',
-    borderColor: 'border-terracotta dark:border-accent-oxblood',
-    textColor: 'text-terracotta dark:text-terracotta',
+    bgColor: 'bg-white/80 dark:bg-deep-sea/80',
+    borderColor: 'ring-terracotta/20 dark:ring-terracotta/30',
+    textColor: 'text-text-primary dark:text-text-primary',
     iconColor: 'text-terracotta dark:text-terracotta'
   },
   warning: {
     icon: AlertTriangle,
-    bgColor: 'bg-sunset/10 dark:bg-sunset/20',
-    borderColor: 'border-sunset dark:border-accent-gold',
-    textColor: 'text-desert dark:text-accent-gold',
+    bgColor: 'bg-white/80 dark:bg-deep-sea/80',
+    borderColor: 'ring-sunset/30 dark:ring-sunset/20',
+    textColor: 'text-text-primary dark:text-text-primary',
     iconColor: 'text-sunset dark:text-accent-gold'
   },
   info: {
     icon: Info,
-    bgColor: 'bg-desert/10 dark:bg-accent-gold/10',
-    borderColor: 'border-desert dark:border-accent-gold',
+    bgColor: 'bg-white/80 dark:bg-deep-sea/80',
+    borderColor: 'ring-desert/20 dark:ring-desert/20',
     textColor: 'text-text-primary dark:text-text-primary',
     iconColor: 'text-desert dark:text-accent-gold'
   }
@@ -97,10 +97,10 @@ export function Alert({ className, duration = 5000, message, onClose, type = 'in
     <div className='pointer-events-none fixed inset-0 z-[9999] flex items-start justify-center px-4 pt-24'>
       <div
         className={cn(
-          'pointer-events-auto w-full max-w-md rounded-lg border-l-4 shadow-lg backdrop-blur-xl transition-all duration-400 ease-out dark:shadow-2xl',
+          'pointer-events-auto w-full max-w-md rounded-[var(--radius-button)] ring-1 ring-inset shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl transition-all duration-400 ease-out-expo dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]',
           config.bgColor,
           config.borderColor,
-          isVisible ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0',
+          isVisible ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-4 scale-95 opacity-0',
           className
         )}
       >

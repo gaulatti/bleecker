@@ -28,12 +28,17 @@ export function ButtonGroup({ children, className, orientation = 'horizontal' }:
         orientation === 'horizontal'
           ? [
               '[&>*:not(:last-child)]:border-r-0',
-              '[&>*:first-child]:rounded-l-full',
-              '[&>*:last-child]:rounded-r-full',
+              '[&>*:first-child]:rounded-l-[var(--radius-button)]',
+              '[&>*:last-child]:rounded-r-[var(--radius-button)]',
               // Ensure vertical borders between buttons are visible
               '[&>*:not(:first-child)]:border-l'
             ]
-          : ['[&>*:not(:last-child)]:border-b-0', '[&>*:first-child]:rounded-t-full', '[&>*:last-child]:rounded-b-full', '[&>*:not(:first-child)]:border-t'],
+          : [
+              '[&>*:not(:last-child)]:border-b-0',
+              '[&>*:first-child]:rounded-t-[var(--radius-button)]',
+              '[&>*:last-child]:rounded-b-[var(--radius-button)]',
+              '[&>*:not(:first-child)]:border-t'
+            ],
         className
       )}
     >

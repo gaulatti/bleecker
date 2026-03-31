@@ -32,7 +32,7 @@ export interface PanelProps {
 export function Panel({ accent, children, className, count, dragHandle, filter, isDragging, title, toolbar, width }: PanelProps) {
   const widthValue = typeof width === 'number' ? `${width}px` : width;
   const accentStyle: React.CSSProperties = {
-    ...(accent ? { '--panel-accent': accent } as React.CSSProperties : {}),
+    ...(accent ? ({ '--panel-accent': accent } as React.CSSProperties) : {}),
     ...(widthValue ? { width: widthValue, minWidth: widthValue } : {}),
     borderLeftColor: accent ?? 'var(--color-sea)'
   };
@@ -40,9 +40,13 @@ export function Panel({ accent, children, className, count, dragHandle, filter, 
   return (
     <div
       className={cn(
-        'flex flex-col h-full overflow-hidden rounded-xl border border-white/8 bg-white/2',
-        'border-l-[3px] transition-all duration-200',
-        isDragging ? 'rotate-1 shadow-2xl' : 'shadow-sm hover:-translate-y-0.5 hover:shadow-md',
+        'group flex flex-col h-full min-h-0 overflow-hidden rounded-[var(--radius-card)] bg-white dark:bg-deep-sea/90',
+        'ring-1 ring-inset ring-black/[0.04] dark:ring-white/[0.08]',
+        'shadow-[0_2px_10px_rgba(0,0,0,0.02),0_8px_32px_rgba(26,55,77,0.04)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]',
+        'border-l-4 transition-all duration-300 ease-out-expo',
+        isDragging
+          ? 'rotate-1 scale-105 shadow-[0_16px_64px_rgba(26,55,77,0.12)]'
+          : 'hover:shadow-[0_8px_32px_rgba(26,55,77,0.08)] dark:hover:shadow-[0_16px_64px_rgba(0,0,0,0.5)]',
         className
       )}
       style={accentStyle}
@@ -50,37 +54,43 @@ export function Panel({ accent, children, className, count, dragHandle, filter, 
       {/* Panel header */}
       <div
         className={cn(
-          'flex flex-col rounded-t-xl border-b border-white/8 bg-white/3 select-none',
-          'text-[color:var(--panel-accent,var(--color-sea))]'
+          'flex flex-col relative z-10 bg-white/40 dark:bg-deep-sea/40 backdrop-blur-md',
+          'border-b border-black/[0.04] dark:border-white/[0.08] select-none'
         )}
       >
         <div className='flex items-center gap-3 px-5 py-4'>
-          {dragHandle ? <span className='cursor-grab text-text-secondary active:cursor-grabbing'>{dragHandle}</span> : null}
+          {dragHandle ? (
+            <span className='cursor-grab text-black/40 hover:text-black/80 dark:text-white/40 dark:hover:text-white/80 active:cursor-grabbing transition-colors'>
+              {dragHandle}
+            </span>
+          ) : null}
 
           {/* LED dot */}
           <span
-            className='h-1.5 w-1.5 flex-shrink-0 rounded-full animate-pulse'
-            style={{ backgroundColor: accent ?? 'var(--color-sea)' }}
+            className='h-2 w-2 flex-shrink-0 rounded-full shadow-[0_0_8px_currentColor] opacity-80 group-hover:opacity-100 transition-opacity'
+            style={{ backgroundColor: accent ?? 'var(--color-sea)', color: accent ?? 'var(--color-sea)' }}
           />
 
-          <span className='flex-1 text-sm font-bold uppercase tracking-wider'>{title}</span>
+          <span className='flex-1 text-xs font-bold uppercase tracking-widest text-[color:var(--panel-accent,var(--color-sea))]'>{title}</span>
 
           {count !== undefined ? (
-            <span className='rounded-full bg-text-secondary/10 px-2 py-0.5 text-xs font-medium tabular-nums text-text-secondary dark:text-text-secondary'>
+            <span className='rounded-full bg-light-sand/50 dark:bg-white/10 px-2.5 py-0.5 text-xs font-semibold tabular-nums text-text-primary ring-1 ring-inset ring-black/5 dark:ring-white/10'>
               {count}
             </span>
           ) : null}
         </div>
 
-        {filter ? <div className='px-5 pb-3'>{filter}</div> : null}
+        {filter ? <div className='px-5 pb-4'>{filter}</div> : null}
 
         {toolbar ? (
-          <div className='flex items-center justify-center gap-2 border-t border-white/5 bg-white/1 px-5 py-2'>{toolbar}</div>
+          <div className='flex items-center justify-center gap-2 border-t border-black/[0.04] dark:border-white/[0.04] bg-light-sand/20 dark:bg-white/5 px-5 py-2.5'>
+            {toolbar}
+          </div>
         ) : null}
       </div>
 
       {/* Scrollable feed */}
-      <div className='flex-1 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-text-secondary/30 hover:scrollbar-thumb-text-secondary/50'>
+      <div className='flex-1 overflow-y-auto bg-light-sand/10 dark:bg-transparent scrollbar-thin scrollbar-track-transparent scrollbar-thumb-black/10 hover:scrollbar-thumb-black/20 dark:scrollbar-thumb-white/10 dark:hover:scrollbar-thumb-white/20'>
         {children}
       </div>
     </div>

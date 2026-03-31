@@ -40,7 +40,7 @@ export function Modal({ children, className, isOpen, onClose, title }: ModalProp
     <dialog
       ref={dialogRef}
       className={cn(
-        'm-auto w-full max-w-xl rounded-[28px] border border-sand/10 bg-white p-0 text-text-primary shadow-xl outline-none backdrop:bg-black/50 backdrop:backdrop-blur-sm dark:border-sand/20 dark:bg-dark-sand dark:text-text-primary dark:backdrop:bg-black/70',
+        'm-auto w-full max-w-xl animate-in fade-in zoom-in-95 duration-200 ease-out-expo rounded-[var(--radius-card)] border-0 bg-white p-0 text-text-primary shadow-[0_16px_64px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.02)] outline-none backdrop:bg-deep-sea/40 backdrop:backdrop-blur-md dark:bg-deep-sea dark:shadow-[0_16px_64px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.08)] dark:text-text-primary dark:backdrop:bg-black/70',
         className
       )}
       onClick={(event) => {
