@@ -20,7 +20,7 @@ const meta = {
   argTypes: {
     mode: {
       control: 'radio',
-      options: ['scroll', 'expand']
+      options: ['scroll', 'expand', 'monitor']
     }
   }
 } satisfies Meta<typeof PanelLayout>;
@@ -165,22 +165,15 @@ const Tweet = ({
 
 export const MonitorVariant: Story = {
   args: {
-    mode: 'scroll',
-    padding: 'p-0 gap-[1px]'
+    mode: 'monitor'
   },
   render: (args) => (
-    <div className='h-screen w-full bg-white dark:bg-deep-sea text-text-primary flex border-black/[0.04] dark:border-white/[0.04]'>
+    <div className='h-screen w-full bg-white dark:bg-deep-sea text-text-primary flex'>
       {/* Main Flow layout representing columns */}
       <div className='flex flex-col flex-1 h-full min-h-0 overflow-hidden bg-light-sand/30 dark:bg-black/20'>
         <PanelLayout {...args} className='h-full'>
           {/* Column 1: Home/Timeline */}
-          <Panel
-            title='Home'
-            accent='var(--color-sea)'
-            width={380}
-            className='border-r border-black/[0.04] dark:border-white/[0.04] border-l-0 border-y-0 rounded-none bg-transparent shadow-none'
-            dragHandle={<GripVertical className='h-4 w-4 text-text-secondary' />}
-          >
+          <Panel title='Home' accent='var(--color-sea)' width={380} dragHandle={<GripVertical className='h-4 w-4 text-text-secondary' />}>
             <Tweet
               author='CloudNode'
               handle='@cloudnode'
@@ -224,14 +217,7 @@ export const MonitorVariant: Story = {
           </Panel>
 
           {/* Column 2: Notifications */}
-          <Panel
-            title='Notifications'
-            accent='var(--color-sea)'
-            width={380}
-            count={3}
-            className='border-r border-black/[0.04] dark:border-white/[0.04] border-l-0 border-y-0 rounded-none bg-transparent shadow-none'
-            dragHandle={<GripVertical className='h-4 w-4 text-text-secondary' />}
-          >
+          <Panel title='Notifications' accent='var(--color-sea)' width={380} count={3} dragHandle={<GripVertical className='h-4 w-4 text-text-secondary' />}>
             <div className='p-4 border-b border-black/[0.04] dark:border-white/[0.04] bg-black/[0.02] dark:bg-white/[0.02]'>
               <span className='text-2xl mb-2 block'>❤️</span>
               <p className='text-sm font-semibold text-text-primary mb-1'>Alex Maker liked your reply</p>
@@ -253,7 +239,6 @@ export const MonitorVariant: Story = {
             title='#designsystems'
             accent='var(--color-terracotta)'
             width={380}
-            className='border-r border-black/[0.04] dark:border-white/[0.04] border-l-0 border-y-0 rounded-none bg-transparent shadow-none'
             dragHandle={<GripVertical className='h-4 w-4 text-text-secondary' />}
             filter={
               <div className='relative mb-2 mt-1 mx-3'>
@@ -282,13 +267,7 @@ export const MonitorVariant: Story = {
           </Panel>
 
           {/* Column 4: Mentions */}
-          <Panel
-            title='Mentions'
-            accent='var(--color-sea)'
-            width={380}
-            className='border-r border-black/[0.04] dark:border-white/[0.04] border-l-0 border-y-0 rounded-none bg-transparent shadow-none'
-            dragHandle={<GripVertical className='h-4 w-4 text-text-secondary' />}
-          >
+          <Panel title='Mentions' accent='var(--color-sea)' width={380} dragHandle={<GripVertical className='h-4 w-4 text-text-secondary' />}>
             <div className='flex flex-col items-center justify-center h-64 text-center px-6'>
               <span className='text-4xl mb-4'>🔔</span>
               <h3 className='font-bold text-lg mb-2 text-text-primary'>No new mentions</h3>

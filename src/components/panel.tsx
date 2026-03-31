@@ -27,9 +27,16 @@ export interface PanelProps {
    * Accepts any valid CSS width value, e.g. `'320px'` or `320`.
    */
   width?: number | string;
+  /**
+   * The visual style of the panel.
+   * `default` provides the standard elevated card look.
+   * `monitor` strips borders, radii, and shadows for seamless multi-column interfaces.
+   * @default 'default'
+   */
+  variant?: 'default' | 'monitor';
 }
 
-export function Panel({ accent, children, className, count, dragHandle, filter, isDragging, title, toolbar, width }: PanelProps) {
+export function Panel({ accent, children, className, count, dragHandle, filter, isDragging, title, toolbar, width, variant = 'default' }: PanelProps) {
   const widthValue = typeof width === 'number' ? `${width}px` : width;
   const accentStyle: React.CSSProperties = {
     ...(accent ? ({ '--panel-accent': accent } as React.CSSProperties) : {}),
@@ -40,13 +47,18 @@ export function Panel({ accent, children, className, count, dragHandle, filter, 
   return (
     <div
       className={cn(
-        'group flex flex-col h-full min-h-0 overflow-hidden rounded-[var(--radius-card)] bg-white dark:bg-deep-sea/90',
-        'ring-1 ring-inset ring-black/[0.04] dark:ring-white/[0.08]',
-        'shadow-[0_2px_10px_rgba(0,0,0,0.02),0_8px_32px_rgba(26,55,77,0.04)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]',
-        'border-l-4 transition-all duration-300 ease-out-expo',
-        isDragging
-          ? 'rotate-1 scale-105 shadow-[0_16px_64px_rgba(26,55,77,0.12)]'
-          : 'hover:shadow-[0_8px_32px_rgba(26,55,77,0.08)] dark:hover:shadow-[0_16px_64px_rgba(0,0,0,0.5)]',
+        'group flex flex-col h-full min-h-0 overflow-hidden transition-all duration-300 ease-out-expo',
+        variant === 'monitor'
+          ? 'border-r border-black/[0.04] dark:border-white/[0.04] border-l-0 border-y-0 rounded-none bg-transparent shadow-none'
+          : [
+              'rounded-[var(--radius-card)] bg-white dark:bg-deep-sea/90',
+              'ring-1 ring-inset ring-black/[0.04] dark:ring-white/[0.08]',
+              'shadow-[0_2px_10px_rgba(0,0,0,0.02),0_8px_32px_rgba(26,55,77,0.04)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]',
+              'border-l-4',
+              isDragging
+                ? 'rotate-1 scale-105 shadow-[0_16px_64px_rgba(26,55,77,0.12)]'
+                : 'hover:shadow-[0_8px_32px_rgba(26,55,77,0.08)] dark:hover:shadow-[0_16px_64px_rgba(0,0,0,0.5)]'
+            ],
         className
       )}
       style={accentStyle}
