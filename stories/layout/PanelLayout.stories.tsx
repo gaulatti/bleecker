@@ -3,9 +3,10 @@ import { Search, GripVertical, Plus } from 'lucide-react';
 import { Panel } from '../../src/components/panel';
 import { PanelLayout } from '../../src/layout/panel-layout';
 import { Card } from '../../src/components/card';
-import { Avatar } from '../../src/components/avatar';
 import { Input } from '../../src/components/input';
 import { Button } from '../../src/components/button';
+import { ActivityItem } from '../../src/components/activity-item';
+import { FeedItem } from '../../src/components/feed-item';
 
 const meta = {
   title: 'Layout/PanelLayout',
@@ -27,16 +28,6 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-const ActivityItem = ({ title, time, init }: { title: string; time: string; init: string }) => (
-  <div className='flex gap-4 p-4 border-b border-black/[0.04] dark:border-white/[0.04] hover:bg-black/[0.02] dark:hover:bg-white/[0.02] cursor-pointer transition-colors'>
-    <Avatar fallback={init} size='sm' />
-    <div className='flex-1 space-y-1'>
-      <p className='text-sm font-medium leading-none text-text-primary'>{title}</p>
-      <p className='text-xs text-text-secondary'>{time}</p>
-    </div>
-  </div>
-);
 
 export const Default: Story = {
   render: (args) => (
@@ -121,48 +112,6 @@ export const ExpandMode: Story = {
   render: Default.render
 };
 
-const Tweet = ({
-  author,
-  handle,
-  time,
-  content,
-  init,
-  verified
-}: {
-  author: string;
-  handle: string;
-  time: string;
-  content: string;
-  init: string;
-  verified?: boolean;
-}) => (
-  <div className='flex gap-3 p-4 border-b border-black/[0.04] dark:border-white/[0.04] hover:bg-black/[0.02] dark:hover:bg-white/[0.02] cursor-pointer transition-colors text-left'>
-    <Avatar fallback={init} size='sm' className='w-10 h-10 ring-1 ring-black/5' />
-    <div className='flex-1 min-w-0'>
-      <div className='flex items-center gap-1.5 mb-1'>
-        <span className='text-sm font-semibold truncate text-text-primary'>{author}</span>
-        {verified && <span className='text-sea text-[10px] bg-sea/10 rounded-full px-1 py-0.5 leading-none'>✓</span>}
-        <span className='text-xs text-text-secondary truncate'>{handle}</span>
-        <span className='text-xs text-text-secondary whitespace-nowrap'>· {time}</span>
-      </div>
-      <p className='text-sm text-text-primary leading-relaxed break-words'>{content}</p>
-
-      {/* Mock Actions */}
-      <div className='flex items-center gap-6 mt-3 text-text-secondary'>
-        <div className='flex items-center gap-1.5 hover:text-sea transition-colors'>
-          <span className='text-[10px]'>💬</span> 12
-        </div>
-        <div className='flex items-center gap-1.5 hover:text-emer transition-colors'>
-          <span className='text-[10px]'>🔄</span> 4
-        </div>
-        <div className='flex items-center gap-1.5 hover:text-terracotta transition-colors'>
-          <span className='text-[10px]'>❤️</span> 89
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
 export const MonitorVariant: Story = {
   args: {
     mode: 'monitor'
@@ -174,7 +123,7 @@ export const MonitorVariant: Story = {
         <PanelLayout {...args} className='h-full'>
           {/* Column 1: Home/Timeline */}
           <Panel title='Home' accent='var(--color-sea)' width={380} dragHandle={<GripVertical className='h-4 w-4 text-text-secondary' />}>
-            <Tweet
+            <FeedItem
               author='CloudNode'
               handle='@cloudnode'
               time='2m'
@@ -182,7 +131,7 @@ export const MonitorVariant: Story = {
               verified
               content='We are deploying the next generation of cloud infrastructure. Experience it today. ⚡️'
             />
-            <Tweet
+            <FeedItem
               author='Alex Maker'
               handle='@alexmaker'
               time='15m'
@@ -190,8 +139,8 @@ export const MonitorVariant: Story = {
               verified
               content='The latency on this new feature is absolutely incredible. Awwwards worthy!'
             />
-            <Tweet author='Orbit' handle='@orbitapp' time='1h' init='O' verified content='Announcing Orbit Insights. Build custom dashboards for your teams.' />
-            <Tweet
+            <FeedItem author='Orbit' handle='@orbitapp' time='1h' init='O' verified content='Announcing Orbit Insights. Build custom dashboards for your teams.' />
+            <FeedItem
               author='PayFlow'
               handle='@payflow'
               time='3h'
@@ -199,7 +148,7 @@ export const MonitorVariant: Story = {
               verified
               content='Increased authorization rates globally with the new Machine Learning upgrade.'
             />
-            <Tweet
+            <FeedItem
               author='CloudNode'
               handle='@cloudnode'
               time='5h'
@@ -207,7 +156,7 @@ export const MonitorVariant: Story = {
               verified
               content='We are seeing increased performance across all regions with our new edge network. Scaling seamlessly as always! ⚡️'
             />
-            <Tweet
+            <FeedItem
               author='Jamie'
               handle='@jamiedesign'
               time='6h'
@@ -250,14 +199,14 @@ export const MonitorVariant: Story = {
               </div>
             }
           >
-            <Tweet
+            <FeedItem
               author='Jamie'
               handle='@jamiedesign'
               time='22m'
               init='J'
               content='Just ripped out all standard tailwind colors and replaced them with sand, sea, terracotta. Massive upgrade. #designsystems'
             />
-            <Tweet
+            <FeedItem
               author='Component Guru'
               handle='@components'
               time='1d'

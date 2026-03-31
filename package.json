@@ -32,10 +32,11 @@
   },
   "scripts": {
     "build:css": "node -e \"require('node:fs').mkdirSync('dist',{recursive:true})\" && tailwindcss -i src/styles/global.css -o dist/styles.css --minify",
-    "build": "npm run build:css && tsc && node scripts/fix-esm-imports.mjs",
+    "build": "npm run check:exports-stories && npm run build:css && tsc && node scripts/fix-esm-imports.mjs",
     "storybook": "npm run build:css && storybook dev -p 6006",
-    "build-storybook": "npm run build:css && storybook build",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "build-storybook": "npm run check:exports-stories && npm run build:css && storybook build",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "check:exports-stories": "node scripts/check-exports-and-stories.mjs"
   },
   "peerDependencies": {
     "react": "^19.0.0",
