@@ -11,6 +11,7 @@ export interface SheetProps {
   className?: string;
   isOpen: boolean;
   onClose: () => void;
+  scrollContent?: boolean;
   side?: SheetSide;
   title?: string;
   description?: string;
@@ -39,7 +40,7 @@ const sideStyles: Record<SheetSide, { panel: string; enter: string; leave: strin
   }
 };
 
-export function Sheet({ children, className, description, isOpen, onClose, side = 'right', title }: SheetProps) {
+export function Sheet({ children, className, description, isOpen, onClose, scrollContent = true, side = 'right', title }: SheetProps) {
   const [visible, setVisible] = React.useState(false);
   const { panel, enter, leave } = sideStyles[side];
 
@@ -79,7 +80,7 @@ export function Sheet({ children, className, description, isOpen, onClose, side 
         aria-modal='true'
         aria-label={title}
         className={cn(
-          'absolute flex flex-col border border-sand/10 bg-white text-text-primary shadow-2xl outline-none transition-transform duration-300 ease-in-out dark:border-sand/20 dark:bg-dark-sand dark:text-text-primary',
+          'absolute flex flex-col overflow-hidden border border-sand/10 bg-white text-text-primary shadow-2xl outline-none transition-transform duration-300 ease-in-out dark:border-sand/20 dark:bg-dark-sand dark:text-text-primary',
           panel,
           visible ? enter : leave,
           (side === 'left' || side === 'right') && 'rounded-none',
@@ -88,9 +89,9 @@ export function Sheet({ children, className, description, isOpen, onClose, side 
           className
         )}
       >
-        <div className='flex flex-1 flex-col p-6 md:p-8'>
+        <div className='flex h-full min-h-0 flex-1 flex-col overflow-hidden p-6 md:p-8'>
           {title || description ? (
-            <div className='mb-5 flex items-start justify-between gap-4'>
+            <div className='mb-5 flex shrink-0 items-start justify-between gap-4'>
               <div className='min-w-0 flex-1'>
                 {title ? <h2 className='text-2xl text-text-primary dark:text-text-primary'>{title}</h2> : null}
                 {description ? <p className='mt-1.5 text-sm leading-relaxed text-text-secondary dark:text-text-secondary'>{description}</p> : null}
@@ -98,11 +99,11 @@ export function Sheet({ children, className, description, isOpen, onClose, side 
               <DialogCloseButton onClick={onClose} aria-label='Close' />
             </div>
           ) : (
-            <div className='mb-5 flex justify-end'>
+            <div className='mb-5 flex shrink-0 justify-end'>
               <DialogCloseButton onClick={onClose} aria-label='Close' />
             </div>
           )}
-          <div className='flex-1 overflow-y-auto'>{children}</div>
+          <div className={cn(scrollContent ? 'min-h-0 flex-1 overflow-y-auto' : 'flex min-h-0 flex-1 flex-col overflow-hidden')}>{children}</div>
         </div>
       </div>
     </div>,

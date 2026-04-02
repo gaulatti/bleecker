@@ -46,7 +46,7 @@ export function Panel({ accent, children, className, count, dragHandle, filter, 
 
   return (
     <div
-      className={cn(
+        className={cn(
         'group flex flex-col h-full min-h-0 overflow-hidden transition-all duration-300 ease-out-expo',
         variant === 'monitor'
           ? 'border-r border-black/[0.04] dark:border-white/[0.04] border-l-0 border-y-0 rounded-none bg-transparent shadow-none'
@@ -102,7 +102,7 @@ export function Panel({ accent, children, className, count, dragHandle, filter, 
       </div>
 
       {/* Scrollable feed */}
-      <div className='flex-1 overflow-y-auto bg-light-sand/10 dark:bg-transparent scrollbar-thin scrollbar-track-transparent scrollbar-thumb-black/10 hover:scrollbar-thumb-black/20 dark:scrollbar-thumb-white/10 dark:hover:scrollbar-thumb-white/20'>
+      <div className='flex-1 min-h-0 overflow-y-auto bg-light-sand/10 dark:bg-transparent scrollbar-thin scrollbar-track-transparent scrollbar-thumb-black/10 hover:scrollbar-thumb-black/20 dark:scrollbar-thumb-white/10 dark:hover:scrollbar-thumb-white/20'>
         {children}
       </div>
     </div>

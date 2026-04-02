@@ -55,7 +55,7 @@ export function Select({ className, disabled = false, error = false, onChange, o
   };
 
   return (
-    <div className={cn('relative', className)}>
+    <div className={cn('relative', isOpen ? 'z-[120]' : 'z-0', className)}>
       <button
         ref={buttonRef}
         type='button'
