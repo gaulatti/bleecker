@@ -125,43 +125,63 @@ export const MonitorVariant: Story = {
           <Panel title='Home' accent='var(--color-sea)' width={380} dragHandle={<GripVertical className='h-4 w-4 text-text-secondary' />}>
             <FeedItem
               author='CloudNode'
-              handle='@cloudnode'
-              time='2m'
               init='C'
-              verified
+              postedAt={new Date(Date.now() - 2 * 60 * 1000).toISOString()}
               content='We are deploying the next generation of cloud infrastructure. Experience it today. ⚡️'
+              relevance={8.4}
+              sourceUrl='https://cloudnode.example.com/news/deployment'
+              language='en'
+              categories={['technology', 'world']}
             />
             <FeedItem
               author='Alex Maker'
-              handle='@alexmaker'
-              time='15m'
               init='AM'
-              verified
+              postedAt={new Date(Date.now() - 15 * 60 * 1000).toISOString()}
               content='The latency on this new feature is absolutely incredible. Awwwards worthy!'
+              relevance={7.6}
+              sourceUrl='https://alexmaker.example.com/posts/perf'
+              language='en'
+              categories={['technology', 'design']}
             />
-            <FeedItem author='Orbit' handle='@orbitapp' time='1h' init='O' verified content='Announcing Orbit Insights. Build custom dashboards for your teams.' />
+            <FeedItem
+              author='Orbit'
+              init='O'
+              postedAt={new Date(Date.now() - 60 * 60 * 1000).toISOString()}
+              content='Announcing Orbit Insights. Build custom dashboards for your teams.'
+              relevance={7.9}
+              sourceUrl='https://orbit.example.com/insights'
+              language='en'
+              categories={['business']}
+            />
             <FeedItem
               author='PayFlow'
-              handle='@payflow'
-              time='3h'
               init='P'
-              verified
+              postedAt={new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString()}
               content='Increased authorization rates globally with the new Machine Learning upgrade.'
+              relevance={8.1}
+              sourceUrl='https://payflow.example.com/changelog/ml-upgrade'
+              language='en'
+              categories={['finance', 'technology']}
             />
             <FeedItem
               author='CloudNode'
-              handle='@cloudnode'
-              time='5h'
               init='C'
-              verified
+              postedAt={new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString()}
               content='We are seeing increased performance across all regions with our new edge network. Scaling seamlessly as always! ⚡️'
+              relevance={7.4}
+              sourceUrl='https://cloudnode.example.com/status/edge-network'
+              language='en'
+              categories={['world', 'technology']}
             />
             <FeedItem
               author='Jamie'
-              handle='@jamiedesign'
-              time='6h'
               init='J'
+              postedAt={new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString()}
               content='Adding continuous scrolling feeds requires properly managing flex constraints so panels correctly respect the 100vh bound. Fixed!'
+              relevance={6.8}
+              sourceUrl='https://jamie.example.com/notes/flex-scroll'
+              language='en'
+              categories={['design']}
             />
           </Panel>
 
@@ -201,17 +221,23 @@ export const MonitorVariant: Story = {
           >
             <FeedItem
               author='Jamie'
-              handle='@jamiedesign'
-              time='22m'
               init='J'
+              postedAt={new Date(Date.now() - 22 * 60 * 1000).toISOString()}
               content='Just ripped out all standard tailwind colors and replaced them with sand, sea, terracotta. Massive upgrade. #designsystems'
+              relevance={6.3}
+              sourceUrl='https://jamie.example.com/posts/designsystems'
+              language='en'
+              categories={['design', 'technology']}
             />
             <FeedItem
               author='Component Guru'
-              handle='@components'
-              time='1d'
               init='CG'
+              postedAt={new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()}
               content='Rounded corners vs straight edges in enterprise apps: the ultimate showdown. Read my article below. 🧵 #designsystems'
+              relevance={5.9}
+              sourceUrl='https://components.example.com/articles/rounded-vs-straight'
+              language='en'
+              categories={['design']}
             />
           </Panel>
 

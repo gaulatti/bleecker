@@ -34,12 +34,12 @@ export function Tooltip({ children, className, content, side = 'top' }: TooltipP
   const { container, arrow } = sideClasses[side];
 
   return (
-    <span className={cn('group relative inline-flex items-center', className)}>
+    <span className={cn('group/tooltip relative inline-flex items-center', className)}>
       {children}
       <span
         role='tooltip'
         className={cn(
-          'pointer-events-none absolute z-50 w-max max-w-[220px] rounded-lg bg-dark-sand px-3 py-1.5 text-xs leading-relaxed text-white shadow-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100 dark:bg-sand/80',
+          'pointer-events-none absolute z-[180] w-max max-w-[220px] rounded-lg bg-dark-sand px-3 py-1.5 text-xs leading-relaxed text-white shadow-xl opacity-0 transition-opacity duration-200 group-hover/tooltip:opacity-100 group-focus-within/tooltip:opacity-100 dark:bg-sand/80',
           container
         )}
       >
