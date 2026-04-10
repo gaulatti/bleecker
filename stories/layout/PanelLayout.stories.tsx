@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Search, GripVertical, Plus } from 'lucide-react';
+import { Search, GripVertical } from 'lucide-react';
 import { Panel } from '../../src/components/panel';
 import { PanelLayout } from '../../src/layout/panel-layout';
 import { Card } from '../../src/components/card';
@@ -15,14 +15,7 @@ const meta = {
     layout: 'fullscreen'
   },
   args: {
-    mode: 'scroll',
-    padding: 'p-6'
-  },
-  argTypes: {
-    mode: {
-      control: 'radio',
-      options: ['scroll', 'expand', 'monitor']
-    }
+    padding: 'p-0'
   }
 } satisfies Meta<typeof PanelLayout>;
 
@@ -32,90 +25,65 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: (args) => (
     <div className='h-screen w-full bg-light-sand/30 dark:bg-deep-sea'>
-      <div className='flex h-full flex-col'>
-        {/* Mock App Header */}
-        <header className='flex h-16 shrink-0 items-center justify-between border-b border-black/[0.04] dark:border-white/[0.04] bg-white dark:bg-deep-sea/90 px-6 shadow-[0_4px_24px_rgba(26,55,77,0.02)] z-10 backdrop-blur-md'>
-          <div className='flex items-center gap-4'>
-            <span className='text-lg font-bold text-sea'>BLEECKER</span>
-            <span className='text-sm text-text-secondary'>/ Command Center</span>
-          </div>
-          <Button variant='primary' size='sm'>
-            <Plus className='w-4 h-4 mr-2' /> New Metric
-          </Button>
-        </header>
-
-        {/* Panel Layout */}
-        <div className='flex flex-1 min-h-0 bg-transparent'>
-          <PanelLayout {...args}>
-            <Panel
-              title='Realtime Logs'
-              accent='var(--color-terracotta)'
-              count={142}
-              width={340}
-              dragHandle={<GripVertical className='h-4 w-4' />}
-              filter={
-                <div className='relative'>
-                  <Search className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-secondary' />
-                  <Input placeholder='Filter logs...' className='pl-9 h-8 text-xs bg-white dark:bg-deep-sea' />
-                </div>
-              }
-            >
-              <ActivityItem title='Deploy successful build #44' time='2m ago' init='DB' />
-              <ActivityItem title='Worker node auto-scaled' time='5m ago' init='WN' />
-              <ActivityItem title='Cache invalidated by user' time='15m ago' init='CI' />
-              <ActivityItem title='Deploy started via webhook' time='22m ago' init='DW' />
-              <ActivityItem title='Database schema migration' time='1h ago' init='DB' />
-              <ActivityItem title='Payment gateway timeout' time='3h ago' init='PG' />
-            </Panel>
-
-            <Panel
-              title='Active Sessions'
-              accent='var(--color-sea)'
-              count={24}
-              width={340}
-              dragHandle={<GripVertical className='h-4 w-4' />}
-              toolbar={
-                <Button variant='outline' size='sm' className='w-full text-xs h-7'>
-                  End All Sessions
-                </Button>
-              }
-            >
-              <ActivityItem title='Alex (Berlin, DE)' time='IP: 192.168.0.1' init='A' />
-              <ActivityItem title='Jordan (Madrid, ES)' time='IP: 10.0.0.45' init='J' />
-              <ActivityItem title='Taylor (London, UK)' time='IP: 172.16.0.8' init='T' />
-            </Panel>
-
-            <Panel title='Processing Queue' accent='var(--color-desert)' width={340} dragHandle={<GripVertical className='h-4 w-4' />}>
-              <div className='p-6 flex flex-col gap-6'>
-                <Card className='shadow-none border-dashed ring-0 bg-transparent text-center py-8'>
-                  <span className='text-sm text-text-secondary block'>Queue is currently empty.</span>
-                </Card>
+      <div className='flex h-full min-h-0 bg-transparent'>
+        <PanelLayout {...args}>
+          <Panel
+            title='Realtime Logs'
+            accent='var(--color-terracotta)'
+            count={142}
+            width={340}
+            dragHandle={<GripVertical className='h-4 w-4' />}
+            filter={
+              <div className='relative'>
+                <Search className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-secondary' />
+                <Input placeholder='Filter logs...' className='pl-9 h-8 text-xs bg-white dark:bg-deep-sea' />
               </div>
-            </Panel>
+            }
+          >
+            <ActivityItem title='Deploy successful build #44' time='2m ago' init='DB' />
+            <ActivityItem title='Worker node auto-scaled' time='5m ago' init='WN' />
+            <ActivityItem title='Cache invalidated by user' time='15m ago' init='CI' />
+            <ActivityItem title='Deploy started via webhook' time='22m ago' init='DW' />
+            <ActivityItem title='Database schema migration' time='1h ago' init='DB' />
+            <ActivityItem title='Payment gateway timeout' time='3h ago' init='PG' />
+          </Panel>
 
-            <Panel title='Anomaly Detection' accent='var(--color-terracotta)' count={3} width={340} dragHandle={<GripVertical className='h-4 w-4' />}>
-              <ActivityItem title='Spike in 500 errors' time='EU-West region' init='500' />
-              <ActivityItem title='Unusual login velocity' time='Admin accounts' init='SEC' />
-            </Panel>
-          </PanelLayout>
-        </div>
+          <Panel
+            title='Active Sessions'
+            accent='var(--color-sea)'
+            count={24}
+            width={340}
+            dragHandle={<GripVertical className='h-4 w-4' />}
+            toolbar={
+              <Button variant='outline' size='sm' className='w-full text-xs h-7'>
+                End All Sessions
+              </Button>
+            }
+          >
+            <ActivityItem title='Alex (Berlin, DE)' time='IP: 192.168.0.1' init='A' />
+            <ActivityItem title='Jordan (Madrid, ES)' time='IP: 10.0.0.45' init='J' />
+            <ActivityItem title='Taylor (London, UK)' time='IP: 172.16.0.8' init='T' />
+          </Panel>
+
+          <Panel title='Processing Queue' accent='var(--color-desert)' width={340} dragHandle={<GripVertical className='h-4 w-4' />}>
+            <div className='p-6 flex flex-col gap-6'>
+              <Card className='shadow-none border-dashed ring-0 bg-transparent text-center py-8'>
+                <span className='text-sm text-text-secondary block'>Queue is currently empty.</span>
+              </Card>
+            </div>
+          </Panel>
+
+          <Panel title='Anomaly Detection' accent='var(--color-terracotta)' count={3} width={340} dragHandle={<GripVertical className='h-4 w-4' />}>
+            <ActivityItem title='Spike in 500 errors' time='EU-West region' init='500' />
+            <ActivityItem title='Unusual login velocity' time='Admin accounts' init='SEC' />
+          </Panel>
+        </PanelLayout>
       </div>
     </div>
   )
 };
 
-export const ExpandMode: Story = {
-  args: {
-    mode: 'expand',
-    padding: 'p-6'
-  },
-  render: Default.render
-};
-
 export const MonitorVariant: Story = {
-  args: {
-    mode: 'monitor'
-  },
   render: (args) => (
     <div className='h-screen w-full bg-white dark:bg-deep-sea text-text-primary flex'>
       {/* Main Flow layout representing columns */}
@@ -247,6 +215,32 @@ export const MonitorVariant: Story = {
               <span className='text-4xl mb-4'>🔔</span>
               <h3 className='font-bold text-lg mb-2 text-text-primary'>No new mentions</h3>
               <p className='text-sm text-text-secondary'>When someone mentions you, you'll see it here first in your custom column.</p>
+            </div>
+          </Panel>
+        </PanelLayout>
+      </div>
+    </div>
+  )
+};
+
+export const FillAvailableSpace: Story = {
+  render: (args) => (
+    <div className='h-screen w-full bg-light-sand/30 dark:bg-deep-sea'>
+      <div className='flex h-full min-h-0'>
+        <PanelLayout {...args} className='h-full'>
+          <Panel title='Inbox' accent='var(--color-sea)' width={320} dragHandle={<GripVertical className='h-4 w-4 text-text-secondary' />}>
+            <ActivityItem title='New signup conversion alert' time='5m ago' init='AL' />
+            <ActivityItem title='Roadmap comment from design' time='20m ago' init='DS' />
+          </Panel>
+
+          <Panel title='Queue' accent='var(--color-terracotta)' width={320} dragHandle={<GripVertical className='h-4 w-4 text-text-secondary' />}>
+            <ActivityItem title='Import batch #1042' time='Processing' init='IM' />
+            <ActivityItem title='Sync workers healthy' time='Now' init='SW' />
+          </Panel>
+
+          <Panel title='Details (Fills Remaining Space)' accent='var(--color-desert)' grow dragHandle={<GripVertical className='h-4 w-4 text-text-secondary' />}>
+            <div className='p-5 text-sm text-text-secondary'>
+              This column has <code>grow</code>, so it expands into remaining horizontal space after fixed-width columns.
             </div>
           </Panel>
         </PanelLayout>

@@ -17,13 +17,18 @@ export interface PanelProps {
   dragHandle?: React.ReactNode;
   /** Optional filter/search content rendered below the title row */
   filter?: React.ReactNode;
+  /**
+   * When used inside `PanelLayout`, lets this column grow to consume
+   * remaining horizontal space.
+   */
+  grow?: boolean;
   /** Whether the panel is currently being dragged */
   isDragging?: boolean;
   title: string;
   /** Optional toolbar rendered below the filter row */
   toolbar?: React.ReactNode;
   /**
-   * Fixed width for the panel (used in PanelLayout scroll mode).
+   * Fixed width for the panel.
    * Accepts any valid CSS width value, e.g. `'320px'` or `320`.
    */
   width?: number | string;
@@ -36,7 +41,7 @@ export interface PanelProps {
   variant?: 'default' | 'monitor';
 }
 
-export function Panel({ accent, children, className, count, dragHandle, filter, isDragging, title, toolbar, width, variant = 'default' }: PanelProps) {
+export function Panel({ accent, children, className, count, dragHandle, filter, grow: _grow, isDragging, title, toolbar, width, variant = 'default' }: PanelProps) {
   const widthValue = typeof width === 'number' ? `${width}px` : width;
   const accentStyle: React.CSSProperties = {
     ...(accent ? ({ '--panel-accent': accent } as React.CSSProperties) : {}),
