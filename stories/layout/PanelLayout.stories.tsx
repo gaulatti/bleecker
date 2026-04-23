@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Search, GripVertical } from 'lucide-react';
 import { Panel } from '../../src/components/panel';
-import { PanelLayout } from '../../src/layout/panel-layout';
+import { PanelLayout, PanelColumn } from '../../src/layout/panel-layout';
 import { Card } from '../../src/components/card';
 import { Input } from '../../src/components/input';
 import { Button } from '../../src/components/button';
@@ -238,11 +238,49 @@ export const FillAvailableSpace: Story = {
             <ActivityItem title='Sync workers healthy' time='Now' init='SW' />
           </Panel>
 
-          <Panel title='Details (Fills Remaining Space)' accent='var(--color-desert)' grow dragHandle={<GripVertical className='h-4 w-4 text-text-secondary' />}>
+          <Panel
+            title='Details (Fills Remaining Space)'
+            accent='var(--color-desert)'
+            grow
+            dragHandle={<GripVertical className='h-4 w-4 text-text-secondary' />}
+          >
             <div className='p-5 text-sm text-text-secondary'>
               This column has <code>grow</code>, so it expands into remaining horizontal space after fixed-width columns.
             </div>
           </Panel>
+        </PanelLayout>
+      </div>
+    </div>
+  )
+};
+
+export const StackedPanelsInColumn: Story = {
+  render: (args) => (
+    <div className='h-screen w-full bg-light-sand/30 dark:bg-deep-sea'>
+      <div className='flex h-full min-h-0'>
+        <PanelLayout {...args} className='h-full'>
+          {/* Regular single-panel column */}
+          <Panel title='Realtime Logs' accent='var(--color-terracotta)' count={142} width={340} dragHandle={<GripVertical className='h-4 w-4' />}>
+            <ActivityItem title='Deploy successful build #44' time='2m ago' init='DB' />
+            <ActivityItem title='Worker node auto-scaled' time='5m ago' init='WN' />
+            <ActivityItem title='Cache invalidated by user' time='15m ago' init='CI' />
+            <ActivityItem title='Deploy started via webhook' time='22m ago' init='DW' />
+            <ActivityItem title='Database schema migration' time='1h ago' init='DB' />
+          </Panel>
+
+          {/* Column with two stacked panels */}
+          <PanelColumn grow>
+            <Panel title='Active Sessions' accent='var(--color-sea)' count={24} grow dragHandle={<GripVertical className='h-4 w-4' />}>
+              <ActivityItem title='Alex (Berlin, DE)' time='IP: 192.168.0.1' init='A' />
+              <ActivityItem title='Jordan (Madrid, ES)' time='IP: 10.0.0.45' init='J' />
+              <ActivityItem title='Taylor (London, UK)' time='IP: 172.16.0.8' init='T' />
+            </Panel>
+            <Panel title='Anomaly Detection' accent='var(--color-terracotta)' count={3} dragHandle={<GripVertical className='h-4 w-4' />}>
+              <ActivityItem title='Spike in 500 errors' time='EU-West region' init='500' />
+              <ActivityItem title='Unusual login velocity' time='Admin accounts' init='SEC' />
+              <ActivityItem title='High memory usage' time='Worker-03' init='MEM' />
+            </Panel>
+          </PanelColumn>
         </PanelLayout>
       </div>
     </div>
