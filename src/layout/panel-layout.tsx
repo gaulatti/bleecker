@@ -41,7 +41,7 @@ export function PanelLayout({ children, className, padding }: PanelLayoutProps) 
   const resolvedPadding = padding ?? 'p-0';
 
   return (
-    <div className={cn('flex flex-1 h-full min-h-0 overflow-x-auto', resolvedPadding, className)}>
+    <div className={cn('flex flex-1 min-h-0 overflow-x-auto overflow-y-hidden', resolvedPadding, className)}>
       <div className='flex flex-1 h-full min-h-0 gap-0 flex-nowrap'>
         {React.Children.map(children, (child) => {
           if (!React.isValidElement(child)) return child;
