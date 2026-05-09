@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Panel } from '../components/panel';
 import { cn } from '../utils/cn';
 
 export interface PanelColumnProps {
@@ -21,10 +20,7 @@ export function PanelColumn({ children, className }: PanelColumnProps) {
       {React.Children.map(children, (child) => {
         if (!React.isValidElement(child)) return child;
         const shouldFill = Boolean((child.props as { grow?: boolean }).grow);
-        const childProps = child.type === Panel ? { variant: 'monitor' } : {};
-        return (
-          <div className={cn('flex flex-col min-h-0 overflow-hidden', shouldFill ? 'flex-1' : 'shrink-0')}>{React.cloneElement(child, childProps as any)}</div>
-        );
+        return <div className={cn('flex flex-col min-h-0 overflow-hidden', shouldFill ? 'flex-1' : 'shrink-0')}>{child}</div>;
       })}
     </div>
   );
@@ -52,12 +48,7 @@ export function PanelLayout({ children, className, padding }: PanelLayoutProps) 
             return <div className={cn('flex h-full min-h-0 flex-col', shouldFill ? 'flex-1 min-w-0' : 'shrink-0')}>{child}</div>;
           }
 
-          // Auto-inject monitor panel styling for Panel children.
-          const childProps = child.type === Panel ? { variant: 'monitor' } : {};
-
-          return (
-            <div className={cn('flex h-full min-h-0 flex-col', shouldFill ? 'flex-1 min-w-0' : 'shrink-0')}>{React.cloneElement(child, childProps as any)}</div>
-          );
+          return <div className={cn('flex h-full min-h-0 flex-col', shouldFill ? 'flex-1 min-w-0' : 'shrink-0')}>{child}</div>;
         })}
       </div>
     </div>
