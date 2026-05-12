@@ -1,4 +1,4 @@
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, Loader2 } from 'lucide-react';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
@@ -9,6 +9,7 @@ export interface AlertDialogProps {
   cancelLabel?: string;
   className?: string;
   confirmLabel?: string;
+  confirmLoading?: boolean;
   description?: string;
   isOpen: boolean;
   onCancel: () => void;
@@ -21,6 +22,7 @@ export function AlertDialog({
   cancelLabel = 'Cancel',
   className,
   confirmLabel = 'Continue',
+  confirmLoading = false,
   description,
   isOpen,
   onCancel,
@@ -47,12 +49,12 @@ export function AlertDialog({
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         event.preventDefault();
-        onCancel();
+        if (!confirmLoading) onCancel();
       }
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onCancel]);
+  }, [isOpen, onCancel, confirmLoading]);
 
   if (typeof document === 'undefined' || !isOpen) {
     return null;
@@ -90,11 +92,18 @@ export function AlertDialog({
           </div>
         </div>
         <div className='flex justify-end gap-3'>
-          <Button variant='secondary' size='sm' onClick={onCancel}>
+          <Button variant='secondary' size='sm' onClick={onCancel} disabled={confirmLoading}>
             {cancelLabel}
           </Button>
-          <Button variant={variant === 'destructive' ? 'destructive' : 'primary'} size='sm' onClick={onConfirm}>
-            {confirmLabel}
+          <Button variant={variant === 'destructive' ? 'destructive' : 'primary'} size='sm' onClick={onConfirm} disabled={confirmLoading}>
+            {confirmLoading ? (
+              <span className='flex items-center gap-2'>
+                <Loader2 size={16} className='animate-spin' />
+                {confirmLabel}
+              </span>
+            ) : (
+              confirmLabel
+            )}
           </Button>
         </div>
       </div>

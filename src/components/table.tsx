@@ -94,7 +94,7 @@ export const TableBody = React.forwardRef<HTMLTableSectionElement, React.HTMLAtt
   { className, ...props },
   ref
 ) {
-  return <tbody ref={ref} className={cn('[&_tr:last-child]:border-0', className)} {...props} />;
+  return <tbody ref={ref} className={cn('[&_tr:last-child]:border-b-0', className)} {...props} />;
 });
 
 // ─── TableFooter ──────────────────────────────────────────────────────────────
