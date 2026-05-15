@@ -78,7 +78,7 @@ export const Dashboard: Story = {
           />
         }
       >
-        <section className='bg-light-sand px-4 py-10 dark:bg-deep-sea'>
+        <section className='px-4 py-10'>
           <div className='mx-auto max-w-6xl space-y-8'>
             <SectionHeader
               eyebrow='Bleecker'
