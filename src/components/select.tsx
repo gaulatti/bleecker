@@ -1,5 +1,6 @@
 import { Check, ChevronDown } from 'lucide-react';
 import React from 'react';
+import { createPortal } from 'react-dom';
 
 import { cn } from '../utils/cn';
 
@@ -21,6 +22,7 @@ export interface SelectProps {
 export function Select({ className, disabled = false, error = false, onChange, options, placeholder = 'Select...', value }: SelectProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState('');
+  const [menuStyle, setMenuStyle] = React.useState<React.CSSProperties>({});
   const dropdownRef = React.useRef<HTMLDivElement>(null);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
 
@@ -54,13 +56,27 @@ export function Select({ className, disabled = false, error = false, onChange, o
     setSearchTerm('');
   };
 
+  const openMenu = () => {
+    if (disabled) return;
+    const rect = buttonRef.current?.getBoundingClientRect();
+    if (rect) {
+      setMenuStyle({
+        position: 'fixed',
+        top: `${rect.bottom + window.scrollY}px`,
+        left: `${rect.left + window.scrollX}px`,
+        width: `${rect.width}px`,
+      });
+    }
+    setIsOpen(true);
+  };
+
   return (
-    <div className={cn('relative', isOpen ? 'z-[120]' : 'z-0', className)}>
+    <div className={cn('relative', className)}>
       <button
         ref={buttonRef}
         type='button'
         disabled={disabled}
-        onClick={() => !disabled && setIsOpen((open) => !open)}
+        onClick={openMenu}
         onKeyDown={(event) => {
           if (disabled) {
             return;
@@ -68,7 +84,7 @@ export function Select({ className, disabled = false, error = false, onChange, o
 
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
-            setIsOpen((open) => !open);
+            openMenu();
           }
 
           if (event.key === 'Escape') {
@@ -91,10 +107,11 @@ export function Select({ className, disabled = false, error = false, onChange, o
         </div>
       </button>
 
-      {isOpen ? (
+      {isOpen ? createPortal(
         <div
           ref={dropdownRef}
-          className='absolute z-50 mt-2 w-full overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 ease-out-expo rounded-[var(--radius-ui)] border-0 ring-1 ring-black/5 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:bg-deep-sea dark:ring-white/10 dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]'
+          style={menuStyle}
+          className='z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 ease-out-expo rounded-[var(--radius-ui)] border-0 ring-1 ring-black/5 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:bg-deep-sea dark:ring-white/10 dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]'
         >
           {options.length > 5 ? (
             <div className='border-b border-sand/20 p-2 dark:border-sand/40'>
@@ -135,7 +152,8 @@ export function Select({ className, disabled = false, error = false, onChange, o
               })
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       ) : null}
     </div>
   );
