@@ -2,13 +2,14 @@ import { AlertCircle, AlertTriangle, CheckCircle, Info, X } from 'lucide-react';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
+import { Button, type ButtonVariant } from './button';
 import { cn } from '../utils/cn';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
 export type SonnerVariant = 'default' | 'success' | 'error' | 'warning' | 'info';
 export type SonnerPosition = 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
-export type SonnerActionVariant = 'link' | 'ghost';
+export type SonnerActionVariant = 'link' | ButtonVariant;
 
 export interface SonnerAction {
   label: string;
@@ -58,11 +59,6 @@ const variantConfig: Record<SonnerVariant, { icon: React.ComponentType<{ size?: 
   error: { icon: AlertCircle, color: 'text-terracotta' }
 };
 
-const actionVariantClasses: Record<SonnerActionVariant, string> = {
-  link: 'text-sea underline-offset-2 hover:underline dark:text-accent-blue',
-  ghost: 'rounded-md bg-transparent px-2.5 py-1.5 text-sea transition-colors duration-150 hover:bg-sand/10 dark:text-accent-blue dark:hover:bg-sand/15'
-};
-
 // ─── Single toast item ───────────────────────────────────────────────────────
 
 function ToastItem({ toast, onDismiss }: { toast: SonnerToast; onDismiss: () => void }) {
@@ -91,14 +87,18 @@ function ToastItem({ toast, onDismiss }: { toast: SonnerToast; onDismiss: () => 
       <div className='min-w-0 flex-1'>
         <p className='text-sm font-medium text-text-primary dark:text-text-primary'>{toast.title}</p>
         {toast.description ? <p className='mt-0.5 text-xs text-text-secondary dark:text-text-secondary'>{toast.description}</p> : null}
-        {toast.action ? (
+        {toast.action?.variant === 'link' ? (
           <button
             type='button'
             onClick={toast.action.onClick}
-            className={cn('mt-2 text-xs font-medium', actionVariantClasses[toast.action.variant ?? 'link'])}
+            className='mt-2 text-xs font-medium text-sea underline underline-offset-2 transition-colors hover:text-deep-sea dark:text-accent-blue dark:hover:text-text-primary'
           >
             {toast.action.label}
           </button>
+        ) : toast.action ? (
+          <Button variant={toast.action.variant as ButtonVariant | undefined} size='sm' className='mt-2 text-xs' onClick={toast.action.onClick}>
+            {toast.action.label}
+          </Button>
         ) : null}
       </div>
       <button

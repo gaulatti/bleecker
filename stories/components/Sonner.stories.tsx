@@ -48,11 +48,26 @@ export const WithLinkAction: Story = {
         toast.show({
           title: 'Message deleted',
           description: 'The message has been moved to trash.',
-          action: { label: 'Undo', onClick: () => toast.info('Restored') }
+          action: { label: 'Undo', variant: 'link', onClick: () => toast.info('Restored') }
         })
       }
     >
       Delete with link action
+    </Button>
+  )
+};
+
+export const WithDefaultAction: Story = {
+  render: () => (
+    <Button
+      onClick={() =>
+        toast.success('Ready to continue', {
+          description: 'Omitting an action variant uses the primary button.',
+          action: { label: 'Continue', onClick: () => toast.info('Continuing') }
+        })
+      }
+    >
+      Show default action
     </Button>
   )
 };
@@ -70,6 +85,28 @@ export const WithGhostAction: Story = {
     >
       Show ghost action
     </Button>
+  )
+};
+
+export const WithButtonActions: Story = {
+  render: () => (
+    <div className='flex flex-wrap gap-3'>
+      {(['primary', 'secondary', 'ghost', 'destructive'] as const).map((variant) => (
+        <Button
+          key={variant}
+          variant='secondary'
+          onClick={() =>
+            toast.show({
+              title: `${variant} action`,
+              description: 'Sonner actions use standard button variants.',
+              action: { label: 'Proceed', variant, onClick: () => toast.success('Done') }
+            })
+          }
+        >
+          {variant}
+        </Button>
+      ))}
+    </div>
   )
 };
 
