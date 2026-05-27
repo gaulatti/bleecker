@@ -8,6 +8,13 @@ import { cn } from '../utils/cn';
 
 export type SonnerVariant = 'default' | 'success' | 'error' | 'warning' | 'info';
 export type SonnerPosition = 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
+export type SonnerActionVariant = 'link' | 'ghost';
+
+export interface SonnerAction {
+  label: string;
+  onClick: () => void;
+  variant?: SonnerActionVariant;
+}
 
 export interface SonnerToast {
   id: string;
@@ -15,7 +22,7 @@ export interface SonnerToast {
   description?: string;
   duration?: number;
   variant?: SonnerVariant;
-  action?: { label: string; onClick: () => void };
+  action?: SonnerAction;
 }
 
 // ─── Context / State ────────────────────────────────────────────────────────
@@ -51,6 +58,11 @@ const variantConfig: Record<SonnerVariant, { icon: React.ComponentType<{ size?: 
   error: { icon: AlertCircle, color: 'text-terracotta' }
 };
 
+const actionVariantClasses: Record<SonnerActionVariant, string> = {
+  link: 'text-sea underline-offset-2 hover:underline dark:text-accent-blue',
+  ghost: 'rounded-md bg-transparent px-2.5 py-1.5 text-sea transition-colors duration-150 hover:bg-sand/10 dark:text-accent-blue dark:hover:bg-sand/15'
+};
+
 // ─── Single toast item ───────────────────────────────────────────────────────
 
 function ToastItem({ toast, onDismiss }: { toast: SonnerToast; onDismiss: () => void }) {
@@ -83,7 +95,7 @@ function ToastItem({ toast, onDismiss }: { toast: SonnerToast; onDismiss: () => 
           <button
             type='button'
             onClick={toast.action.onClick}
-            className='mt-2 text-xs font-medium text-sea underline-offset-2 hover:underline dark:text-accent-blue'
+            className={cn('mt-2 text-xs font-medium', actionVariantClasses[toast.action.variant ?? 'link'])}
           >
             {toast.action.label}
           </button>

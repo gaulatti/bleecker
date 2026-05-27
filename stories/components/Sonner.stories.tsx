@@ -41,7 +41,7 @@ export const AllVariants: Story = {
   )
 };
 
-export const WithAction: Story = {
+export const WithLinkAction: Story = {
   render: () => (
     <Button
       onClick={() =>
@@ -52,7 +52,23 @@ export const WithAction: Story = {
         })
       }
     >
-      Delete with undo
+      Delete with link action
+    </Button>
+  )
+};
+
+export const WithGhostAction: Story = {
+  render: () => (
+    <Button
+      onClick={() =>
+        toast.info('Continue browsing?', {
+          description: 'Return to the beginning of the list.',
+          duration: 0,
+          action: { label: 'Back to top', variant: 'ghost', onClick: () => toast.info('Returned to top') }
+        })
+      }
+    >
+      Show ghost action
     </Button>
   )
 };

@@ -76,7 +76,7 @@ export function DataTable<TData, TValue>({ columns, data, searchKey }: DataTable
           <TableBody className='bg-white'>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'} className='hover:bg-light-sand/20 transition-colors duration-[200ms]'>
+                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                   ))}
