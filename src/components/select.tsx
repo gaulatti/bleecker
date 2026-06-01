@@ -62,8 +62,8 @@ export function Select({ className, disabled = false, error = false, onChange, o
     if (rect) {
       setMenuStyle({
         position: 'fixed',
-        top: `${rect.bottom + window.scrollY}px`,
-        left: `${rect.left + window.scrollX}px`,
+        top: `${rect.bottom}px`,
+        left: `${rect.left}px`,
         width: `${rect.width}px`,
       });
     }

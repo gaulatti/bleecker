@@ -108,13 +108,58 @@ export const TableFooter = React.forwardRef<HTMLTableSectionElement, React.HTMLA
 
 // ─── TableRow ─────────────────────────────────────────────────────────────────
 
-export const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTMLTableRowElement>>(function TableRow({ className, ...props }, ref) {
+let hoveredRow: HTMLTableRowElement | null = null;
+
+export const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTMLTableRowElement>>(function TableRow(
+  { className, onMouseEnter, onMouseLeave, ...props },
+  ref
+) {
+  const rowRef = React.useRef<HTMLTableRowElement>(null);
+
+  const mergedRef = React.useCallback(
+    (el: HTMLTableRowElement | null) => {
+      rowRef.current = el;
+      if (typeof ref === 'function') ref(el);
+      else if (ref) (ref as React.MutableRefObject<HTMLTableRowElement | null>).current = el;
+    },
+    [ref]
+  );
+
+  const handleMouseEnter = React.useCallback(
+    (e: React.MouseEvent<HTMLTableRowElement>) => {
+      onMouseEnter?.(e);
+      const el = rowRef.current;
+      if (!el) return;
+
+      const prev = hoveredRow;
+      hoveredRow = el;
+
+      if (prev && prev !== el) {
+        el.style.transition = 'none';
+        requestAnimationFrame(() => {
+          el.style.transition = '';
+        });
+      }
+    },
+    [onMouseEnter]
+  );
+
+  const handleMouseLeave = React.useCallback(
+    (e: React.MouseEvent<HTMLTableRowElement>) => {
+      onMouseLeave?.(e);
+    },
+    [onMouseLeave]
+  );
+
   return (
     <tr
-      ref={ref}
+      ref={mergedRef}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       className={cn(
-        'border-b border-sand/10 transition-colors duration-200 data-[selected=true]:bg-sea/5 dark:border-sand/20 dark:data-[selected=true]:bg-accent-blue/10',
-        'hover:bg-sand/10 dark:hover:bg-sand/15',
+        'border-b border-sand/10 data-[selected=true]:bg-sea/5 dark:border-sand/20 dark:data-[selected=true]:bg-accent-blue/10',
+        'hover:bg-black/[0.04] dark:hover:bg-white/[0.05]',
+        'transition-colors duration-150',
         className
       )}
       {...props}
