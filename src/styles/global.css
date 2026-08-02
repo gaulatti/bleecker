@@ -71,6 +71,27 @@
   --color-text-primary: var(--app-text-primary);
   --color-text-secondary: var(--app-text-secondary);
   --color-persgray-50: var(--app-persgray-50);
+
+  /* Dashboard semantic surface tokens */
+  --color-background: var(--app-background);
+  --color-foreground: var(--app-foreground);
+  --color-card: var(--app-card);
+  --color-card-foreground: var(--app-card-foreground);
+  --color-popover: var(--app-popover);
+  --color-popover-foreground: var(--app-popover-foreground);
+  --color-muted: var(--app-muted);
+  --color-muted-foreground: var(--app-muted-foreground);
+  --color-border: var(--app-border);
+  --color-input: var(--app-input);
+  --color-ring: var(--app-ring);
+  --color-primary: var(--app-primary);
+  --color-primary-foreground: var(--app-primary-foreground);
+  --color-secondary: var(--app-secondary);
+  --color-secondary-foreground: var(--app-secondary-foreground);
+  --color-destructive: var(--app-destructive);
+  --color-destructive-foreground: var(--app-destructive-foreground);
+  --color-accent: var(--app-accent);
+  --color-accent-foreground: var(--app-accent-foreground);
 }
 
 @layer base {
@@ -93,6 +114,27 @@
     --app-text-primary: #2d2d2d;
     --app-text-secondary: #595959;
     --app-persgray-50: #f9fafb;
+
+    /* Dashboard semantic surface tokens (light) */
+    --app-background: #ffffff;
+    --app-foreground: #2d2d2d;
+    --app-card: #ffffff;
+    --app-card-foreground: #2d2d2d;
+    --app-popover: #ffffff;
+    --app-popover-foreground: #2d2d2d;
+    --app-muted: #f9f6f2;
+    --app-muted-foreground: #595959;
+    --app-border: rgba(0, 0, 0, 0.08);
+    --app-input: rgba(0, 0, 0, 0.08);
+    --app-ring: #2c5784;
+    --app-primary: #2c5784;
+    --app-primary-foreground: #ffffff;
+    --app-secondary: #f9f6f2;
+    --app-secondary-foreground: #2d2d2d;
+    --app-destructive: #a65d57;
+    --app-destructive-foreground: #ffffff;
+    --app-accent: #f9f6f2;
+    --app-accent-foreground: #2d2d2d;
   }
 
   html {
@@ -118,6 +160,28 @@
     --app-text-secondary: #b8c5d6;
     --app-accent-gold: #d4af37;
     --app-accent-blue: #5ba3f5;
+
+    /* Dashboard semantic surface tokens (dark) */
+    --app-background: #0d1821;
+    --app-foreground: #f0f4f8;
+    --app-card: #182533;
+    --app-card-foreground: #f0f4f8;
+    --app-popover: #182533;
+    --app-popover-foreground: #f0f4f8;
+    --app-muted: #1a2332;
+    --app-muted-foreground: #b8c5d6;
+    --app-border: rgba(255, 255, 255, 0.08);
+    --app-input: rgba(255, 255, 255, 0.08);
+    --app-ring: #5ba3f5;
+    --app-primary: #5ba3f5;
+    --app-primary-foreground: #0d1821;
+    --app-secondary: #1a2332;
+    --app-secondary-foreground: #f0f4f8;
+    --app-destructive: #d47b75;
+    --app-destructive-foreground: #0d1821;
+    --app-accent: #1a2332;
+    --app-accent-foreground: #f0f4f8;
+
     color-scheme: dark;
   }
 
@@ -205,6 +269,95 @@
   button[data-dot].active .dot-indicator {
     background-color: rgb(255 255 255);
   }
+
+  /* Dashboard layout utilities */
+  .dashboard-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  @media (min-width: 640px) {
+    .dashboard-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .dashboard-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .dashboard-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .dashboard-grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+  .dashboard-grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dashboard-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .dashboard-grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .dashboard-grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .dashboard-grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+
+  .dashboard-card {
+    border-radius: var(--radius-card);
+    background-color: var(--color-card);
+    color: var(--color-card-foreground);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02), 0 8px 32px rgba(26, 55, 77, 0.04);
+    ring: 1px inset rgba(0, 0, 0, 0.04);
+  }
+
+  .dark .dashboard-card {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    ring: 1px inset rgba(255, 255, 255, 0.08);
+  }
+
+  .dashboard-surface {
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-ui);
+  }
+
+  /* Cross-browser thin scrollbar utility (used by Panel and dashboard scroll areas) */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+  }
+
+  .dark .scrollbar-thin {
+    scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 9999px;
+  }
+
+  .dark .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  .dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Animate-in utilities used by menus/dropdowns are provided by Tailwind 4 */
 }
 
 @keyframes elegantFadeIn {

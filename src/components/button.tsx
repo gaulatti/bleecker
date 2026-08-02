@@ -8,6 +8,8 @@ export type ButtonSize = 'sm' | 'md' | 'lg';
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
+  as?: 'button' | 'a';
+  href?: string;
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
@@ -24,20 +26,33 @@ const sizeClasses: Record<ButtonSize, string> = {
   lg: 'px-6 py-2.5 text-base'
 };
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  { className, size = 'md', type = 'button', variant = 'primary', ...props },
+export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(function Button(
+  { className, size = 'md', type = 'button', variant = 'primary', as = 'button', href, ...props },
   ref
 ) {
+  const classes = cn(
+    'inline-flex items-center justify-center gap-2 rounded-[var(--radius-button)] border font-[family-name:var(--font-header)] font-medium tracking-ui transition-all duration-200 active:scale-[0.98] outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:ring-sea disabled:pointer-events-none disabled:opacity-50 dark:focus-visible:ring-offset-deep-sea dark:focus-visible:ring-accent-blue',
+    variantClasses[variant],
+    sizeClasses[size],
+    className
+  );
+
+  if (as === 'a' || href) {
+    return (
+      <a
+        ref={ref as React.Ref<HTMLAnchorElement>}
+        href={href}
+        className={classes}
+        {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+      />
+    );
+  }
+
   return (
     <button
-      ref={ref}
+      ref={ref as React.Ref<HTMLButtonElement>}
       type={type}
-      className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-[var(--radius-button)] border font-[family-name:var(--font-header)] font-medium tracking-ui transition-all duration-200 active:scale-[0.98] outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:ring-sea disabled:pointer-events-none disabled:opacity-50 dark:focus-visible:ring-offset-deep-sea dark:focus-visible:ring-accent-blue',
-        variantClasses[variant],
-        sizeClasses[size],
-        className
-      )}
+      className={classes}
       {...props}
     />
   );
