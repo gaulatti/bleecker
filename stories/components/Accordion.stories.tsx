@@ -73,3 +73,7 @@ export const GroupsStyle: Story = {
     />
   )
 };
+
+export const Empty: Story = {
+  args: { items: [] }
+};

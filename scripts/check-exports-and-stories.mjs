@@ -43,6 +43,10 @@ function reportMissing(label, values) {
   }
 }
 
+function countNamedStories(source) {
+  return [...source.matchAll(/^export const\s+\w+\s*(?::[^=]+)?=/gm)].length;
+}
+
 async function main() {
   const [indexSource, componentNames, layoutNames, storyPaths] = await Promise.all([
     fs.readFile(indexPath, 'utf8'),
@@ -52,6 +56,10 @@ async function main() {
   ]);
   const stories = storyPaths.filter((file) => file.endsWith('.stories.tsx'));
   const storySources = await Promise.all(stories.map((file) => fs.readFile(file, 'utf8')));
+  const thinStoryFiles = stories
+    .map((file, index) => ({ file, count: countNamedStories(storySources[index]) }))
+    .filter(({ count }) => count < 2)
+    .map(({ file, count }) => `${path.relative(root, file)} (${count} story)`);
 
   const missingComponentExports = componentNames.filter((name) => !indexSource.includes(`./components/${name}`));
   const missingComponentStories = componentNames.filter((name) => !storySources.some((source) => source.includes(`src/components/${name}`)));
@@ -72,7 +80,8 @@ async function main() {
     missingLayoutExports.length > 0 ||
     missingLayoutStories.length > 0 ||
     missingLoginScreenExport.length > 0 ||
-    missingLoginScreenStory.length > 0;
+    missingLoginScreenStory.length > 0 ||
+    thinStoryFiles.length > 0;
 
   if (!hasFailures) {
     console.log('[check-exports-and-stories] All components/layouts are exported and covered by stories.');
@@ -86,6 +95,7 @@ async function main() {
   reportMissing('Missing layout story coverage:', missingLayoutStories);
   reportMissing('Missing src/login-screen export in src/index.ts:', missingLoginScreenExport);
   reportMissing('Missing src/login-screen story coverage:', missingLoginScreenStory);
+  reportMissing('Story files must cover at least two usage cases:', thinStoryFiles);
   process.exitCode = 1;
 }
 

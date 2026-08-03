@@ -75,3 +75,13 @@ export const Default: Story = {
     </div>
   )
 };
+
+export const BrandOnly: Story = {
+  render: ({ brandName }) => (
+    <Header
+      brand={{ href: '/', logoAlt: 'gaulatti', logoSrc, name: brandName }}
+      navigation={[]}
+      fullWidth
+    />
+  )
+};

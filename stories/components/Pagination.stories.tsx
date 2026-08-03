@@ -60,3 +60,19 @@ export const Default: Story = {
     );
   }
 };
+
+export const FirstPage: Story = {
+  ...Default,
+  args: {
+    initialPage: 1,
+    totalPages: 12
+  }
+};
+
+export const SinglePage: Story = {
+  ...Default,
+  args: {
+    initialPage: 1,
+    totalPages: 1
+  }
+};

@@ -58,3 +58,16 @@ export const Default: Story = {
     );
   }
 };
+
+export const EmptyConfiguration: Story = {
+  render: () => (
+    <CollectionFilters
+      currentFilters={{}}
+      currentSort={{ field: 'createdAt', order: 'desc' }}
+      filterOptions={[]}
+      onFilterChange={() => undefined}
+      onSortChange={() => undefined}
+      sortOptions={[]}
+    />
+  )
+};

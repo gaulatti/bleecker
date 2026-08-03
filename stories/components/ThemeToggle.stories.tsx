@@ -15,3 +15,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+
+export const InToolbar: Story = {
+  render: () => (
+    <div className='flex w-80 items-center justify-between rounded-lg border border-border bg-card p-3'>
+      <span className='text-sm text-text-secondary'>Appearance</span>
+      <ThemeToggle />
+    </div>
+  )
+};

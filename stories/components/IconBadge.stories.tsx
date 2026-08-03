@@ -36,3 +36,8 @@ export const Default: Story = {
     </div>
   )
 };
+
+export const Medium: Story = {
+  ...Default,
+  args: { size: 'md' }
+};

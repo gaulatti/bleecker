@@ -28,3 +28,13 @@ export const Editorial: Story = {
     </div>
   )
 };
+
+export const ContentDensity: Story = {
+  render: () => (
+    <div className='grid max-w-4xl gap-4 md:grid-cols-3'>
+      <Card className='p-3'>Compact card</Card>
+      <Card>Default card</Card>
+      <Card className='space-y-4 p-8'>Spacious card with room for richer content.</Card>
+    </div>
+  )
+};

@@ -76,3 +76,13 @@ export const Default: Story = {
     );
   }
 };
+
+export const Empty: Story = {
+  args: {
+    title: 'Media Library',
+    searchTerm: '',
+    onSearchTermChange: () => undefined,
+    items: [],
+    onDelete: () => undefined
+  }
+};

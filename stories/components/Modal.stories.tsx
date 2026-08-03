@@ -56,3 +56,21 @@ export const Default: Story = {
     );
   }
 };
+
+export const LongContent: Story = {
+  render: (args) => {
+    const [isOpen, setIsOpen] = React.useState(false);
+    return (
+      <div className='min-h-[20rem]'>
+        <Button onClick={() => setIsOpen(true)}>Open long modal</Button>
+        <Modal {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} title='Terms and conditions'>
+          <div className='max-h-72 space-y-4 overflow-y-auto pr-3'>
+            {Array.from({ length: 8 }, (_, index) => (
+              <p key={index} className='text-sm text-text-secondary'>Section {index + 1}: This content demonstrates scrolling inside a constrained modal.</p>
+            ))}
+          </div>
+        </Modal>
+      </div>
+    );
+  }
+};

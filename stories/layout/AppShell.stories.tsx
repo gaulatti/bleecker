@@ -109,3 +109,13 @@ export const Dashboard: Story = {
     );
   }
 };
+
+export const ContentOnly: Story = {
+  render: () => (
+    <AppShell offsetHeader={false}>
+      <div className='mx-auto w-full max-w-4xl p-8'>
+        <Card><SectionHeader title='Content-only shell' description='Useful when an embedding host owns the surrounding navigation.' /></Card>
+      </div>
+    </AppShell>
+  )
+};

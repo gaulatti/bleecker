@@ -62,3 +62,19 @@ export const Default: Story = {
     );
   }
 };
+
+export const Placeholder: Story = {
+  ...Default,
+  args: {
+    ...meta.args,
+    initialValue: ''
+  }
+};
+
+export const Disabled: Story = {
+  ...Default,
+  args: {
+    ...meta.args,
+    disabled: true
+  }
+};

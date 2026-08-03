@@ -21,3 +21,11 @@ export const Default: Story = {
     </div>
   )
 };
+
+export const ImagesOnly: Story = {
+  render: (args) => (
+    <div className='w-96'>
+      <FileInput {...args} accept='image/png,image/jpeg' />
+    </div>
+  )
+};

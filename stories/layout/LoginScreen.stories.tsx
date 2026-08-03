@@ -13,3 +13,13 @@ export default meta;
 type Story = StoryObj<typeof LoginScreen>;
 
 export const Default: Story = {};
+
+export const NarrowViewport: Story = {
+  decorators: [
+    (Story) => (
+      <div className='mx-auto w-[375px] max-w-full overflow-hidden border-x border-border'>
+        <Story />
+      </div>
+    )
+  ]
+};

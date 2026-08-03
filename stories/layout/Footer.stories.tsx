@@ -97,3 +97,14 @@ export const Default: Story = {
     </div>
   )
 };
+
+export const Minimal: Story = {
+  render: ({ brandName }) => (
+    <Footer
+      brand={{ href: '/', logoAlt: 'gaulatti', logoSrc, name: brandName }}
+      sections={[]}
+      bottomLeft='© 2026 gaulatti'
+      showBottomAccent={false}
+    />
+  )
+};

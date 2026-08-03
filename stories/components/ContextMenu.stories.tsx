@@ -25,3 +25,18 @@ export const Default: Story = {
     </ContextMenu>
   )
 };
+
+export const CompactActions: Story = {
+  render: () => (
+    <ContextMenu>
+      <ContextMenuTrigger className='flex h-24 w-64 items-center justify-center rounded-md border border-dashed border-black/20 text-sm'>
+        Right click for actions
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem>Rename</ContextMenuItem>
+        <ContextMenuItem>Duplicate</ContextMenuItem>
+        <ContextMenuItem disabled>Archive</ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+};

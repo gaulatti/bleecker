@@ -59,3 +59,12 @@ export const Default: Story = {
     return <HeaderSelect {...args} icon={showIcon ? <Tv size={15} className='flex-shrink-0 text-sea dark:text-accent-blue' strokeWidth={1.5} /> : null} onChange={setValue} value={value} />;
   }
 };
+
+export const WithoutIcon: Story = {
+  ...Default,
+  args: {
+    ...meta.args,
+    initialValue: '',
+    showIcon: false
+  }
+};

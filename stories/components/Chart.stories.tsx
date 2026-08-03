@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Chart } from '../../src/components/chart';
 
 const meta: Meta<typeof Chart> = {
-  title: 'Components/Chart',
+  title: 'Components/Charts/Legacy Chart',
   component: Chart,
   tags: ['autodocs']
 };
@@ -23,5 +23,19 @@ export const LineChartExample: Story = {
   args: {
     data,
     height: 350
+  }
+};
+
+export const Compact: Story = {
+  args: {
+    data,
+    height: 160
+  }
+};
+
+export const EmptyData: Story = {
+  args: {
+    data: [],
+    height: 260
   }
 };

@@ -81,3 +81,21 @@ export const Default: Story = {
     );
   }
 };
+
+export const Minimal: Story = {
+  args: {
+    menus: [
+      {
+        trigger: 'File',
+        items: [
+          { type: 'item', label: 'New', shortcut: '⌘N', onSelect: () => undefined },
+          { type: 'item', label: 'Open', shortcut: '⌘O', onSelect: () => undefined }
+        ]
+      },
+      {
+        trigger: 'Help',
+        items: [{ type: 'item', label: 'Documentation', onSelect: () => undefined }]
+      }
+    ]
+  }
+};

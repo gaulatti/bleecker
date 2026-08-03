@@ -71,3 +71,15 @@ export const ImportStyle: Story = {
     );
   }
 };
+
+export const ThreeTabs: Story = {
+  ...ImportStyle,
+  args: {
+    initialActiveTab: 'overview',
+    tabs: [
+      { id: 'overview', label: 'Overview' },
+      { id: 'activity', label: 'Activity' },
+      { id: 'settings', label: 'Settings' }
+    ]
+  }
+};
