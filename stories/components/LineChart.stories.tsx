@@ -30,6 +30,8 @@ export const Default: Story = {
       { key: 'profit', name: 'Profit' }
     ],
     height: 350,
+    xAxisLabel: 'Month',
+    yAxisLabel: 'Amount',
     yAxisTickFormatter: (v) => `$${v / 1000}k`
   }
 };

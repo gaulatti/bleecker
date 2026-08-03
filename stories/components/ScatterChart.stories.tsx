@@ -36,9 +36,38 @@ export const FixedPointSize: Story = {
 export const FormattedAxes: Story = {
   args: {
     ...Default.args,
+    xAxisLabel: 'Session duration',
+    yAxisLabel: 'Conversion rate',
     xAxisTickFormatter: (value) => `${value}m`,
     yAxisTickFormatter: (value) => `${value}%`,
     tooltipFormatter: (value) => value.toLocaleString()
+  }
+};
+
+export const IndependentSeries: Story = {
+  args: {
+    data: [],
+    xAxisLabel: 'Components',
+    yAxisLabel: 'Duration',
+    series: [
+      {
+        key: 'generation',
+        name: 'Generation',
+        xKey: 'x',
+        yKey: 'y',
+        zKey: 'z',
+        data: data.slice(0, 12)
+      },
+      {
+        key: 'generation-npm',
+        name: 'Generation + NPM',
+        xKey: 'x',
+        yKey: 'y',
+        zKey: 'z',
+        data: data.slice(12)
+      }
+    ],
+    height: 350
   }
 };
 
