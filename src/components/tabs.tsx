@@ -21,15 +21,12 @@ export interface TabsProps {
 }
 
 export function Tabs({ activeTab, className, onChange, renderLink, tabs }: TabsProps) {
-  const tabCount = tabs.length;
-
   return (
     <nav className={cn('-mb-px flex', className)} aria-label='Tabs'>
       {tabs.map((tab) => {
         const isActive = tab.id === activeTab;
         const tabClassName = cn(
-          'border-b-2 px-1 py-4 text-center text-sm font-medium transition-colors duration-400',
-          tabCount > 0 && `w-1/${Math.min(tabCount, 6)}`,
+          'flex-1 border-b-2 px-1 py-4 text-center text-sm font-medium transition-colors duration-400',
           isActive
             ? 'border-sea text-sea dark:border-accent-blue dark:text-accent-blue'
             : 'border-transparent text-text-secondary hover:border-gray-300 hover:text-text-primary dark:text-text-secondary dark:hover:text-text-primary'
