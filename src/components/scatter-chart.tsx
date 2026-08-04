@@ -45,7 +45,7 @@ export function ScatterChart({
           {showGrid && <CartesianGrid stroke={chartTheme.grid.stroke} strokeDasharray={chartTheme.grid.strokeDasharray} />}
           <XAxis
             type='number'
-            dataKey={(entry: Record<string, unknown>) => entry[series[0].xKey] as number}
+            dataKey={series[0].xKey}
             stroke={chartTheme.axis.stroke}
             tick={chartTheme.axis.tick}
             tickLine={false}
@@ -55,7 +55,7 @@ export function ScatterChart({
           />
           <YAxis
             type='number'
-            dataKey={(entry: Record<string, unknown>) => entry[series[0].yKey] as number}
+            dataKey={series[0].yKey}
             stroke={chartTheme.axis.stroke}
             tick={chartTheme.axis.tick}
             tickLine={false}
@@ -63,7 +63,7 @@ export function ScatterChart({
             tickFormatter={yAxisTickFormatter}
             label={yAxisLabel ? { value: yAxisLabel, angle: -90, position: 'insideLeft', fill: 'var(--color-text-secondary)', fontSize: 12 } : undefined}
           />
-          <ZAxis type='number' dataKey={(entry: Record<string, unknown>) => (series[0].zKey ? entry[series[0].zKey] : 1) as number} range={[60, 400]} />
+          <ZAxis type='number' dataKey={series[0].zKey} range={[60, 400]} />
           <Tooltip
             {...chartTheme.tooltip}
             cursor={{ strokeDasharray: '3 3' }}
