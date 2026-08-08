@@ -1,11 +1,14 @@
+import type { LoadingSize } from '../core';
 import { cn } from '../utils/cn';
+
+export type { LoadingSize } from '../core';
 
 export interface LoadingSpinnerProps {
   className?: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: LoadingSize;
 }
 
-const sizeClasses = {
+const sizeClasses: Record<LoadingSize, string> = {
   sm: 'h-4 w-4 border-2',
   md: 'h-8 w-8 border-2',
   lg: 'h-12 w-12 border-[3px]'

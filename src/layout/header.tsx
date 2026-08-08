@@ -1,3 +1,5 @@
+'use client';
+
 import { Menu, X } from 'lucide-react';
 import React from 'react';
 
@@ -22,12 +24,12 @@ export function Header({ actions, brand, className, fullWidth = false, mobileAct
   return (
     <header
       className={cn(
-        'fixed top-0 z-50 w-full bg-white/90 font-header backdrop-blur-2xl shadow-[0_1px_3px_0_rgb(0,0,0,0.02)] dark:bg-dark-sand/95 dark:shadow-[0_1px_3px_0_rgb(0,0,0,0.3)]',
+        'fixed top-0 z-50 w-full border-b border-sand/25 bg-white/95 font-header backdrop-blur-[8px] dark:border-white/[0.09] dark:bg-deep-sea/95',
         className
       )}
     >
       <div className={cn(fullWidth ? 'w-full px-4' : 'container mx-auto px-4')}>
-        <div className='flex h-20 items-center justify-between gap-6'>
+        <div className='flex h-[72px] items-center justify-between gap-8'>
           <BrandLockup {...brand} renderLink={renderLink} />
 
           <div className='hidden md:flex md:flex-1 md:items-center md:justify-center'>
@@ -37,7 +39,8 @@ export function Header({ actions, brand, className, fullWidth = false, mobileAct
           <div className='hidden md:flex md:items-center md:gap-3'>{actions}</div>
 
           <IconButton
-            className='md:hidden h-10 w-10 border-transparent bg-transparent p-0 shadow-none backdrop-blur-none hover:translate-y-0 hover:scale-100 hover:bg-sand/10 dark:border-transparent dark:bg-transparent dark:hover:bg-sand/15'
+            variant='ghost'
+            className='md:hidden'
             aria-label='Toggle navigation menu'
             type='button'
             onClick={() => setMobileMenuOpen((value) => !value)}
@@ -49,7 +52,7 @@ export function Header({ actions, brand, className, fullWidth = false, mobileAct
 
       <div
         className={cn(
-          'md:hidden absolute left-0 top-20 w-full origin-top overflow-hidden border-t border-sand/10 bg-white/95 shadow-lg backdrop-blur-xl transition-all duration-400 dark:bg-sand/95',
+          'absolute left-0 top-[72px] w-full origin-top overflow-hidden border-t border-sand/20 bg-white shadow-[var(--shadow-overlay)] transition-[max-height,opacity] duration-200 dark:border-white/10 dark:bg-deep-sea md:hidden',
           mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         )}
       >
@@ -58,8 +61,6 @@ export function Header({ actions, brand, className, fullWidth = false, mobileAct
           <NavMenu direction='vertical' items={navigation} onItemClick={() => setMobileMenuOpen(false)} renderLink={renderLink} />
         </div>
       </div>
-
-      <div className='h-px w-full bg-linear-to-r from-transparent via-sunset/30 to-transparent'></div>
     </header>
   );
 }

@@ -15,7 +15,7 @@ export function AppShell({ children, className, contentClassName, footer, header
   return (
     <div className={cn('min-h-screen flex flex-col text-text-primary dark:text-text-primary', className)}>
       {header}
-      <main className={cn('flex-1 flex flex-col min-h-0 bg-white dark:bg-deep-sea', offsetHeader && 'pt-20', contentClassName)}>
+      <main className={cn('flex-1 flex flex-col min-h-0 bg-white dark:bg-deep-sea', offsetHeader && 'pt-[72px]', contentClassName)}>
         <div className='flex-1 flex flex-col min-h-0'>{children}</div>
       </main>
       {footer}

@@ -22,15 +22,15 @@ export function DataList({ items, className, striped = false }: DataListProps) {
         <div
           key={item.id}
           className={cn(
-            'flex flex-col gap-1 py-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4',
-            striped && index % 2 === 0 && 'bg-muted/30 px-3'
+            'flex flex-col gap-1.5 py-3.5 sm:grid sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] sm:items-start sm:gap-6',
+            striped && index % 2 === 0 && 'rounded-[6px] bg-light-sand/40 px-3 dark:bg-white/[0.03]'
           )}
         >
-          <dt className='text-sm font-medium text-text-secondary dark:text-text-secondary'>{item.label}</dt>
-          <dd className='text-right text-sm font-semibold text-text-primary dark:text-text-primary sm:text-right'>
+          <dt className='text-[13px] font-medium text-text-secondary dark:text-text-secondary'>{item.label}</dt>
+          <dd className='text-sm font-medium text-text-primary dark:text-text-primary sm:text-right'>
             {item.value}
             {item.description && (
-              <p className='mt-0.5 text-xs font-normal text-text-secondary dark:text-text-secondary'>{item.description}</p>
+              <p className='font-secondary mt-1 text-xs font-normal leading-5 text-text-secondary dark:text-text-secondary'>{item.description}</p>
             )}
           </dd>
         </div>

@@ -10,11 +10,11 @@ export interface SectionHeaderProps extends React.HTMLAttributes<HTMLDivElement>
 
 export function SectionHeader({ className, description, eyebrow, title, ...props }: SectionHeaderProps) {
   return (
-    <div className={cn('space-y-3', className)} {...props}>
-      {eyebrow ? <p className='text-sm uppercase tracking-elegant text-desert'>{eyebrow}</p> : null}
-      <div className='space-y-2'>
-        <h2 className='text-3xl font-semibold text-text-primary dark:text-text-primary'>{title}</h2>
-        {description ? <p className='max-w-2xl text-base leading-relaxed text-text-secondary dark:text-text-secondary'>{description}</p> : null}
+    <div className={cn('space-y-3.5', className)} {...props}>
+      {eyebrow ? <p className='text-[11px] font-semibold uppercase tracking-[0.12em] text-desert'>{eyebrow}</p> : null}
+      <div className='space-y-3'>
+        <h2 className='text-[1.75rem] font-semibold leading-tight tracking-refined text-text-primary dark:text-text-primary'>{title}</h2>
+        {description ? <p className='font-secondary max-w-2xl text-base leading-7 text-text-secondary dark:text-text-secondary'>{description}</p> : null}
       </div>
     </div>
   );

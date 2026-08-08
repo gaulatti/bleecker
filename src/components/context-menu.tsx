@@ -14,7 +14,7 @@ const ContextMenuContent = React.forwardRef<
     <ContextMenuPrimitive.Content
       ref={ref}
       className={cn(
-        'z-50 min-w-[8rem] overflow-hidden rounded-md border border-black/10 bg-white/95 backdrop-blur-xl p-1 text-black shadow-[0_8px_32px_rgba(0,0,0,0.08)] animate-in fade-in zoom-in-95 ease-out duration-200',
+        'z-50 min-w-[10rem] overflow-hidden rounded-[var(--radius-ui)] border border-sand/35 bg-white p-1.5 text-text-primary shadow-[var(--shadow-overlay)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-[0.99] data-[state=closed]:zoom-out-[0.99] data-[state=open]:duration-[var(--motion-surface)] data-[state=closed]:duration-[var(--motion-exit)] data-[state=open]:ease-premium data-[state=closed]:ease-in dark:border-white/15 dark:bg-deep-sea dark:text-text-primary',
         className
       )}
       {...props}
@@ -32,7 +32,7 @@ const ContextMenuItem = React.forwardRef<
   <ContextMenuPrimitive.Item
     ref={ref}
     className={cn(
-      'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-light-sand focus:text-black data-[disabled]:pointer-events-none data-[disabled]:opacity-50 transition-colors duration-150',
+      'relative flex min-h-9 cursor-default select-none items-center rounded-[5px] px-2.5 py-1.5 text-[13px] text-text-primary outline-none transition-colors duration-[var(--motion-control)] ease-premium focus:bg-light-sand data-[disabled]:pointer-events-none data-[disabled]:opacity-40 dark:text-text-primary dark:focus:bg-white/[0.07]',
       inset && 'pl-8',
       className
     )}

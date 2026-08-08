@@ -1,3 +1,5 @@
+'use client';
+
 import { AlertCircle, AlertTriangle, CheckCircle, Info, X } from 'lucide-react';
 import React from 'react';
 import { createPortal } from 'react-dom';
@@ -78,7 +80,7 @@ function ToastItem({ toast, onDismiss }: { toast: SonnerToast; onDismiss: () => 
   return (
     <div
       className={cn(
-        'flex w-full items-start gap-3 rounded-2xl border border-sand/10 bg-white/90 p-4 shadow-xl backdrop-blur-md transition-all duration-300 dark:border-sand/20 dark:bg-dark-sand/90',
+        'flex w-full items-start gap-3 rounded-[var(--radius-card)] border border-sand/25 bg-white p-4 shadow-[var(--shadow-overlay)] transition-[opacity,transform] duration-200 dark:border-white/10 dark:bg-deep-sea',
         visible ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'
       )}
       role='alert'
@@ -91,7 +93,7 @@ function ToastItem({ toast, onDismiss }: { toast: SonnerToast; onDismiss: () => 
           <button
             type='button'
             onClick={toast.action.onClick}
-            className='mt-2 text-xs font-medium text-sea underline underline-offset-2 transition-colors hover:text-deep-sea dark:text-accent-blue dark:hover:text-text-primary'
+            className='mt-2 text-xs font-medium text-sea underline underline-offset-2 transition-colors duration-[var(--motion-control)] ease-premium hover:text-deep-sea dark:text-accent-blue dark:hover:text-text-primary'
           >
             {toast.action.label}
           </button>
@@ -107,7 +109,7 @@ function ToastItem({ toast, onDismiss }: { toast: SonnerToast; onDismiss: () => 
           setVisible(false);
           setTimeout(onDismiss, 300);
         }}
-        className='flex-shrink-0 rounded-md p-0.5 text-text-secondary transition-colors hover:bg-sand/10 hover:text-text-primary dark:hover:bg-sand/20'
+        className='flex-shrink-0 scale-100 rounded-md p-0.5 text-text-secondary transition-[background-color,color,transform] duration-[var(--motion-control)] ease-premium hover:bg-sand/10 hover:text-text-primary active:scale-[0.9] dark:hover:bg-sand/20'
         aria-label='Dismiss'
       >
         <X size={14} />

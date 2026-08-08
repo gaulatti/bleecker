@@ -19,8 +19,8 @@ export function HoverCard({ children, className, content, side = 'bottom' }: Hov
       {children}
       <span
         className={cn(
-          'pointer-events-none absolute z-50 w-72 rounded-2xl border border-sand/10 bg-white p-4 shadow-xl opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:opacity-100 dark:border-sand/20 dark:bg-dark-sand',
-          side === 'bottom' ? 'top-full left-1/2 mt-2 -translate-x-1/2 group-hover:translate-y-0' : 'bottom-full left-1/2 mb-2 -translate-x-1/2',
+          'pointer-events-none absolute z-50 w-72 rounded-[var(--radius-card)] border border-sand/30 bg-white p-4 opacity-0 shadow-[var(--shadow-overlay)] transition-[opacity,transform] duration-[var(--motion-surface)] ease-premium group-hover:pointer-events-auto group-hover:opacity-100 dark:border-white/12 dark:bg-deep-sea',
+          side === 'bottom' ? 'left-1/2 top-full mt-2 -translate-x-1/2 translate-y-1 group-hover:translate-y-0' : 'bottom-full left-1/2 mb-2 -translate-x-1/2 -translate-y-1 group-hover:translate-y-0',
           className
         )}
         role='tooltip'

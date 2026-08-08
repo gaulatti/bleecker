@@ -19,13 +19,13 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(functi
         id={id}
         type='checkbox'
         className={cn(
-          'peer absolute inset-0 m-0 h-full w-full appearance-none rounded-[5px] border border-sand/60 bg-light-sand shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)] transition-all duration-200 hover:border-sea/40 hover:bg-white checked:border-sea checked:bg-sea checked:shadow-none focus:outline-none focus-visible:ring-2 focus-visible:ring-sea/20 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:cursor-not-allowed disabled:opacity-50 dark:border-dark-sand/50 dark:bg-dark-sand/30 dark:checked:border-accent-blue dark:checked:bg-accent-blue dark:focus-visible:ring-offset-deep-sea',
+          'peer absolute inset-0 m-0 h-full w-full appearance-none rounded border border-sand/60 bg-white transition-[background-color,border-color,box-shadow,opacity] duration-[var(--motion-control)] ease-premium hover:border-sea/50 checked:border-sea checked:bg-sea focus:outline-none focus-visible:ring-2 focus-visible:ring-sea/20 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:cursor-not-allowed disabled:opacity-50 dark:border-white/20 dark:bg-deep-sea dark:checked:border-accent-blue dark:checked:bg-accent-blue dark:focus-visible:ring-offset-deep-sea',
           className
         )}
         {...props}
       />
       <svg
-        className='pointer-events-none relative z-10 h-3.5 w-3.5 scale-50 text-white opacity-0 transition-all duration-200 ease-bouncy peer-checked:scale-100 peer-checked:opacity-100'
+        className='pointer-events-none relative z-10 h-3.5 w-3.5 text-white opacity-0 transition-opacity duration-[var(--motion-control)] ease-premium peer-checked:opacity-100'
         viewBox='0 0 14 10'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'

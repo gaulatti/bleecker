@@ -1,15 +1,18 @@
 import React from 'react';
 
+import type { ToggleSize, ToggleVariant } from '../core';
 import { cn } from '../utils/cn';
+
+export type { ToggleSize, ToggleVariant } from '../core';
 
 export interface ToggleProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   pressed?: boolean;
   onPressedChange?: (pressed: boolean) => void;
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'default' | 'outline';
+  size?: ToggleSize;
+  variant?: ToggleVariant;
 }
 
-const sizeClasses = {
+const sizeClasses: Record<ToggleSize, string> = {
   sm: 'h-8 px-2.5 text-sm gap-1.5',
   md: 'h-9 px-3 text-sm gap-2',
   lg: 'h-10 px-4 text-base gap-2'
@@ -28,12 +31,11 @@ export const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(function 
     <button
       ref={ref}
       type='button'
-      role='switch'
-      aria-checked={pressed}
+      aria-pressed={pressed}
       disabled={disabled}
       onClick={handleClick}
       className={cn(
-        'inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sea disabled:pointer-events-none disabled:opacity-50 dark:focus-visible:ring-accent-blue',
+        'inline-flex translate-y-0 scale-100 items-center justify-center rounded-[var(--radius-button)] font-medium transition-[background-color,border-color,color,box-shadow,transform,opacity] duration-[var(--motion-control)] ease-premium active:translate-y-px active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-sea disabled:pointer-events-none disabled:transform-none disabled:opacity-50 dark:focus-visible:ring-accent-blue',
         sizeClasses[size],
         variant === 'outline'
           ? [

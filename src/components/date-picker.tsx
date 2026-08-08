@@ -1,7 +1,11 @@
+'use client';
+
 import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react';
 import React from 'react';
 
 import { cn } from '../utils/cn';
+import { IconButton } from './icon-button';
+import { Popover } from './popover';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -72,25 +76,25 @@ export function Calendar({ className, disabled: isDisabledFn, maxDate, minDate, 
     <div className={cn('w-full select-none', className)}>
       {/* Header */}
       <div className='mb-4 flex items-center justify-between'>
-        <button
-          type='button'
+        <IconButton
           onClick={prevMonth}
-          className='rounded-lg p-1.5 text-text-secondary transition-colors hover:bg-sand/10 hover:text-text-primary dark:hover:bg-sand/20 dark:hover:text-text-primary'
+          size='sm'
+          variant='ghost'
           aria-label='Previous month'
         >
           <ChevronLeft size={16} />
-        </button>
-        <span className='text-sm font-semibold text-text-primary dark:text-text-primary'>
+        </IconButton>
+        <span className='text-[13px] font-semibold tracking-ui text-text-primary dark:text-text-primary'>
           {MONTHS[viewMonth]} {viewYear}
         </span>
-        <button
-          type='button'
+        <IconButton
           onClick={nextMonth}
-          className='rounded-lg p-1.5 text-text-secondary transition-colors hover:bg-sand/10 hover:text-text-primary dark:hover:bg-sand/20 dark:hover:text-text-primary'
+          size='sm'
+          variant='ghost'
           aria-label='Next month'
         >
           <ChevronRight size={16} />
-        </button>
+        </IconButton>
       </div>
 
       {/* Day headers */}
@@ -98,7 +102,7 @@ export function Calendar({ className, disabled: isDisabledFn, maxDate, minDate, 
         {DAYS.map((d) => (
           <div
             key={d}
-            className='flex h-8 items-center justify-center text-[11px] font-medium uppercase tracking-wider text-text-secondary dark:text-text-secondary'
+            className='flex h-8 items-center justify-center text-[10px] font-semibold uppercase tracking-[0.08em] text-text-secondary dark:text-text-secondary'
           >
             {d}
           </div>
@@ -124,12 +128,12 @@ export function Calendar({ className, disabled: isDisabledFn, maxDate, minDate, 
               aria-label={date.toDateString()}
               aria-pressed={!!selected}
               className={cn(
-                'flex h-8 w-full items-center justify-center rounded-full text-sm transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-sea dark:focus-visible:ring-accent-blue',
+                'flex h-8 w-full scale-100 items-center justify-center rounded-[6px] text-[13px] tabular-nums transition-[background-color,color,transform] duration-[var(--motion-control)] ease-premium active:scale-[0.94] focus:outline-none focus-visible:ring-2 focus-visible:ring-sea/30 dark:focus-visible:ring-accent-blue/40',
                 selected
-                  ? 'bg-sea font-semibold text-white dark:bg-accent-blue'
+                  ? 'bg-sea font-semibold text-white shadow-[0_1px_2px_rgba(21,48,66,0.12)] dark:bg-accent-blue dark:text-deep-sea'
                   : todayCell
-                    ? 'font-semibold text-sea ring-1 ring-inset ring-sea dark:text-accent-blue dark:ring-accent-blue'
-                    : 'text-text-primary hover:bg-sand/10 dark:text-text-primary dark:hover:bg-sand/15',
+                    ? 'font-semibold text-sea ring-1 ring-inset ring-sea/45 dark:text-accent-blue dark:ring-accent-blue/50'
+                    : 'text-text-primary hover:bg-light-sand dark:text-text-primary dark:hover:bg-white/[0.07]',
                 disabled && 'pointer-events-none opacity-30'
               )}
             >
@@ -145,6 +149,7 @@ export function Calendar({ className, disabled: isDisabledFn, maxDate, minDate, 
 // ─── DatePicker ───────────────────────────────────────────────────────────────
 
 export interface DatePickerProps {
+  'aria-label'?: string;
   className?: string;
   disabled?: boolean;
   disabledDates?: (date: Date) => boolean;
@@ -152,80 +157,62 @@ export interface DatePickerProps {
   minDate?: Date;
   onChange?: (date: Date | null) => void;
   placeholder?: string;
+  triggerClassName?: string;
   value?: Date | null;
 }
 
-export function DatePicker({ className, disabled = false, disabledDates, maxDate, minDate, onChange, placeholder = 'Pick a date', value }: DatePickerProps) {
+export function DatePicker({ 'aria-label': ariaLabel, className, disabled = false, disabledDates, maxDate, minDate, onChange, placeholder = 'Pick a date', triggerClassName, value }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
-  const containerRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    if (!open) return;
-    const handler = (e: PointerEvent) => {
-      if (!containerRef.current?.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener('pointerdown', handler);
-    return () => document.removeEventListener('pointerdown', handler);
-  }, [open]);
-
-  React.useEffect(() => {
-    if (!open) return;
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
-    };
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
-  }, [open]);
 
   return (
-    <div ref={containerRef} className={cn('relative inline-block', className)}>
-      <button
-        type='button'
-        disabled={disabled}
-        onClick={() => !disabled && setOpen((v) => !v)}
-        aria-haspopup='dialog'
-        aria-expanded={open}
-        className={cn(
-          'flex h-10 min-w-[200px] items-center gap-2 rounded-[18px] border bg-white px-4 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sea dark:bg-dark-sand dark:focus:ring-accent-blue',
-          open ? 'border-sea ring-2 ring-sea/20 dark:border-accent-blue dark:ring-accent-blue/20' : 'border-sand/30 hover:border-sand/50 dark:border-sand/50',
-          value ? 'text-text-primary dark:text-text-primary' : 'text-text-secondary dark:text-text-secondary',
-          disabled && 'cursor-not-allowed opacity-50'
-        )}
-      >
-        <CalendarDays size={15} className='flex-shrink-0 text-text-secondary' />
-        <span className='flex-1 text-left'>{value ? formatDate(value) : placeholder}</span>
-      </button>
-
-      {open && (
-        <div
-          role='dialog'
-          aria-label='Date picker'
-          className='absolute left-0 top-full z-50 mt-1.5 w-72 rounded-2xl border border-sand/10 bg-white p-4 shadow-xl dark:border-sand/20 dark:bg-dark-sand'
-        >
-          <Calendar
-            value={value}
-            minDate={minDate}
-            maxDate={maxDate}
-            disabled={disabledDates}
-            onChange={(date) => {
-              onChange?.(date);
-              setOpen(false);
-            }}
-          />
-          {value && (
-            <button
-              type='button'
-              onClick={() => {
-                onChange?.(null);
+    <div className={cn('inline-block', className)}>
+      <Popover
+        align='start'
+        open={open}
+        onOpenChange={setOpen}
+        className='w-72 p-4'
+        content={
+          <div role='dialog' aria-label={ariaLabel ?? placeholder}>
+            <Calendar
+              value={value}
+              minDate={minDate}
+              maxDate={maxDate}
+              disabled={disabledDates}
+              onChange={(date) => {
+                onChange?.(date);
                 setOpen(false);
               }}
-              className='mt-3 w-full rounded-lg py-1.5 text-xs text-text-secondary transition-colors hover:bg-sand/10 hover:text-text-primary dark:hover:bg-sand/15 dark:hover:text-text-primary'
-            >
-              Clear date
-            </button>
+            />
+            {value && (
+              <button
+                type='button'
+                onClick={() => {
+                  onChange?.(null);
+                  setOpen(false);
+                }}
+                className='mt-3 w-full border-t border-sand/20 pt-3 text-[12px] font-medium text-text-secondary transition-colors duration-[var(--motion-control)] ease-premium hover:text-text-primary dark:border-white/[0.08]'
+              >
+                Clear date
+              </button>
+            )}
+          </div>
+        }
+      >
+        <button
+          type='button'
+          disabled={disabled}
+          aria-label={ariaLabel}
+          className={cn(
+            'flex h-10 min-w-[200px] items-center gap-2.5 rounded-[var(--radius-ui)] border border-sand/40 bg-white px-3.5 text-sm shadow-[0_1px_2px_rgba(26,55,77,0.025)] outline-none transition-[border-color,box-shadow,opacity] duration-[var(--motion-control)] ease-premium hover:border-sand/70 hover:shadow-[0_3px_10px_-8px_rgba(26,55,77,0.25)] focus-visible:border-sea/70 focus-visible:ring-2 focus-visible:ring-sea/10 data-[state=open]:border-sea/70 data-[state=open]:ring-2 data-[state=open]:ring-sea/10 dark:border-white/15 dark:bg-deep-sea dark:data-[state=open]:border-accent-blue dark:data-[state=open]:ring-accent-blue/12',
+            value ? 'text-text-primary dark:text-text-primary' : 'text-text-secondary dark:text-text-secondary',
+            disabled && 'cursor-not-allowed opacity-50',
+            triggerClassName
           )}
-        </div>
-      )}
+        >
+          <CalendarDays size={15} className='shrink-0 text-sea dark:text-accent-blue' />
+          <span className='min-w-0 flex-1 truncate text-left'>{value ? formatDate(value) : placeholder}</span>
+        </button>
+      </Popover>
     </div>
   );
 }

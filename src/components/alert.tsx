@@ -1,10 +1,13 @@
+'use client';
+
 import { AlertCircle, AlertTriangle, CheckCircle, Info, X } from 'lucide-react';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
+import type { AlertType } from '../core';
 import { cn } from '../utils/cn';
 
-export type AlertType = 'success' | 'error' | 'info' | 'warning';
+export type { AlertType } from '../core';
 
 export interface AlertProps {
   className?: string;
@@ -25,29 +28,29 @@ interface AlertConfigValue {
 const alertConfig: Record<AlertType, AlertConfigValue> = {
   success: {
     icon: CheckCircle,
-    bgColor: 'bg-white/80 dark:bg-deep-sea/80',
-    borderColor: 'ring-sea/20 dark:ring-accent-blue/20',
+    bgColor: 'bg-white dark:bg-deep-sea',
+    borderColor: 'border-sea/25 dark:border-accent-blue/25',
     textColor: 'text-text-primary dark:text-text-primary',
     iconColor: 'text-sea dark:text-accent-blue'
   },
   error: {
     icon: AlertCircle,
-    bgColor: 'bg-white/80 dark:bg-deep-sea/80',
-    borderColor: 'ring-terracotta/20 dark:ring-terracotta/30',
+    bgColor: 'bg-white dark:bg-deep-sea',
+    borderColor: 'border-terracotta/25 dark:border-terracotta/30',
     textColor: 'text-text-primary dark:text-text-primary',
     iconColor: 'text-terracotta dark:text-terracotta'
   },
   warning: {
     icon: AlertTriangle,
-    bgColor: 'bg-white/80 dark:bg-deep-sea/80',
-    borderColor: 'ring-sunset/30 dark:ring-sunset/20',
+    bgColor: 'bg-white dark:bg-deep-sea',
+    borderColor: 'border-sunset/30 dark:border-sunset/20',
     textColor: 'text-text-primary dark:text-text-primary',
     iconColor: 'text-sunset dark:text-accent-gold'
   },
   info: {
     icon: Info,
-    bgColor: 'bg-white/80 dark:bg-deep-sea/80',
-    borderColor: 'ring-desert/20 dark:ring-desert/20',
+    bgColor: 'bg-white dark:bg-deep-sea',
+    borderColor: 'border-desert/25 dark:border-desert/25',
     textColor: 'text-text-primary dark:text-text-primary',
     iconColor: 'text-desert dark:text-accent-gold'
   }
@@ -86,7 +89,7 @@ export function Alert({ className, duration = 5000, message, onClose, type = 'in
       return;
     }
 
-    window.setTimeout(onClose, 300);
+    window.setTimeout(onClose, 220);
   };
 
   if (typeof document === 'undefined') {
@@ -97,20 +100,20 @@ export function Alert({ className, duration = 5000, message, onClose, type = 'in
     <div className='pointer-events-none fixed inset-0 z-[9999] flex items-start justify-center px-4 pt-24'>
       <div
         className={cn(
-          'pointer-events-auto w-full max-w-md rounded-[var(--radius-button)] ring-1 ring-inset shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl transition-all duration-400 ease-out-expo dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]',
+          'pointer-events-auto w-full max-w-md rounded-[var(--radius-card)] border shadow-[var(--shadow-overlay)] transition-[opacity,transform] duration-[var(--motion-surface)] ease-premium',
           config.bgColor,
           config.borderColor,
-          isVisible ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-4 scale-95 opacity-0',
+          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0',
           className
         )}
       >
         <div className='flex items-start gap-3 p-4'>
           <Icon className={cn('mt-0.5 h-5 w-5 flex-shrink-0', config.iconColor)} />
-          <p className={cn('flex-1 text-sm font-medium tracking-refined', config.textColor)}>{message}</p>
+          <p className={cn('flex-1 text-sm font-medium leading-6', config.textColor)}>{message}</p>
           <button
             type='button'
             onClick={handleClose}
-            className={cn('hover:bg-black/5 dark:hover:bg-white/10 -mr-1 -mt-0.5 rounded-md p-1 transition-colors duration-200', config.textColor)}
+            className={cn('-mr-1 -mt-0.5 scale-100 rounded-md p-1 transition-[background-color,transform] duration-[var(--motion-control)] ease-premium hover:bg-black/5 active:scale-[0.9] dark:hover:bg-white/10', config.textColor)}
             aria-label='Close alert'
           >
             <X className='h-4 w-4' />

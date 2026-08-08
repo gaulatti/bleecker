@@ -24,11 +24,11 @@ export function ErrorState({
   return (
     <div
       className={cn(
-        'flex flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-terracotta/30 bg-terracotta/5 px-6 py-12 text-center dark:bg-terracotta/10',
+        'flex flex-col items-center justify-center gap-5 rounded-[var(--radius-card)] border border-terracotta/25 bg-terracotta/[0.035] px-8 py-14 text-center dark:bg-terracotta/[0.07]',
         className
       )}
     >
-      <div className='flex h-14 w-14 items-center justify-center rounded-full bg-terracotta/10 text-terracotta dark:bg-terracotta/20'>
+      <div className='flex h-12 w-12 items-center justify-center rounded-[10px] border border-terracotta/15 bg-terracotta/[0.07] text-terracotta dark:bg-terracotta/15'>
         {icon ?? <AlertCircle size={28} />}
       </div>
       <div className='space-y-1'>

@@ -1,8 +1,11 @@
+'use client';
+
 import React from 'react';
 import { createPortal } from 'react-dom';
 
 import { DialogCloseButton } from './dialog-close-button';
 import { cn } from '../utils/cn';
+import { useModalLayer, usePresence } from '../utils/hooks';
 
 export type SheetSide = 'left' | 'right' | 'top' | 'bottom';
 
@@ -41,51 +44,41 @@ const sideStyles: Record<SheetSide, { panel: string; enter: string; leave: strin
 };
 
 export function Sheet({ children, className, description, isOpen, onClose, scrollContent = true, side = 'right', title }: SheetProps) {
-  const [visible, setVisible] = React.useState(false);
+  const { present, visible } = usePresence(isOpen, 180);
   const { panel, enter, leave } = sideStyles[side];
+  const titleId = React.useId();
+  const descriptionId = React.useId();
+  const panelRef = useModalLayer<HTMLDivElement>(isOpen, onClose);
 
-  React.useEffect(() => {
-    if (isOpen) {
-      requestAnimationFrame(() => {
-        setVisible(true);
-      });
-    } else {
-      setVisible(false);
-    }
-  }, [isOpen]);
-
-  // Close on Escape
-  React.useEffect(() => {
-    if (!isOpen) return;
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
-  }, [isOpen, onClose]);
-
-  if (typeof document === 'undefined' || !isOpen) return null;
+  if (typeof document === 'undefined' || !present) return null;
 
   return createPortal(
     <div className='fixed inset-0 z-50 flex'>
       {/* Backdrop */}
       <div
-        className={cn('absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300', visible ? 'opacity-100' : 'opacity-0')}
+        className={cn(
+          'absolute inset-0 bg-deep-sea/38 backdrop-blur-[2px] transition-opacity dark:bg-black/65',
+          visible ? 'opacity-100 duration-[var(--motion-overlay)] ease-premium' : 'opacity-0 duration-[180ms] ease-in'
+        )}
         onClick={onClose}
         aria-hidden='true'
       />
       {/* Panel */}
       <div
+        ref={panelRef}
         role='dialog'
         aria-modal='true'
-        aria-label={title}
+        aria-label={title ? undefined : 'Dialog'}
+        aria-labelledby={title ? titleId : undefined}
+        aria-describedby={description ? descriptionId : undefined}
+        tabIndex={-1}
         className={cn(
-          'absolute flex flex-col overflow-hidden border border-sand/10 bg-white text-text-primary shadow-2xl outline-none transition-transform duration-300 ease-in-out dark:border-sand/20 dark:bg-dark-sand dark:text-text-primary',
+          'absolute flex flex-col overflow-hidden border border-sand/30 bg-white text-text-primary shadow-[var(--shadow-overlay)] outline-none transition-transform dark:border-white/12 dark:bg-deep-sea dark:text-text-primary',
           panel,
-          visible ? enter : leave,
+          visible ? `${enter} duration-[var(--motion-overlay)] ease-premium` : `${leave} duration-[180ms] ease-in`,
           (side === 'left' || side === 'right') && 'rounded-none',
-          side === 'top' && 'rounded-b-2xl',
-          side === 'bottom' && 'rounded-t-2xl',
+          side === 'top' && 'rounded-b-[var(--radius-dialog)]',
+          side === 'bottom' && 'rounded-t-[var(--radius-dialog)]',
           className
         )}
       >
@@ -93,8 +86,8 @@ export function Sheet({ children, className, description, isOpen, onClose, scrol
           {title || description ? (
             <div className='mb-5 flex shrink-0 items-start justify-between gap-4'>
               <div className='min-w-0 flex-1'>
-                {title ? <h2 className='text-2xl text-text-primary dark:text-text-primary'>{title}</h2> : null}
-                {description ? <p className='mt-1.5 text-sm leading-relaxed text-text-secondary dark:text-text-secondary'>{description}</p> : null}
+                {title ? <h2 id={titleId} className='text-2xl font-medium text-text-primary dark:text-text-primary'>{title}</h2> : null}
+                {description ? <p id={descriptionId} className='font-secondary mt-2 text-sm leading-relaxed text-text-secondary dark:text-text-secondary'>{description}</p> : null}
               </div>
               <DialogCloseButton onClick={onClose} aria-label='Close' />
             </div>

@@ -39,7 +39,7 @@ export function NotificationBadge({ count = 0, items = [], onMarkAllRead, classN
             <Bell size={18} />
           </IconButton>
           {count > 0 && (
-            <span className='absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-terracotta px-1 text-[10px] font-bold text-white'>
+            <span className='absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-terracotta px-1 text-[10px] font-semibold text-white'>
               {count > 99 ? '99+' : count}
             </span>
           )}
@@ -49,7 +49,7 @@ export function NotificationBadge({ count = 0, items = [], onMarkAllRead, classN
         <div className='flex items-center justify-between px-2 py-1.5'>
           <DropdownMenuLabel className='uppercase'>Notifications</DropdownMenuLabel>
           {hasUnread && onMarkAllRead && (
-            <button type='button' onClick={onMarkAllRead} className='text-xs text-sea hover:underline dark:text-accent-blue'>
+            <button type='button' onClick={onMarkAllRead} className='text-xs text-sea transition-colors duration-[var(--motion-control)] ease-premium hover:text-deep-sea hover:underline dark:text-accent-blue dark:hover:text-text-primary'>
               Mark all read
             </button>
           )}

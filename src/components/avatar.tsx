@@ -1,8 +1,11 @@
+'use client';
+
 import React from 'react';
 
+import type { AvatarSize } from '../core';
 import { cn } from '../utils/cn';
 
-export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type { AvatarSize } from '../core';
 
 export interface AvatarProps {
   alt?: string;

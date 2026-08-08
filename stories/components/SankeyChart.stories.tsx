@@ -29,6 +29,13 @@ const data = {
   ]
 };
 
+export const Default: Story = {
+  args: {
+    data,
+    height: 400
+  }
+};
+
 export const DenseLinks: Story = {
   args: {
     ...Default.args,
@@ -50,12 +57,5 @@ export const CustomNodePalette: Story = {
   args: {
     ...Default.args,
     nodeColors: ['#0f766e', '#d97706', '#7c3aed', '#dc2626']
-  }
-};
-
-export const Default: Story = {
-  args: {
-    data,
-    height: 400
   }
 };

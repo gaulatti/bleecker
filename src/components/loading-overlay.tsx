@@ -17,11 +17,11 @@ export function LoadingOverlay({ visible, label = 'Loading...', className, overl
   return createPortal(
     <div
       className={cn(
-        'fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm',
+        'fixed inset-0 z-50 flex items-center justify-center bg-background/72 backdrop-blur-[2px]',
         overlayClassName
       )}
     >
-      <div className={cn('flex flex-col items-center gap-3 rounded-[var(--radius-card)] bg-card p-6 shadow-lg ring-1 ring-border', className)}>
+      <div className={cn('flex flex-col items-center gap-3 rounded-[var(--radius-card)] border border-sand/25 bg-card px-7 py-6 shadow-[var(--shadow-overlay)] dark:border-white/10', className)}>
         <LoadingSpinner size='lg' />
         {label && <p className='text-sm font-medium text-text-primary dark:text-text-primary'>{label}</p>}
       </div>

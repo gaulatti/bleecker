@@ -1,3 +1,5 @@
+'use client';
+
 import { Search } from 'lucide-react';
 import React from 'react';
 import { createPortal } from 'react-dom';
@@ -5,6 +7,7 @@ import { createPortal } from 'react-dom';
 import { Button } from './button';
 import { Kbd } from './kbd';
 import { cn } from '../utils/cn';
+import { usePresence } from '../utils/hooks';
 
 const DEFAULT_GROUP = 'Actions';
 
@@ -80,6 +83,7 @@ export function CommandSpotlight({
 
   const isControlled = typeof open === 'boolean';
   const isOpen = isControlled ? (open as boolean) : isOpenInternal;
+  const { present: isOverlayPresent, visible: isOverlayVisible } = usePresence(isOpen, 160);
 
   const setIsOpen = React.useCallback(
     (nextIsOpen: boolean) => {
@@ -270,7 +274,7 @@ export function CommandSpotlight({
         setIsOpen(true);
       }}
       className={cn(
-        'border-sand/20 bg-white/35 px-3 py-1.5 text-text-primary shadow-sm backdrop-blur-md hover:bg-white/65 dark:border-sand/70 dark:bg-sand/25 dark:hover:bg-sand/35',
+        'border-sand/35 bg-white px-3 py-1.5 text-text-primary shadow-[0_1px_2px_rgba(26,55,77,0.03)] hover:border-sand/65 hover:bg-light-sand/35 dark:border-white/15 dark:bg-deep-sea dark:hover:bg-white/[0.06]',
         triggerClassName
       )}
       aria-label='Open command spotlight'
@@ -282,16 +286,27 @@ export function CommandSpotlight({
   ) : null;
 
   const renderOverlay =
-    isOpen && typeof document !== 'undefined'
+    isOverlayPresent && typeof document !== 'undefined'
       ? createPortal(
           <div className={cn('fixed inset-0 z-9999 flex items-start justify-center px-4 pt-[12vh]', overlayClassName)}>
-            <button type='button' onClick={closeSpotlight} className='absolute inset-0 bg-black/45 backdrop-blur-sm' aria-label='Close command spotlight' />
+            <button
+              type='button'
+              onClick={closeSpotlight}
+              className={cn(
+                'absolute inset-0 bg-black/45 backdrop-blur-sm transition-opacity',
+                isOverlayVisible ? 'opacity-100 duration-[var(--motion-overlay)] ease-premium' : 'opacity-0 duration-[160ms] ease-in'
+              )}
+              aria-label='Close command spotlight'
+            />
 
             <div
               role='dialog'
               aria-modal='true'
               className={cn(
-                'relative z-10 w-full max-w-2xl overflow-hidden rounded-[28px] border border-sand/10 bg-white/95 text-text-primary shadow-2xl backdrop-blur-xl dark:border-sand/20 dark:bg-dark-sand/95 dark:text-text-primary',
+                'relative z-10 w-full max-w-2xl overflow-hidden rounded-[var(--radius-dialog)] border border-sand/30 bg-white text-text-primary shadow-[var(--shadow-overlay)] transition-[opacity,transform] dark:border-white/12 dark:bg-deep-sea dark:text-text-primary',
+                isOverlayVisible
+                  ? 'translate-y-0 scale-100 opacity-100 duration-[var(--motion-overlay)] ease-premium'
+                  : '-translate-y-1 scale-[0.992] opacity-0 duration-[160ms] ease-in',
                 dialogClassName
               )}
               onClick={(event) => event.stopPropagation()}
@@ -360,7 +375,7 @@ export function CommandSpotlight({
                                 }
                               }}
                               className={cn(
-                                'flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-left transition-colors',
+                                'flex w-full items-center justify-between gap-3 rounded-[var(--radius-ui)] px-3 py-2.5 text-left transition-colors duration-[var(--motion-control)] ease-premium',
                                 isSelected
                                   ? 'bg-sea/10 text-sea dark:bg-accent-blue/15 dark:text-accent-blue'
                                   : 'text-text-primary hover:bg-sand/10 dark:text-text-primary dark:hover:bg-sand/15',
@@ -369,7 +384,7 @@ export function CommandSpotlight({
                             >
                               <div className='flex min-w-0 items-center gap-3'>
                                 {action.icon ? (
-                                  <span className='flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sand/10 text-text-secondary dark:bg-sand/20 dark:text-text-secondary'>
+                                  <span className='flex h-8 w-8 shrink-0 items-center justify-center rounded-[7px] border border-sand/15 bg-light-sand/50 text-text-secondary dark:border-white/[0.06] dark:bg-white/[0.05] dark:text-text-secondary'>
                                     {action.icon}
                                   </span>
                                 ) : null}

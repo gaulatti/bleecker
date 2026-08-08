@@ -58,7 +58,7 @@ export function Stepper({ steps, activeStep, className, onStepClick, orientation
             {!isLast && (
               <div
                 className={cn(
-                  'absolute transition-colors',
+                  'absolute transition-colors duration-[var(--motion-surface)] ease-premium',
                   isHorizontal
                     ? 'left-1/2 top-4 h-0.5 w-[calc(100%-2rem)]'
                     : 'left-4 top-9 h-[calc(100%-2rem)] w-0.5'
@@ -74,7 +74,7 @@ export function Stepper({ steps, activeStep, className, onStepClick, orientation
               disabled={step.disabled || !onStepClick}
               onClick={() => onStepClick?.(step)}
               className={cn(
-                'relative z-10 flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sea focus-visible:ring-offset-2',
+                'relative z-10 flex h-8 w-8 scale-100 items-center justify-center rounded-full text-sm font-semibold transition-[background-color,border-color,color,transform] duration-[var(--motion-control)] ease-premium active:scale-[0.94] focus:outline-none focus-visible:ring-2 focus-visible:ring-sea focus-visible:ring-offset-2',
                 styles.circle,
                 onStepClick && !step.disabled && 'cursor-pointer',
                 step.disabled && 'cursor-not-allowed opacity-50'

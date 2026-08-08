@@ -1,8 +1,11 @@
+'use client';
+
 import { Minus } from 'lucide-react';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
 import { cn } from '../utils/cn';
+import { useModalLayer, usePresence } from '../utils/hooks';
 
 export interface DrawerProps {
   children: React.ReactNode;
@@ -15,26 +18,11 @@ export interface DrawerProps {
 }
 
 export function Drawer({ children, className, description, isOpen, onClose, title }: DrawerProps) {
-  const [visible, setVisible] = React.useState(false);
+  const { present, visible } = usePresence(isOpen, 180);
   const startYRef = React.useRef<number | null>(null);
-  const panelRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    if (isOpen) {
-      requestAnimationFrame(() => setVisible(true));
-    } else {
-      setVisible(false);
-    }
-  }, [isOpen]);
-
-  React.useEffect(() => {
-    if (!isOpen) return;
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
-  }, [isOpen, onClose]);
+  const panelRef = useModalLayer<HTMLDivElement>(isOpen, onClose);
+  const titleId = React.useId();
+  const descriptionId = React.useId();
 
   const handleTouchStart = (e: React.TouchEvent) => {
     startYRef.current = e.touches[0].clientY;
@@ -46,14 +34,15 @@ export function Drawer({ children, className, description, isOpen, onClose, titl
     if (delta > 60) onClose();
   };
 
-  if (typeof document === 'undefined' || !isOpen) return null;
+  if (typeof document === 'undefined' || !present) return null;
 
   return createPortal(
     <div className='fixed inset-0 z-50'>
       {/* Backdrop */}
       <div
         className={cn(
-          'absolute inset-0 bg-deep-sea/40 backdrop-blur-md transition-opacity duration-300 dark:bg-black/70',
+          'absolute inset-0 bg-deep-sea/38 backdrop-blur-[2px] transition-opacity ease-premium dark:bg-black/65',
+          visible ? 'duration-[var(--motion-overlay)]' : 'duration-[180ms] ease-in',
           visible ? 'opacity-100' : 'opacity-0'
         )}
         onClick={onClose}
@@ -64,11 +53,15 @@ export function Drawer({ children, className, description, isOpen, onClose, titl
         ref={panelRef}
         role='dialog'
         aria-modal='true'
-        aria-label={title}
+        aria-label={title ? undefined : 'Dialog'}
+        aria-labelledby={title ? titleId : undefined}
+        aria-describedby={description ? descriptionId : undefined}
+        tabIndex={-1}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         className={cn(
-          'absolute inset-x-0 bottom-0 flex max-h-[90dvh] flex-col rounded-t-[32px] border-t border-black/[0.04] bg-white shadow-[0_-8px_40px_rgba(0,0,0,0.08)] transition-transform duration-400 ease-out-expo dark:border-white/10 dark:bg-deep-sea dark:shadow-[0_-8px_40px_rgba(0,0,0,0.4)]',
+          'absolute inset-x-0 bottom-0 flex max-h-[90dvh] flex-col rounded-t-[var(--radius-dialog)] border-t border-sand/30 bg-white shadow-[var(--shadow-overlay)] transition-transform dark:border-white/12 dark:bg-deep-sea',
+          visible ? 'duration-[var(--motion-overlay)] ease-premium' : 'duration-[180ms] ease-in',
           visible ? 'translate-y-0' : 'translate-y-full',
           className
         )}
@@ -79,8 +72,8 @@ export function Drawer({ children, className, description, isOpen, onClose, titl
         </div>
         {(title || description) && (
           <div className='px-6 pb-4 pt-1'>
-            {title ? <h2 className='text-base font-semibold text-text-primary dark:text-text-primary'>{title}</h2> : null}
-            {description ? <p className='mt-0.5 text-sm text-text-secondary dark:text-text-secondary'>{description}</p> : null}
+            {title ? <h2 id={titleId} className='text-lg font-medium text-text-primary dark:text-text-primary'>{title}</h2> : null}
+            {description ? <p id={descriptionId} className='font-secondary mt-2 text-sm leading-relaxed text-text-secondary dark:text-text-secondary'>{description}</p> : null}
           </div>
         )}
         <div className='flex-1 overflow-y-auto px-6 pb-6 pt-0'>{children}</div>

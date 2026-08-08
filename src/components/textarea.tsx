@@ -1,32 +1,32 @@
 import React from 'react';
 
+import type { ControlSize } from '../core';
 import { cn } from '../utils/cn';
-
-type TextareaSize = 'sm' | 'md' | 'lg';
 
 export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   error?: boolean;
-  textareaSize?: TextareaSize;
+  textareaSize?: ControlSize;
 }
 
-const sizeClasses: Record<TextareaSize, string> = {
+const sizeClasses: Record<ControlSize, string> = {
   sm: 'min-h-24 px-3 py-2 text-sm',
   md: 'min-h-28 px-4 py-3 text-sm',
   lg: 'min-h-32 px-4 py-3 text-base'
 };
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
-  { className, error = false, textareaSize = 'md', rows = 4, ...props },
+  { 'aria-invalid': ariaInvalid, className, error = false, textareaSize = 'md', rows = 4, ...props },
   ref
 ) {
   return (
     <textarea
       ref={ref}
       rows={rows}
+      aria-invalid={ariaInvalid ?? (error || undefined)}
       className={cn(
-        'w-full rounded-[var(--radius-ui)] border-0 ring-1 ring-inset ring-black/10 bg-light-sand/50 text-text-primary shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)] outline-none transition-all duration-200 placeholder:text-text-secondary/60 hover:bg-white hover:ring-black/20 focus:bg-white focus:ring-2 focus:ring-inset focus:ring-sea disabled:cursor-not-allowed disabled:opacity-50 dark:bg-deep-sea/50 dark:text-text-primary dark:ring-white/10 dark:placeholder:text-text-secondary dark:hover:bg-deep-sea dark:focus:ring-accent-blue',
+        'w-full rounded-[var(--radius-ui)] border border-sand/40 bg-white text-text-primary shadow-[0_1px_2px_rgba(26,55,77,0.025)] outline-none transition-[background-color,border-color,box-shadow,opacity] duration-[var(--motion-control)] ease-premium placeholder:text-text-secondary/55 hover:border-sand/70 hover:shadow-[0_3px_10px_-8px_rgba(26,55,77,0.25)] focus:border-sea/70 focus:ring-2 focus:ring-sea/10 disabled:cursor-not-allowed disabled:bg-light-sand/65 disabled:opacity-60 dark:border-white/15 dark:bg-deep-sea dark:text-text-primary dark:placeholder:text-text-secondary dark:hover:border-white/25 dark:focus:border-accent-blue dark:focus:ring-accent-blue/12',
         'resize-y',
-        error ? 'ring-terracotta/50 focus:ring-terracotta dark:ring-terracotta/50' : '',
+        error ? 'border-terracotta focus:border-terracotta focus:ring-terracotta/15 dark:border-terracotta' : '',
         sizeClasses[textareaSize],
         className
       )}

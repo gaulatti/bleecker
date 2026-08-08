@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, within } from 'storybook/test';
 
 import { DatePicker, Calendar } from '../../src/components/date-picker';
 
@@ -21,6 +22,13 @@ export const Default: Story = {
         <p className='text-xs text-text-secondary dark:text-text-secondary'>Selected: {date ? date.toDateString() : 'none'}</p>
       </div>
     );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Pick a date' });
+    await userEvent.click(trigger);
+    await expect(within(document.body).getByRole('dialog', { name: 'Pick a date' })).toBeVisible();
+    await userEvent.keyboard('{Escape}');
   }
 };
 
@@ -56,7 +64,7 @@ export const CalendarOnly: Story = {
   render: () => {
     const [date, setDate] = React.useState<Date | null>(new Date());
     return (
-      <div className='w-72 rounded-2xl border border-sand/10 bg-white p-4 shadow-md dark:border-sand/20 dark:bg-dark-sand'>
+      <div className='w-72 rounded-[var(--radius-card)] border border-sand/30 bg-white p-4 shadow-[var(--shadow-surface)] dark:border-white/10 dark:bg-deep-sea'>
         <Calendar value={date} onChange={setDate} />
       </div>
     );

@@ -30,17 +30,17 @@ export function Footer({ bottomLeft, bottomRight, brand, className, renderLink, 
     (githubItem
       ? linkRenderer({
           item: githubItem,
-          className: 'hover:underline underline-offset-4',
+          className: 'underline-offset-4 transition-colors duration-[var(--motion-control)] ease-premium hover:text-sea hover:underline dark:hover:text-accent-blue',
           children: 'View source on GitHub'
         })
       : null);
 
   return (
     <footer className={cn('bg-light-sand text-text-primary dark:bg-sand dark:text-text-primary', className)}>
-      <div className='h-px w-full bg-gradient-to-r from-transparent via-sunset/30 to-transparent'></div>
+      <div className='h-px w-full bg-sand/30 dark:bg-white/10'></div>
 
-      <div className='container mx-auto px-4 py-20'>
-        <div className='grid grid-cols-1 gap-16 md:grid-cols-2 lg:grid-cols-4'>
+      <div className='container mx-auto px-4 py-16'>
+        <div className='grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4'>
           <div className={cn(brandColumnClassName)}>
             <BrandLockup {...brand} size='lg' renderLink={renderLink} />
             {brand.description ? (
@@ -56,7 +56,7 @@ export function Footer({ bottomLeft, bottomRight, brand, className, renderLink, 
                   <li key={`${section.title}:${item.href}:${item.label}`}>
                     {linkRenderer({
                       item,
-                      className: 'text-text-secondary transition-colors duration-400 hover:text-sunset dark:text-text-secondary dark:hover:text-sunset',
+                      className: 'text-text-secondary transition-colors duration-[var(--motion-surface)] ease-premium hover:text-sunset dark:text-text-secondary dark:hover:text-sunset',
                       children: item.label
                     })}
                   </li>
@@ -66,13 +66,13 @@ export function Footer({ bottomLeft, bottomRight, brand, className, renderLink, 
           ))}
         </div>
 
-        <div className='mt-20 flex flex-col items-center justify-between gap-4 border-t border-sand/10 pt-8 md:flex-row'>
+        <div className='mt-16 flex flex-col items-center justify-between gap-4 border-t border-sand/20 pt-7 md:flex-row'>
           <div className='text-sm tracking-refined text-text-secondary dark:text-text-secondary'>{bottomLeft}</div>
           <div className='text-sm tracking-refined text-text-secondary/70 dark:text-text-secondary/70'>{resolvedBottomRight}</div>
         </div>
       </div>
 
-      {showBottomAccent ? <div className='h-1 w-full bg-gradient-to-r from-desert via-sunset to-sea opacity-80'></div> : null}
+      {showBottomAccent ? <div className='h-0.5 w-full bg-sea/70 dark:bg-accent-blue/70'></div> : null}
     </footer>
   );
 }

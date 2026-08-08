@@ -1,9 +1,12 @@
+'use client';
+
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
 import { Button } from './button';
 import { cn } from '../utils/cn';
+import { usePresence } from '../utils/hooks';
 
 export interface AlertDialogProps {
   cancelLabel?: string;
@@ -31,17 +34,22 @@ export function AlertDialog({
   variant = 'default'
 }: AlertDialogProps) {
   const dialogRef = React.useRef<HTMLDialogElement>(null);
+  const titleId = React.useId();
+  const descriptionId = React.useId();
+  const { present, visible } = usePresence(isOpen, 150);
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     const dialog = dialogRef.current;
-    if (!dialog) return;
+    if (!present || !dialog) return;
 
     if (isOpen && !dialog.open) {
       dialog.showModal();
-    } else if (!isOpen && dialog.open) {
-      dialog.close();
     }
-  }, [isOpen]);
+
+    return () => {
+      if (!isOpen && dialog.open) dialog.close();
+    };
+  }, [isOpen, present]);
 
   // Trap focus & handle keyboard dismissal
   React.useEffect(() => {
@@ -56,15 +64,18 @@ export function AlertDialog({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onCancel, confirmLoading]);
 
-  if (typeof document === 'undefined' || !isOpen) {
+  if (typeof document === 'undefined' || !present) {
     return null;
   }
 
   return createPortal(
     <dialog
       ref={dialogRef}
+      aria-labelledby={titleId}
+      aria-describedby={description ? descriptionId : undefined}
+      data-state={visible ? 'open' : 'closing'}
       className={cn(
-        'm-auto w-full max-w-md rounded-[24px] border border-sand/10 bg-white p-0 text-text-primary shadow-xl outline-none backdrop:bg-black/50 backdrop:backdrop-blur-sm dark:border-sand/20 dark:bg-dark-sand dark:text-text-primary dark:backdrop:bg-black/70',
+        'modal-motion m-auto w-full max-w-md rounded-[var(--radius-dialog)] border border-sand/30 bg-white p-0 text-text-primary shadow-[var(--shadow-overlay)] outline-none backdrop:bg-deep-sea/38 backdrop:backdrop-blur-[2px] dark:border-white/12 dark:bg-deep-sea dark:text-text-primary dark:backdrop:bg-black/65',
         className
       )}
       onClick={(event) => {
@@ -72,26 +83,32 @@ export function AlertDialog({
           onCancel();
         }
       }}
-      onClose={onCancel}
+      onCancel={(event) => {
+        event.preventDefault();
+        if (!confirmLoading) onCancel();
+      }}
+      onClose={() => {
+        if (isOpen) onCancel();
+      }}
     >
-      <div className='p-6'>
-        <div className='mb-4 flex items-start gap-4'>
+      <div className='p-6 md:p-8'>
+        <div className='mb-6 flex items-start gap-4'>
           <div
             className={cn(
-              'flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full',
+              'flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-[9px] border',
               variant === 'destructive'
-                ? 'bg-terracotta/10 text-terracotta dark:bg-terracotta/20'
-                : 'bg-desert/10 text-desert dark:bg-desert/20 dark:text-accent-gold'
+                ? 'border-terracotta/15 bg-terracotta/[0.07] text-terracotta dark:bg-terracotta/15'
+                : 'border-desert/15 bg-desert/[0.07] text-desert dark:bg-desert/15 dark:text-accent-gold'
             )}
           >
             <AlertTriangle size={20} />
           </div>
           <div className='min-w-0 flex-1'>
-            <h3 className='text-lg font-semibold leading-tight text-text-primary dark:text-text-primary'>{title}</h3>
-            {description ? <p className='mt-1.5 text-sm leading-relaxed text-text-secondary dark:text-text-secondary'>{description}</p> : null}
+            <h2 id={titleId} className='text-xl font-medium leading-tight text-text-primary dark:text-text-primary'>{title}</h2>
+            {description ? <p id={descriptionId} className='font-secondary mt-2 text-sm leading-relaxed text-text-secondary dark:text-text-secondary'>{description}</p> : null}
           </div>
         </div>
-        <div className='flex justify-end gap-3'>
+        <div className='flex justify-end gap-3 border-t border-sand/20 pt-5 dark:border-white/10'>
           <Button variant='secondary' size='sm' onClick={onCancel} disabled={confirmLoading}>
             {cancelLabel}
           </Button>

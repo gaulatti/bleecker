@@ -33,12 +33,12 @@ export function Pagination({ className, currentPage, hasNextPage, hasPrevPage, o
   });
 
   return (
-    <div className={cn('mt-8 flex items-center justify-center gap-2', className)}>
+    <nav aria-label='Pagination' className={cn('mt-8 flex items-center justify-center gap-1.5', className)}>
       <button
         type='button'
         onClick={() => onPageChange(currentPage - 1)}
         disabled={!hasPrevPage}
-        className='rounded-lg border border-sand/10 bg-white p-2 transition-colors hover:bg-sand/10 disabled:cursor-not-allowed disabled:opacity-50 dark:border-sand/20 dark:bg-sand/10 dark:hover:bg-sand/20'
+        className='flex h-9 w-9 scale-100 items-center justify-center rounded-[var(--radius-button)] border border-sand/30 bg-white transition-[background-color,border-color,color,transform,opacity] duration-[var(--motion-control)] ease-premium hover:border-sand/60 hover:bg-light-sand/50 active:scale-[0.96] disabled:cursor-not-allowed disabled:transform-none disabled:opacity-40 dark:border-white/15 dark:bg-deep-sea dark:hover:bg-white/[0.06]'
         title='Previous page'
       >
         <ChevronLeft size={20} />
@@ -51,10 +51,10 @@ export function Pagination({ className, currentPage, hasNextPage, hasPrevPage, o
             type='button'
             onClick={() => onPageChange(pageNumber)}
             className={cn(
-              'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+              'flex h-9 min-w-9 scale-100 items-center justify-center rounded-[var(--radius-button)] border px-2.5 text-[13px] font-medium tabular-nums transition-[background-color,border-color,color,transform] duration-[var(--motion-control)] ease-premium active:scale-[0.96]',
               pageNumber === currentPage
-                ? 'bg-sea text-white dark:bg-accent-blue'
-                : 'border border-sand/10 bg-white text-text-primary hover:bg-sand/10 dark:border-sand/20 dark:bg-sand/10 dark:text-text-primary dark:hover:bg-sand/20'
+                ? 'border-sea bg-sea text-white dark:border-accent-blue dark:bg-accent-blue dark:text-deep-sea'
+                : 'border-transparent bg-white text-text-secondary hover:border-sand/30 hover:bg-light-sand/50 hover:text-text-primary dark:bg-deep-sea dark:text-text-secondary dark:hover:border-white/15 dark:hover:bg-white/[0.06]'
             )}
           >
             {pageNumber}
@@ -66,11 +66,11 @@ export function Pagination({ className, currentPage, hasNextPage, hasPrevPage, o
         type='button'
         onClick={() => onPageChange(currentPage + 1)}
         disabled={!hasNextPage}
-        className='rounded-lg border border-sand/10 bg-white p-2 transition-colors hover:bg-sand/10 disabled:cursor-not-allowed disabled:opacity-50 dark:border-sand/20 dark:bg-sand/10 dark:hover:bg-sand/20'
+        className='flex h-9 w-9 scale-100 items-center justify-center rounded-[var(--radius-button)] border border-sand/30 bg-white transition-[background-color,border-color,color,transform,opacity] duration-[var(--motion-control)] ease-premium hover:border-sand/60 hover:bg-light-sand/50 active:scale-[0.96] disabled:cursor-not-allowed disabled:transform-none disabled:opacity-40 dark:border-white/15 dark:bg-deep-sea dark:hover:bg-white/[0.06]'
         title='Next page'
       >
         <ChevronRight size={20} />
       </button>
-    </div>
+    </nav>
   );
 }

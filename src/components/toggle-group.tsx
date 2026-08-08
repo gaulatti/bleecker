@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import { cn } from '../utils/cn';
@@ -60,7 +62,7 @@ export function ToggleGroup({ children, className, disabled, size, type, variant
 
   return (
     <ToggleGroupContext.Provider value={{ type, value: currentValue, onValueChange: handleChange, size, variant, disabled }}>
-      <div role='group' className={cn('inline-flex items-center gap-0.5 rounded-xl bg-sand/10 p-0.5 dark:bg-sand/15', className)}>
+      <div role='group' className={cn('inline-flex items-center gap-0.5 rounded-[9px] border border-sand/20 bg-light-sand/65 p-1 dark:border-white/[0.07] dark:bg-white/[0.05]', className)}>
         {children}
       </div>
     </ToggleGroupContext.Provider>

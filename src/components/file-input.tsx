@@ -21,7 +21,7 @@ export const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(func
       ref={ref}
       type='file'
       className={cn(
-        'block w-full rounded-[18px] border bg-white p-2 text-text-primary shadow-sm outline-none transition-all duration-200 file:mr-4 file:rounded-full file:border-0 file:font-[family-name:var(--font-header)] file:font-medium file:tracking-refined file:transition-all file:duration-300',
+        'block w-full rounded-[var(--radius-ui)] border bg-white p-2 text-text-primary outline-none transition-[border-color,box-shadow,opacity] duration-[var(--motion-control)] ease-premium file:mr-4 file:rounded-md file:border-0 file:font-medium file:tracking-refined file:transition-colors file:duration-[var(--motion-control)] file:ease-premium',
         'file:bg-sea/10 file:text-sea hover:file:bg-sea/20 dark:bg-dark-sand dark:text-text-primary dark:file:bg-accent-blue/10 dark:file:text-accent-blue dark:hover:file:bg-accent-blue/20',
         error ? 'border-terracotta dark:border-terracotta' : 'border-sand/30 dark:border-sand/50',
         'focus:ring-2 focus:ring-sea disabled:cursor-not-allowed disabled:opacity-50 dark:focus:ring-accent-blue',

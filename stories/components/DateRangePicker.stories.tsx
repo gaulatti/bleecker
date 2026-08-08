@@ -16,14 +16,18 @@ type Story = StoryObj<typeof meta>;
 function Demo({ initialValue = {} }: { initialValue?: DateRange }) {
   const [range, setRange] = React.useState<DateRange>(initialValue);
   return (
-    <DateRangePicker
-      value={range}
-      onChange={setRange}
-      presets={[
-        { label: '7d', days: 7 },
-        { label: '30d', days: 30 }
-      ]}
-    />
+    <div className='max-w-3xl rounded-[var(--radius-card)] border border-sand/25 bg-light-sand/25 p-6 dark:border-white/10 dark:bg-white/[0.025]'>
+      <p className='text-[10px] font-semibold uppercase tracking-[0.1em] text-text-secondary'>Reporting period</p>
+      <p className='font-secondary mb-5 mt-1.5 text-sm text-text-secondary'>Compare performance within a precise date window.</p>
+      <DateRangePicker
+        value={range}
+        onChange={setRange}
+        presets={[
+          { label: '7 days', days: 7 },
+          { label: '30 days', days: 30 }
+        ]}
+      />
+    </div>
   );
 }
 
@@ -32,5 +36,5 @@ export const Default: Story = {
 };
 
 export const WithInitialRange: Story = {
-  render: () => <Demo initialValue={{ from: new Date(2026, 6, 1), to: new Date(2026, 6, 31) }} />
+  render: () => <Demo initialValue={{ from: '2026-07-01', to: '2026-07-31' }} />
 };

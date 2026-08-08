@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import {
   ColumnDef,
@@ -62,7 +64,7 @@ export function DataTable<TData, TValue>({ columns, data, searchKey }: DataTable
           </div>
         </div>
       )}
-      <div className='rounded-md border border-black/10 overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.02),0_8px_32px_rgba(26,55,77,0.04)] bg-white'>
+      <div className='overflow-hidden rounded-[var(--radius-card)] border border-sand/25 bg-white shadow-[var(--shadow-surface)] dark:border-white/10 dark:bg-deep-sea'>
         <Table>
           <TableHeader className='bg-light-sand/50'>
             {table.getHeaderGroups().map((headerGroup) => (

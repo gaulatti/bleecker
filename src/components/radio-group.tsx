@@ -1,6 +1,9 @@
 import React from 'react';
 
+import type { SelectionOrientation } from '../core';
 import { cn } from '../utils/cn';
+
+export type { SelectionOrientation } from '../core';
 
 export interface RadioOption {
   description?: string;
@@ -15,7 +18,7 @@ export interface RadioGroupProps {
   name?: string;
   onChange?: (value: string) => void;
   options: RadioOption[];
-  orientation?: 'vertical' | 'horizontal';
+  orientation?: SelectionOrientation;
   value?: string;
 }
 
@@ -49,7 +52,7 @@ export function RadioGroup({ className, disabled, name, onChange, options, orien
               {/* Outer ring */}
               <span
                 className={cn(
-                  'flex h-4.5 w-4.5 items-center justify-center rounded-full border-2 transition-colors duration-200',
+                  'flex h-4.5 w-4.5 items-center justify-center rounded-full border-2 transition-colors duration-[var(--motion-control)] ease-premium',
                   isChecked
                     ? 'border-sea dark:border-accent-blue'
                     : 'border-sand/40 group-hover:border-sea/60 dark:border-sand/60 dark:group-hover:border-accent-blue/60'
@@ -57,7 +60,7 @@ export function RadioGroup({ className, disabled, name, onChange, options, orien
               >
                 {/* Inner dot */}
                 <span
-                  className={cn('h-2 w-2 rounded-full bg-sea transition-transform duration-200 dark:bg-accent-blue', isChecked ? 'scale-100' : 'scale-0')}
+                  className={cn('h-2 w-2 rounded-full bg-sea transition-transform duration-[var(--motion-surface)] ease-premium dark:bg-accent-blue', isChecked ? 'scale-100' : 'scale-0')}
                 />
               </span>
             </span>

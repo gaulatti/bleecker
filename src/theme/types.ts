@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 
-export type ThemeMode = 'light' | 'dark' | 'system';
+import type { ThemeMode } from '../core';
+
+export type { ThemeMode } from '../core';
 
 export interface ThemeProviderProps {
   children: ReactNode;

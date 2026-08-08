@@ -19,6 +19,7 @@ type Story = StoryObj<typeof meta>;
 export const GroupsStyle: Story = {
   render: () => (
     <Accordion
+      defaultExpandedId='rock'
       items={[
         {
           id: 'rock',
@@ -26,11 +27,11 @@ export const GroupsStyle: Story = {
           subtitle: '12 channels',
           actions: (
             <>
-              <Button size='sm' className='rounded-lg px-3 py-1.5 text-xs' onClick={() => undefined}>
+              <Button size='sm' onClick={() => undefined}>
                 <PlusCircle size={14} />
                 Add
               </Button>
-              <Button variant='destructive' size='sm' className='rounded-lg px-3 py-1.5 text-xs' aria-label='Delete group' onClick={() => undefined}>
+              <Button variant='destructive' size='sm' aria-label='Delete group' onClick={() => undefined}>
                 <Trash2 size={14} />
               </Button>
             </>
@@ -46,7 +47,7 @@ export const GroupsStyle: Story = {
                   <Button
                     variant='ghost'
                     size='sm'
-                    className='h-auto rounded-lg px-2 py-1 text-terracotta hover:translate-y-0 hover:bg-transparent hover:text-terracotta/80 dark:hover:bg-transparent'
+                    className='h-auto px-2 py-1 text-terracotta hover:bg-transparent hover:text-terracotta/80 dark:hover:bg-transparent'
                     aria-label={`Remove ${channel}`}
                     onClick={() => undefined}
                   >
@@ -62,7 +63,7 @@ export const GroupsStyle: Story = {
           title: 'News Grid',
           subtitle: '8 channels',
           actions: (
-            <Button size='sm' className='rounded-lg px-3 py-1.5 text-xs' onClick={() => undefined}>
+            <Button size='sm' onClick={() => undefined}>
               <PlusCircle size={14} />
               Add
             </Button>

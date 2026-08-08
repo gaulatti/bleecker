@@ -18,10 +18,10 @@ export function PageHeader({ title, description, breadcrumbs, actions, backHref,
   const showBack = Boolean(backHref || onBack);
 
   return (
-    <div className={cn('space-y-2', className)}>
+    <header className={cn('space-y-5', className)}>
       {breadcrumbs && <div className='text-sm text-text-secondary dark:text-text-secondary'>{breadcrumbs}</div>}
-      <div className='flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between'>
-        <div className='flex items-start gap-3'>
+      <div className='flex flex-col gap-7 sm:flex-row sm:items-start sm:justify-between'>
+        <div className='flex items-start gap-4'>
           {showBack && (
             <Button
               variant='ghost'
@@ -35,12 +35,12 @@ export function PageHeader({ title, description, breadcrumbs, actions, backHref,
             </Button>
           )}
           <div>
-            <h1 className='text-2xl font-bold tracking-refined text-text-primary dark:text-text-primary'>{title}</h1>
-            {description && <p className='mt-1 text-sm text-text-secondary dark:text-text-secondary'>{description}</p>}
+            <h1 className='text-[2rem] font-semibold leading-[1.15] tracking-refined text-text-primary dark:text-text-primary'>{title}</h1>
+            {description && <p className='font-secondary mt-2.5 max-w-2xl text-sm leading-6 text-text-secondary dark:text-text-secondary'>{description}</p>}
           </div>
         </div>
-        {actions && <div className='flex flex-wrap items-center gap-2'>{actions}</div>}
+        {actions && <div className='flex flex-wrap items-center gap-3'>{actions}</div>}
       </div>
-    </div>
+    </header>
   );
 }

@@ -39,6 +39,13 @@ const data = {
   ]
 };
 
+export const Default: Story = {
+  args: {
+    data,
+    height: 350
+  }
+};
+
 export const Compact: Story = {
   args: {
     ...Default.args,
@@ -71,12 +78,5 @@ export const CustomColors: Story = {
         fill: ['#0f766e', '#d97706', '#7c3aed'][index]
       }))
     }
-  }
-};
-
-export const Default: Story = {
-  args: {
-    data,
-    height: 350
   }
 };

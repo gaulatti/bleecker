@@ -60,7 +60,7 @@ export function BauhausBackground({ className, defaultImageUrl = '/hero/pompeii.
               {Array.from({ length: 6 }).map((_, index) => (
                 <div
                   key={`line-${index}`}
-                  className='h-full border-l-2 border-white transition-transform duration-300 hover:rotate-3'
+                  className='h-full border-l-2 border-white/85'
                   style={{ transitionDelay: `${index * 100}ms` }}
                 />
               ))}
@@ -72,7 +72,7 @@ export function BauhausBackground({ className, defaultImageUrl = '/hero/pompeii.
           <div className='absolute inset-0'>
             <div className='grid h-full grid-cols-3 grid-rows-3 gap-4 p-4'>
               {Array.from({ length: 9 }).map((_, index) => (
-                <div key={`square-${index}`} className='border-2 border-white transition-transform duration-300 hover:rotate-3' />
+                <div key={`square-${index}`} className='border-2 border-white/85' />
               ))}
             </div>
           </div>

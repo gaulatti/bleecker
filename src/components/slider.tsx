@@ -30,7 +30,7 @@ export const Slider = React.forwardRef<HTMLInputElement, SliderProps>(function S
         {/* Track background */}
         <div className='pointer-events-none absolute inset-y-0 flex w-full items-center'>
           <div className='h-2 w-full overflow-hidden rounded-full bg-sand/20 dark:bg-sand/30'>
-            <div className='h-full rounded-full bg-sea transition-[width] duration-150 dark:bg-accent-blue' style={{ width: `${pct}%` }} />
+            <div className='h-full rounded-full bg-sea transition-[width] duration-[var(--motion-control)] ease-premium dark:bg-accent-blue' style={{ width: `${pct}%` }} />
           </div>
         </div>
         <input
@@ -45,7 +45,7 @@ export const Slider = React.forwardRef<HTMLInputElement, SliderProps>(function S
           className={cn(
             'relative h-2 w-full cursor-pointer appearance-none rounded-full bg-transparent',
             // Thumb styling via arbitrary CSS
-            '[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-sea [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-sm [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-150 [&::-webkit-slider-thumb]:hover:scale-110 dark:[&::-webkit-slider-thumb]:border-accent-blue',
+            '[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-sea [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-sm [&::-webkit-slider-thumb]:transition-shadow [&::-webkit-slider-thumb]:duration-[var(--motion-control)] [&::-webkit-slider-thumb]:ease-premium [&::-webkit-slider-thumb]:hover:shadow-md dark:[&::-webkit-slider-thumb]:border-accent-blue',
             '[&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-sea [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:shadow-sm dark:[&::-moz-range-thumb]:border-accent-blue',
             'focus:outline-none focus-visible:ring-2 focus-visible:ring-sea focus-visible:ring-offset-2 dark:focus-visible:ring-accent-blue',
             disabled && 'cursor-not-allowed opacity-50'

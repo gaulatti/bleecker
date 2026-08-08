@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { ResponsiveContainer, SunburstChart as RechartsSunburstChart } from 'recharts';
 

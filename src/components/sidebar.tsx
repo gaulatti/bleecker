@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { ChevronRight } from 'lucide-react';
 import * as CollapsiblePrimitive from '@radix-ui/react-collapsible';
@@ -49,8 +51,8 @@ function SidebarLink({
   );
 
   const className = cn(
-    'flex items-center gap-3 rounded-[var(--radius-ui)] px-3 py-2.5 text-text-secondary transition-colors hover:bg-sand/10 hover:text-text-primary dark:text-text-secondary dark:hover:bg-sand/15 dark:hover:text-text-primary',
-    item.active && 'bg-sea/10 font-medium text-sea dark:bg-accent-blue/10 dark:text-accent-blue',
+    'flex min-h-10 items-center gap-3 rounded-[var(--radius-ui)] px-3 text-text-secondary transition-[background-color,color,box-shadow,transform] duration-[var(--motion-control)] ease-premium hover:bg-light-sand/55 hover:text-text-primary active:translate-y-px dark:text-text-secondary dark:hover:bg-white/[0.05] dark:hover:text-text-primary',
+    item.active && 'bg-light-sand/80 font-medium text-deep-sea shadow-[inset_2px_0_0_var(--color-sea)] dark:bg-white/[0.07] dark:text-accent-blue dark:shadow-[inset_2px_0_0_var(--color-accent-blue)]',
     item.disabled && 'pointer-events-none opacity-50'
   );
 
@@ -91,14 +93,14 @@ function SidebarGroup({
         <button
           type='button'
           className={cn(
-            'flex w-full items-center gap-3 rounded-[var(--radius-ui)] px-3 py-2.5 text-text-secondary transition-colors hover:bg-sand/10 hover:text-text-primary dark:text-text-secondary dark:hover:bg-sand/15 dark:hover:text-text-primary',
-            item.active && 'bg-sea/10 font-medium text-sea dark:bg-accent-blue/10 dark:text-accent-blue'
+            'flex min-h-10 w-full items-center gap-3 rounded-[var(--radius-ui)] px-3 text-text-secondary transition-[background-color,color,transform] duration-[var(--motion-control)] ease-premium hover:bg-light-sand/55 hover:text-text-primary active:translate-y-px dark:text-text-secondary dark:hover:bg-white/[0.05] dark:hover:text-text-primary',
+            item.active && 'bg-light-sand/80 font-medium text-deep-sea dark:bg-white/[0.07] dark:text-accent-blue'
           )}
         >
           {item.icon && <span className='flex h-5 w-5 shrink-0 items-center justify-center'>{item.icon}</span>}
           <span className='flex-1 truncate text-left text-sm font-medium'>{item.label}</span>
           {item.badge && <span className='ml-auto shrink-0'>{item.badge}</span>}
-          <ChevronRight size={14} className={cn('shrink-0 transition-transform duration-200', open && 'rotate-90')} />
+          <ChevronRight size={14} className={cn('shrink-0 transition-transform duration-[var(--motion-surface)] ease-premium', open && 'rotate-90')} />
         </button>
       </CollapsiblePrimitive.Trigger>
       <CollapsiblePrimitive.Content className='overflow-hidden'>
@@ -124,12 +126,12 @@ export function Sidebar({ items, header, footer, className, collapsed = false, o
   return (
     <aside
       className={cn(
-        'flex h-full flex-col border-r border-border bg-card transition-all duration-300 dark:border-white/[0.08] dark:bg-dark-sand/95',
-        collapsed ? 'w-16 px-2 py-4' : 'w-64 px-3 py-4',
+        'flex h-full flex-col border-r border-sand/25 bg-white transition-[width,padding] duration-200 dark:border-white/[0.08] dark:bg-deep-sea',
+        collapsed ? 'w-16 px-2 py-5' : 'w-64 px-3 py-5',
         className
       )}
     >
-      {header && <div className={cn('mb-4', collapsed && 'flex justify-center')}>{header}</div>}
+      {header && <div className={cn('mb-5 border-b border-sand/20 pb-5 dark:border-white/[0.07]', collapsed && 'flex justify-center')}>{header}</div>}
 
       <nav className='flex-1 space-y-1 overflow-y-auto scrollbar-thin'>
         {items.map((item) => (
@@ -137,7 +139,7 @@ export function Sidebar({ items, header, footer, className, collapsed = false, o
         ))}
       </nav>
 
-      {footer && <div className={cn('mt-auto pt-4', collapsed && 'flex justify-center')}>{footer}</div>}
+      {footer && <div className={cn('mt-auto border-t border-sand/20 pt-4 dark:border-white/[0.07]', collapsed && 'flex justify-center')}>{footer}</div>}
     </aside>
   );
 }

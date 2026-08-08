@@ -1,57 +1,71 @@
+'use client';
+
 import React from 'react';
 
+import { Select } from './select';
 import { cn } from '../utils/cn';
 
 export interface HeaderSelectOption {
+  disabled?: boolean;
   label: string;
   value: string;
 }
 
-export interface HeaderSelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'onChange'> {
+export interface HeaderSelectProps {
+  'aria-describedby'?: string;
+  'aria-label'?: string;
+  autoFocus?: boolean;
+  className?: string;
+  disabled?: boolean;
   icon?: React.ReactNode;
+  id?: string;
+  name?: string;
   onChange: (value: string) => void;
   options: HeaderSelectOption[];
   placeholder?: string;
+  required?: boolean;
+  value?: string;
   wrapperClassName?: string;
 }
 
+/** A compact header treatment backed by the library's accessible Select menu. */
 export function HeaderSelect({
+  'aria-describedby': ariaDescribedBy,
+  'aria-label': ariaLabel,
+  autoFocus,
   className,
   disabled,
   icon,
+  id,
+  name,
   onChange,
   options,
   placeholder = 'Select option',
-  value,
-  wrapperClassName,
-  ...props
+  required,
+  value = '',
+  wrapperClassName
 }: HeaderSelectProps) {
+  const menuOptions = options.some((option) => option.value === '') ? options : [{ label: placeholder, value: '' }, ...options];
+
   return (
-    <div
-      className={cn(
-        'inline-flex items-center gap-1.5 rounded-full border border-sand/20 bg-white/35 px-3 py-1.5 shadow-sm backdrop-blur-md dark:border-sand/70 dark:bg-sand/25',
-        disabled && 'opacity-50',
-        wrapperClassName
-      )}
-    >
-      {icon}
-      <select
-        value={value}
+    <div className={cn('inline-block min-w-0', wrapperClassName)}>
+      <Select
+        aria-describedby={ariaDescribedBy}
+        aria-label={ariaLabel ?? placeholder}
+        autoFocus={autoFocus}
+        className={cn('w-auto min-w-[9rem] max-w-[13rem] border-sand/35', className)}
+        contentClassName='min-w-[11rem]'
         disabled={disabled}
-        onChange={(event) => onChange(event.target.value)}
-        className={cn(
-          'max-w-[140px] cursor-pointer bg-transparent text-sm text-text-primary focus:outline-none dark:text-text-primary',
-          className
-        )}
-        {...props}
-      >
-        <option value=''>{placeholder}</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+        id={id}
+        name={name}
+        onChange={onChange}
+        options={menuOptions}
+        placeholder={placeholder}
+        required={required}
+        size='sm'
+        startIcon={icon}
+        value={value}
+      />
     </div>
   );
 }

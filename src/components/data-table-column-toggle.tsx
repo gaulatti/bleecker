@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { Table } from '@tanstack/react-table';
 import { Settings2 } from 'lucide-react';
@@ -5,6 +7,7 @@ import { Settings2 } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { Button } from './button';
 import { Checkbox } from './checkbox';
+import { Popover } from './popover';
 
 export interface DataTableColumnToggleProps<TData> {
   table: Table<TData>;
@@ -13,39 +16,24 @@ export interface DataTableColumnToggleProps<TData> {
 }
 
 export function DataTableColumnToggle<TData>({ table, className, label = 'Columns' }: DataTableColumnToggleProps<TData>) {
-  const [open, setOpen] = React.useState(false);
-  const containerRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    if (!open) return undefined;
-    const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [open]);
+  const columns = table
+    .getAllColumns()
+    .filter((column) => typeof column.accessorFn !== 'undefined' && column.getCanHide());
 
   return (
-    <div ref={containerRef} className={cn('relative', className)}>
-      <Button variant='secondary' size='sm' onClick={() => setOpen((prev) => !prev)}>
-        <Settings2 size={14} />
-        {label}
-      </Button>
-
-      {open && (
-        <div className='absolute right-0 top-full z-50 mt-2 w-48 rounded-[var(--radius-card)] border border-border bg-card p-2 shadow-lg'>
-          <p className='px-2 py-1.5 text-xs font-semibold uppercase tracking-wider text-text-secondary'>Toggle columns</p>
+    <div className={cn('inline-block', className)}>
+      <Popover
+        align='end'
+        className='w-52 p-1.5'
+        content={
+          <div>
+          <p className='px-2 py-2 text-[10px] font-semibold uppercase tracking-[0.09em] text-text-secondary'>Visible columns</p>
           <div className='max-h-60 overflow-y-auto'>
-            {table
-              .getAllColumns()
-              .filter((column) => typeof column.accessorFn !== 'undefined' && column.getCanHide())
-              .map((column) => {
+            {columns.map((column) => {
                 return (
                   <label
                     key={column.id}
-                    className='flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm text-text-primary hover:bg-sand/10 dark:text-text-primary dark:hover:bg-sand/15'
+                    className='flex min-h-9 cursor-pointer items-center gap-2.5 rounded-[5px] px-2 py-1.5 text-[13px] text-text-primary transition-colors duration-[var(--motion-control)] ease-premium hover:bg-light-sand dark:text-text-primary dark:hover:bg-white/[0.07]'
                   >
                     <Checkbox
                       checked={column.getIsVisible()}
@@ -56,8 +44,14 @@ export function DataTableColumnToggle<TData>({ table, className, label = 'Column
                 );
               })}
           </div>
-        </div>
-      )}
+          </div>
+        }
+      >
+        <Button variant='secondary' size='sm'>
+          <Settings2 size={14} />
+          {label}
+        </Button>
+      </Popover>
     </div>
   );
 }

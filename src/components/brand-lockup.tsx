@@ -33,10 +33,10 @@ export function BrandLockup({ className, href, logoAlt = 'gaulatti', logoSrc = g
               alt={logoAlt}
               className={cn('w-auto opacity-90 transition-opacity duration-400 group-hover:opacity-100 dark:invert', isLarge ? 'h-12' : 'h-8')}
             />
-            <div className={cn('w-px bg-gradient-to-b from-sunset/0 via-sunset to-sunset/0', isLarge ? 'h-12' : 'h-8')} />
+            <div className={cn('w-px bg-sand/55 dark:bg-white/18', isLarge ? 'h-12' : 'h-8')} />
             <span
               className={cn(
-                'font-[family-name:var(--font-display)] font-bold tracking-tight text-text-primary dark:text-text-primary',
+                'font-[family-name:var(--font-display)] font-semibold tracking-refined text-text-primary dark:text-text-primary',
                 isLarge ? 'text-3xl' : 'text-xl'
               )}
             >

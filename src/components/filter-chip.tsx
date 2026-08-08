@@ -14,7 +14,7 @@ export function FilterChip({ label, value, onRemove, className }: FilterChipProp
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-1 text-xs font-medium text-text-primary dark:text-text-primary',
+        'inline-flex min-h-7 items-center gap-1.5 rounded-[6px] border border-sand/35 bg-white px-2.5 py-1 text-[12px] font-medium text-text-primary dark:border-white/12 dark:bg-deep-sea dark:text-text-primary',
         className
       )}
     >
@@ -24,7 +24,8 @@ export function FilterChip({ label, value, onRemove, className }: FilterChipProp
         <button
           type='button'
           onClick={onRemove}
-          className='rounded-full p-0.5 text-text-secondary transition-colors hover:bg-sand/20 hover:text-text-primary dark:hover:bg-sand/20'
+          className='scale-100 rounded-[4px] p-0.5 text-text-secondary transition-[background-color,color,transform] duration-[var(--motion-control)] ease-premium hover:bg-sand/20 hover:text-terracotta active:scale-[0.9] dark:hover:bg-white/[0.07]'
+          aria-label={`Remove ${label} filter`}
         >
           <X size={12} />
         </button>
@@ -51,7 +52,7 @@ export function FilterGroup({ filters, className, onClearAll }: FilterGroupProps
         <button
           type='button'
           onClick={onClearAll}
-          className='text-xs font-medium text-sea hover:underline dark:text-accent-blue'
+          className='text-xs font-medium text-sea transition-colors duration-[var(--motion-control)] ease-premium hover:text-deep-sea hover:underline dark:text-accent-blue dark:hover:text-text-primary'
         >
           Clear all
         </button>

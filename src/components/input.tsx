@@ -1,24 +1,23 @@
 import React from 'react';
 
+import type { ControlSize } from '../core';
 import { cn } from '../utils/cn';
-
-type InputSize = 'sm' | 'md' | 'lg';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   endIcon?: React.ReactNode;
   error?: boolean;
-  inputSize?: InputSize;
+  inputSize?: ControlSize;
   startIcon?: React.ReactNode;
 }
 
-const sizeClasses: Record<InputSize, string> = {
-  sm: 'min-h-9 px-3 py-2 text-sm',
-  md: 'min-h-11 px-4 py-2.5 text-sm',
-  lg: 'min-h-12 px-4 py-3 text-base'
+const sizeClasses: Record<ControlSize, string> = {
+  sm: 'h-9 px-3 text-[13px]',
+  md: 'h-10 px-3.5 text-sm',
+  lg: 'h-11 px-4 text-[15px]'
 };
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
-  { className, endIcon, error = false, inputSize = 'md', startIcon, type = 'text', ...props },
+  { 'aria-invalid': ariaInvalid, className, endIcon, error = false, inputSize = 'md', startIcon, type = 'text', ...props },
   ref
 ) {
   return (
@@ -29,13 +28,14 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
       <input
         ref={ref}
         type={type}
+        aria-invalid={ariaInvalid ?? (error || undefined)}
         className={cn(
-          'w-full rounded-[var(--radius-ui)] border-0 ring-1 ring-inset ring-black/10 bg-light-sand/50 text-text-primary shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)] outline-none transition-all duration-200 placeholder:text-text-secondary/60 hover:bg-white hover:ring-black/20 focus:bg-white focus:ring-2 focus:ring-inset focus:ring-sea disabled:cursor-not-allowed disabled:opacity-50 dark:bg-deep-sea/50 dark:text-text-primary dark:ring-white/10 dark:placeholder:text-text-secondary dark:hover:bg-deep-sea dark:focus:ring-accent-blue',
-          error ? 'ring-terracotta/50 focus:ring-terracotta dark:ring-terracotta/50' : '',
+          'w-full rounded-[var(--radius-ui)] border border-sand/40 bg-white text-text-primary shadow-[0_1px_2px_rgba(26,55,77,0.025)] outline-none transition-[background-color,border-color,box-shadow,opacity] duration-[var(--motion-control)] ease-premium placeholder:text-text-secondary/55 hover:border-sand/70 hover:shadow-[0_3px_10px_-8px_rgba(26,55,77,0.25)] focus:border-sea/70 focus:ring-2 focus:ring-sea/10 disabled:cursor-not-allowed disabled:bg-light-sand/65 disabled:opacity-60 dark:border-white/15 dark:bg-deep-sea dark:text-text-primary dark:placeholder:text-text-secondary dark:hover:border-white/25 dark:focus:border-accent-blue dark:focus:ring-accent-blue/12 [&::-webkit-search-cancel-button]:appearance-none',
+          error ? 'border-terracotta focus:border-terracotta focus:ring-terracotta/15 dark:border-terracotta' : '',
           startIcon ? 'pl-10' : sizeClasses[inputSize],
-          startIcon && inputSize === 'sm' && 'min-h-9 py-2 pr-3 text-sm',
-          startIcon && inputSize === 'md' && 'min-h-11 py-2.5 pr-4 text-sm',
-          startIcon && inputSize === 'lg' && 'min-h-12 py-3 pr-4 text-base',
+          startIcon && inputSize === 'sm' && 'h-9 pr-3 text-[13px]',
+          startIcon && inputSize === 'md' && 'h-10 pr-3.5 text-sm',
+          startIcon && inputSize === 'lg' && 'h-11 pr-4 text-[15px]',
           endIcon ? 'pr-10' : undefined,
           className
         )}

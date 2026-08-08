@@ -1,7 +1,10 @@
+'use client';
+
 import { Check, ChevronRight } from 'lucide-react';
 import React from 'react';
 
 import { cn } from '../utils/cn';
+import { usePresence } from '../utils/hooks';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -44,6 +47,24 @@ export interface MenubarSubMenu extends MenubarItemBase {
   items: MenubarMenuItem[];
 }
 
+function FloatingMenuSurface({ className, open, ...props }: React.HTMLAttributes<HTMLDivElement> & { open: boolean }) {
+  const { present, visible } = usePresence(open, 150);
+  if (!present) return null;
+
+  return (
+    <div
+      className={cn(
+        'origin-top-left rounded-[var(--radius-ui)] border border-sand/35 bg-white p-1.5 shadow-[var(--shadow-overlay)] outline-none transition-[opacity,transform] dark:border-white/15 dark:bg-deep-sea',
+        visible
+          ? 'translate-y-0 scale-100 opacity-100 duration-[var(--motion-surface)] ease-premium'
+          : '-translate-y-1 scale-[0.992] opacity-0 duration-[var(--motion-exit)] ease-in',
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
 export type MenubarMenuItem = MenubarActionItem | MenubarCheckboxItem | MenubarRadioGroup | MenubarSeparator | MenubarSubMenu;
 
 export interface MenubarMenu {
@@ -84,7 +105,7 @@ function MenuItems({ items, radioGroupValue, onClose }: { items: MenubarMenuItem
                       item.onValueChange(rItem.value);
                       onClose();
                     }}
-                    className='flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-sm text-text-primary transition-colors hover:bg-sand/10 disabled:opacity-50 dark:text-text-primary dark:hover:bg-sand/15'
+                    className='flex w-full items-center gap-2 rounded-[var(--radius-ui)] px-3 py-1.5 text-sm text-text-primary transition-colors duration-[var(--motion-control)] ease-premium hover:bg-sand/10 disabled:opacity-50 dark:text-text-primary dark:hover:bg-sand/15'
                   >
                     <span className='flex h-4 w-4 items-center justify-center'>
                       {isChecked ? <span className='h-2 w-2 rounded-full bg-sea dark:bg-accent-blue' /> : null}
@@ -110,7 +131,7 @@ function MenuItems({ items, radioGroupValue, onClose }: { items: MenubarMenuItem
                 item.onCheckedChange(!item.checked);
                 onClose();
               }}
-              className='flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-sm text-text-primary transition-colors hover:bg-sand/10 disabled:opacity-50 dark:text-text-primary dark:hover:bg-sand/15'
+              className='flex w-full items-center gap-2 rounded-[var(--radius-ui)] px-3 py-1.5 text-sm text-text-primary transition-colors duration-[var(--motion-control)] ease-premium hover:bg-sand/10 disabled:opacity-50 dark:text-text-primary dark:hover:bg-sand/15'
             >
               <span className='flex h-4 w-4 items-center justify-center'>
                 {item.checked ? <Check size={12} className='text-sea dark:text-accent-blue' /> : null}
@@ -133,20 +154,19 @@ function MenuItems({ items, radioGroupValue, onClose }: { items: MenubarMenuItem
                 disabled={item.disabled}
                 onPointerEnter={() => setOpenSub(i)}
                 onPointerLeave={() => setOpenSub(null)}
-                className='flex w-full items-center rounded-lg px-3 py-1.5 text-sm text-text-primary transition-colors hover:bg-sand/10 disabled:opacity-50 dark:text-text-primary dark:hover:bg-sand/15'
+                className='flex w-full items-center rounded-[var(--radius-ui)] px-3 py-1.5 text-sm text-text-primary transition-colors duration-[var(--motion-control)] ease-premium hover:bg-sand/10 disabled:opacity-50 dark:text-text-primary dark:hover:bg-sand/15'
               >
                 <span className='flex-1'>{item.label}</span>
                 <ChevronRight size={14} className='text-text-secondary' />
               </button>
-              {isSubOpen && (
-                <div
-                  className='absolute z-[100] left-full top-0 ml-1 min-w-[12rem] animate-in fade-in slide-in-from-left-2 duration-200 ease-out-expo rounded-[var(--radius-card)] border-0 ring-1 ring-black/5 bg-white/95 backdrop-blur-xl p-1 shadow-[0_8px_32px_rgba(0,0,0,0.08)] outline-none dark:ring-white/10 dark:bg-deep-sea/95 dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]'
+              <FloatingMenuSurface
+                  open={isSubOpen}
+                  className='absolute left-full top-0 z-[100] ml-1 min-w-[12rem]'
                   onPointerEnter={() => setOpenSub(i)}
                   onPointerLeave={() => setOpenSub(null)}
                 >
                   <MenuItems items={item.items} onClose={onClose} />
-                </div>
-              )}
+              </FloatingMenuSurface>
             </div>
           );
         }
@@ -162,7 +182,7 @@ function MenuItems({ items, radioGroupValue, onClose }: { items: MenubarMenuItem
               item.onSelect();
               onClose();
             }}
-            className='flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-sm text-text-primary transition-colors hover:bg-sand/10 disabled:opacity-50 dark:text-text-primary dark:hover:bg-sand/15'
+            className='flex w-full items-center gap-2 rounded-[var(--radius-ui)] px-3 py-1.5 text-sm text-text-primary transition-colors duration-[var(--motion-control)] ease-premium hover:bg-sand/10 disabled:opacity-50 dark:text-text-primary dark:hover:bg-sand/15'
           >
             {item.icon ? <span className='flex-shrink-0 text-text-secondary'>{item.icon}</span> : <span className='w-4' />}
             <span className='flex-1'>{item.label}</span>
@@ -194,7 +214,7 @@ export function Menubar({ className, menus }: MenubarProps) {
       ref={barRef}
       role='menubar'
       className={cn(
-        'flex items-center gap-1 rounded-2xl ring-1 ring-black/5 bg-white/80 px-1 py-1 shadow-sm backdrop-blur-md dark:ring-white/10 dark:bg-deep-sea/80',
+        'flex items-center gap-0.5 rounded-[var(--radius-ui)] border border-sand/30 bg-white px-1 py-1 shadow-[var(--shadow-surface)] dark:border-white/10 dark:bg-deep-sea',
         className
       )}
     >
@@ -209,7 +229,7 @@ export function Menubar({ className, menus }: MenubarProps) {
               aria-expanded={isOpen}
               onClick={() => setActiveIndex(isOpen ? null : i)}
               className={cn(
-                'rounded-lg px-3 py-1.5 text-sm font-medium transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sea dark:focus-visible:ring-accent-blue',
+                'rounded-[var(--radius-ui)] px-3 py-1.5 text-sm font-medium transition-colors duration-[var(--motion-control)] ease-premium focus:outline-none focus-visible:ring-2 focus-visible:ring-sea dark:focus-visible:ring-accent-blue',
                 isOpen
                   ? 'bg-sea text-white dark:bg-accent-blue'
                   : 'text-text-secondary hover:bg-sand/10 hover:text-text-primary dark:text-text-secondary dark:hover:bg-sand/15 dark:hover:text-text-primary'
@@ -217,14 +237,13 @@ export function Menubar({ className, menus }: MenubarProps) {
             >
               {menu.trigger}
             </button>
-            {isOpen && (
-              <div
+            <FloatingMenuSurface
+                open={isOpen}
                 role='menu'
-                className='absolute z-[100] left-0 top-full mt-1 min-w-[14rem] animate-in fade-in slide-in-from-top-2 duration-200 ease-out-expo rounded-[var(--radius-card)] border-0 ring-1 ring-black/5 bg-white/95 backdrop-blur-xl p-1 shadow-[0_8px_32px_rgba(0,0,0,0.08)] outline-none dark:ring-white/10 dark:bg-deep-sea/95 dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]'
+                className='absolute left-0 top-full z-[100] mt-1 min-w-[14rem]'
               >
                 <MenuItems items={menu.items} onClose={() => setActiveIndex(null)} />
-              </div>
-            )}
+            </FloatingMenuSurface>
           </div>
         );
       })}

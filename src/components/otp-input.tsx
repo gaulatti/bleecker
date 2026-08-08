@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import { cn } from '../utils/cn';
@@ -79,9 +81,9 @@ export function OtpInput({ className, disabled = false, length = 6, onChange, se
             onPaste={handlePaste}
             onFocus={(e) => e.target.select()}
             className={cn(
-              'h-12 w-10 rounded-xl border bg-white text-center text-lg font-semibold tracking-widest text-text-primary caret-sea transition-all duration-200 outline-none dark:bg-dark-sand dark:text-text-primary dark:caret-accent-blue',
-              digit ? 'border-sea dark:border-accent-blue' : 'border-sand/30 dark:border-sand/50',
-              'focus:border-sea focus:ring-2 focus:ring-sea/30 dark:focus:border-accent-blue dark:focus:ring-accent-blue/30',
+              'h-12 w-10 rounded-[var(--radius-ui)] border bg-white text-center text-lg font-semibold tracking-[0.08em] text-text-primary caret-sea shadow-[0_1px_2px_rgba(26,55,77,0.025)] outline-none transition-[border-color,box-shadow] duration-[var(--motion-control)] ease-premium dark:bg-deep-sea dark:text-text-primary dark:caret-accent-blue',
+              digit ? 'border-sea/60 dark:border-accent-blue/65' : 'border-sand/40 dark:border-white/15',
+              'focus:border-sea focus:ring-2 focus:ring-sea/12 dark:focus:border-accent-blue dark:focus:ring-accent-blue/15',
               disabled && 'cursor-not-allowed opacity-50'
             )}
           />

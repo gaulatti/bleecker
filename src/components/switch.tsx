@@ -35,15 +35,15 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(function S
         {/* Track */}
         <span
           className={cn(
-            'block h-6 w-11 rounded-full border-2 border-transparent transition-colors duration-300',
-            checked ? 'bg-sea dark:bg-accent-blue' : 'bg-sand/30 dark:bg-sand/40'
+            'block h-5 w-9 rounded-full border border-transparent transition-colors duration-[var(--motion-control)] ease-premium',
+            checked ? 'bg-sea dark:bg-accent-blue' : 'border-sand/35 bg-sand/25 dark:border-white/10 dark:bg-white/15'
           )}
         />
         {/* Thumb */}
         <span
           className={cn(
-            'absolute top-0.5 left-0.5 block h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-300',
-            checked ? 'translate-x-5' : 'translate-x-0'
+            'absolute left-0.5 top-0.5 block h-4 w-4 rounded-full bg-white shadow-[0_1px_2px_rgba(26,55,77,0.18)] transition-transform duration-[var(--motion-surface)] ease-premium',
+            checked ? 'translate-x-4' : 'translate-x-0'
           )}
         />
       </span>

@@ -1,160 +1,129 @@
-import { Check, ChevronDown } from 'lucide-react';
+'use client';
+
+import * as SelectPrimitive from '@radix-ui/react-select';
+import { Check, ChevronDown, ChevronUp } from 'lucide-react';
 import React from 'react';
-import { createPortal } from 'react-dom';
 
 import { cn } from '../utils/cn';
 
 export interface SelectOption {
+  disabled?: boolean;
   label: string;
   value: string;
 }
 
 export interface SelectProps {
+  'aria-describedby'?: string;
+  'aria-label'?: string;
+  autoFocus?: boolean;
   className?: string;
+  contentClassName?: string;
   disabled?: boolean;
   error?: boolean;
+  id?: string;
+  name?: string;
   onChange: (value: string) => void;
   options: SelectOption[];
   placeholder?: string;
+  required?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  startIcon?: React.ReactNode;
   value: string;
 }
 
-export function Select({ className, disabled = false, error = false, onChange, options, placeholder = 'Select...', value }: SelectProps) {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [menuStyle, setMenuStyle] = React.useState<React.CSSProperties>({});
-  const dropdownRef = React.useRef<HTMLDivElement>(null);
-  const buttonRef = React.useRef<HTMLButtonElement>(null);
+const EMPTY_OPTION_VALUE = '__bleecker_empty_option__';
+const triggerSizeClasses = {
+  sm: 'h-9 gap-2 px-3 text-[13px]',
+  md: 'h-10 gap-3 px-3.5 text-sm',
+  lg: 'h-11 gap-3 px-4 text-[15px]'
+};
 
-  const selectedOption = options.find((option) => option.value === value);
-  const filteredOptions = options.filter((option) => option.label.toLowerCase().includes(searchTerm.toLowerCase()));
-
-  React.useEffect(() => {
-    if (!isOpen) {
-      return undefined;
-    }
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-        setSearchTerm('');
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen]);
-
-  const handleSelect = (nextValue: string) => {
-    onChange(nextValue);
-    setIsOpen(false);
-    setSearchTerm('');
-  };
-
-  const openMenu = () => {
-    if (disabled) return;
-    const rect = buttonRef.current?.getBoundingClientRect();
-    if (rect) {
-      setMenuStyle({
-        position: 'fixed',
-        top: `${rect.bottom}px`,
-        left: `${rect.left}px`,
-        width: `${rect.width}px`,
-      });
-    }
-    setIsOpen(true);
-  };
+export function Select({
+  'aria-label': ariaLabel,
+  'aria-describedby': ariaDescribedBy,
+  autoFocus,
+  className,
+  contentClassName,
+  disabled = false,
+  error = false,
+  id,
+  name,
+  onChange,
+  options,
+  placeholder = 'Select…',
+  required,
+  size = 'md',
+  startIcon,
+  value
+}: SelectProps) {
+  const hasEmptyOption = options.some((option) => option.value === '');
+  const internalValue = value === '' && hasEmptyOption ? EMPTY_OPTION_VALUE : value || undefined;
 
   return (
-    <div className={cn('relative', className)}>
-      <button
-        ref={buttonRef}
-        type='button'
-        disabled={disabled}
-        onClick={openMenu}
-        onKeyDown={(event) => {
-          if (disabled) {
-            return;
-          }
-
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            openMenu();
-          }
-
-          if (event.key === 'Escape') {
-            setIsOpen(false);
-            setSearchTerm('');
-          }
-        }}
+    <SelectPrimitive.Root
+      disabled={disabled}
+      name={name}
+      required={required}
+      value={internalValue}
+      onValueChange={(nextValue) => onChange(nextValue === EMPTY_OPTION_VALUE ? '' : nextValue)}
+    >
+      <SelectPrimitive.Trigger
+        id={id}
+        autoFocus={autoFocus}
+        aria-label={ariaLabel ?? placeholder}
+        aria-describedby={ariaDescribedBy}
+        aria-invalid={error || undefined}
         className={cn(
-          'w-full rounded-[var(--radius-ui)] border-0 ring-1 ring-inset ring-black/10 bg-light-sand/50 px-4 py-2.5 text-left text-text-primary outline-none transition-all duration-200 hover:bg-white hover:ring-black/20 focus:bg-white focus:ring-2 focus:ring-inset focus:ring-sea dark:bg-deep-sea/50 dark:text-text-primary dark:ring-white/10 dark:hover:bg-deep-sea dark:focus:ring-accent-blue',
-          disabled ? 'cursor-not-allowed opacity-50 bg-sand/10' : 'cursor-pointer',
-          error ? 'ring-terracotta/50 focus:ring-terracotta dark:ring-terracotta/50' : '',
-          isOpen && 'bg-white ring-2 ring-inset ring-sea dark:bg-deep-sea dark:ring-accent-blue'
+          'flex w-full items-center rounded-[var(--radius-ui)] border border-sand/40 bg-white text-left text-text-primary shadow-[0_1px_2px_rgba(26,55,77,0.025)] outline-none transition-[background-color,border-color,box-shadow,opacity] duration-[var(--motion-control)] ease-premium hover:border-sand/70 hover:shadow-[0_3px_10px_-8px_rgba(26,55,77,0.25)] focus:border-sea/70 focus:ring-2 focus:ring-sea/10 data-[state=open]:border-sea/70 data-[state=open]:ring-2 data-[state=open]:ring-sea/10 data-[disabled]:cursor-not-allowed data-[disabled]:bg-light-sand/65 data-[disabled]:opacity-60 dark:border-white/15 dark:bg-deep-sea dark:text-text-primary dark:hover:border-white/25 dark:focus:border-accent-blue dark:focus:ring-accent-blue/12 dark:data-[state=open]:border-accent-blue dark:data-[state=open]:ring-accent-blue/12',
+          triggerSizeClasses[size],
+          error && 'border-terracotta focus:border-terracotta focus:ring-terracotta/15 dark:border-terracotta',
+          className
         )}
       >
-        <div className='flex items-center justify-between gap-3'>
-          <span className={selectedOption ? 'text-text-primary dark:text-text-primary' : 'text-text-secondary dark:text-text-secondary'}>
-            {selectedOption ? selectedOption.label : placeholder}
-          </span>
-          <ChevronDown size={18} className={cn('text-text-secondary transition-transform duration-200 dark:text-text-secondary', isOpen && 'rotate-180')} />
-        </div>
-      </button>
+        {startIcon ? <span className='flex shrink-0 items-center text-sea dark:text-accent-blue' aria-hidden='true'>{startIcon}</span> : null}
+        <span className='min-w-0 flex-1 truncate'><SelectPrimitive.Value placeholder={placeholder} /></span>
+        <SelectPrimitive.Icon asChild>
+          <ChevronDown size={17} className='shrink-0 text-text-secondary' aria-hidden='true' />
+        </SelectPrimitive.Icon>
+      </SelectPrimitive.Trigger>
 
-      {isOpen ? createPortal(
-        <div
-          ref={dropdownRef}
-          style={menuStyle}
-          className='z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 ease-out-expo rounded-[var(--radius-ui)] border-0 ring-1 ring-black/5 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:bg-deep-sea dark:ring-white/10 dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]'
+      <SelectPrimitive.Portal>
+        <SelectPrimitive.Content
+          position='popper'
+          side='bottom'
+          align='start'
+          sideOffset={4}
+          collisionPadding={8}
+          sticky='always'
+          updatePositionStrategy='always'
+          className={cn('z-50 w-[var(--radix-select-trigger-width)] overflow-hidden rounded-[var(--radius-ui)] border border-sand/40 bg-white shadow-[var(--shadow-overlay)] outline-none data-[side=bottom]:origin-top data-[side=top]:origin-bottom data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-[0.99] data-[state=closed]:zoom-out-[0.99] data-[state=open]:duration-[var(--motion-surface)] data-[state=closed]:duration-[var(--motion-exit)] data-[state=open]:ease-premium data-[state=closed]:ease-in dark:border-white/15 dark:bg-deep-sea', contentClassName)}
         >
-          {options.length > 5 ? (
-            <div className='border-b border-sand/20 p-2 dark:border-sand/40'>
-              <input
-                type='text'
-                value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
-                placeholder='Search...'
-                className='w-full rounded-lg border border-sand/20 bg-sand/5 px-3 py-2 text-sm text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-1 focus:ring-sea dark:border-sand/30 dark:bg-sand/10 dark:text-text-primary dark:placeholder:text-text-secondary dark:focus:ring-accent-blue'
-                onClick={(event) => event.stopPropagation()}
-              />
-            </div>
-          ) : null}
-
-          <div className='max-h-60 overflow-y-auto py-1'>
-            {filteredOptions.length === 0 ? (
-              <div className='px-4 py-3 text-center text-sm text-text-secondary dark:text-text-secondary'>No options found</div>
-            ) : (
-              filteredOptions.map((option) => {
-                const isSelected = option.value === value;
-
-                return (
-                  <button
-                    key={option.value}
-                    type='button'
-                    onClick={() => handleSelect(option.value)}
-                    className={cn(
-                      'flex w-full items-center justify-between gap-2 px-4 py-2.5 text-left text-sm transition-colors duration-150',
-                      isSelected
-                        ? 'bg-sea/10 font-medium text-sea dark:bg-accent-blue/10 dark:text-accent-blue'
-                        : 'text-text-primary hover:bg-sand/10 dark:text-text-primary dark:hover:bg-sand/20'
-                    )}
-                  >
-                    <span className='flex-1 tracking-refined'>{option.label}</span>
-                    {isSelected ? <Check size={16} className='flex-shrink-0 text-sea dark:text-accent-blue' /> : null}
-                  </button>
-                );
-              })
-            )}
-          </div>
-        </div>,
-        document.body
-      ) : null}
-    </div>
+          <SelectPrimitive.ScrollUpButton className='flex h-7 items-center justify-center border-b border-sand/15 bg-white text-text-secondary dark:border-white/10 dark:bg-deep-sea'>
+            <ChevronUp size={15} aria-hidden='true' />
+          </SelectPrimitive.ScrollUpButton>
+          <SelectPrimitive.Viewport className='max-h-[min(18rem,var(--radix-select-content-available-height))] p-1'>
+            {options.map((option) => (
+              <SelectPrimitive.Item
+                key={option.value}
+                value={option.value === '' ? EMPTY_OPTION_VALUE : option.value}
+                disabled={option.disabled}
+                className={cn(
+                  'relative flex cursor-default select-none items-center rounded-[5px] pl-3 pr-9 text-text-primary outline-none transition-[background-color,color,opacity] duration-[var(--motion-control)] ease-premium data-[disabled]:pointer-events-none data-[highlighted]:bg-light-sand data-[disabled]:opacity-40 data-[state=checked]:font-medium data-[state=checked]:text-sea dark:text-text-primary dark:data-[highlighted]:bg-white/[0.07] dark:data-[state=checked]:text-accent-blue',
+                  size === 'sm' ? 'min-h-8 py-1.5 text-[13px]' : size === 'lg' ? 'min-h-10 py-2 text-[15px]' : 'min-h-9 py-1.5 text-sm'
+                )}
+              >
+                <SelectPrimitive.ItemText>{option.label}</SelectPrimitive.ItemText>
+                <SelectPrimitive.ItemIndicator className='absolute right-3 inline-flex items-center'>
+                  <Check size={15} aria-hidden='true' />
+                </SelectPrimitive.ItemIndicator>
+              </SelectPrimitive.Item>
+            ))}
+          </SelectPrimitive.Viewport>
+          <SelectPrimitive.ScrollDownButton className='flex h-7 items-center justify-center border-t border-sand/15 bg-white text-text-secondary dark:border-white/10 dark:bg-deep-sea'>
+            <ChevronDown size={15} aria-hidden='true' />
+          </SelectPrimitive.ScrollDownButton>
+        </SelectPrimitive.Content>
+      </SelectPrimitive.Portal>
+    </SelectPrimitive.Root>
   );
 }

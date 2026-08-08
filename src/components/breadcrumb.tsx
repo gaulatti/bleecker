@@ -1,3 +1,5 @@
+'use client';
+
 import { ChevronRight, Ellipsis } from 'lucide-react';
 import React from 'react';
 
@@ -41,7 +43,7 @@ export function Breadcrumb({ className, collapsedAfter = 0, items, renderLink, s
                     type='button'
                     onClick={() => setExpanded(true)}
                     aria-label='Show full path'
-                    className='inline-flex h-6 w-6 items-center justify-center rounded-md text-text-secondary transition-colors hover:bg-sand/10 hover:text-text-primary dark:hover:bg-sand/20 dark:hover:text-text-primary'
+                    className='inline-flex h-6 w-6 scale-100 items-center justify-center rounded-md text-text-secondary transition-[background-color,color,transform] duration-[var(--motion-control)] ease-premium hover:bg-sand/10 hover:text-text-primary active:scale-[0.9] dark:hover:bg-sand/20 dark:hover:text-text-primary'
                   >
                     <Ellipsis size={14} />
                   </button>
@@ -63,7 +65,7 @@ export function Breadcrumb({ className, collapsedAfter = 0, items, renderLink, s
                 ) : (
                   linkRenderer({
                     item,
-                    className: 'text-sm text-text-secondary transition-colors hover:text-text-primary dark:text-text-secondary dark:hover:text-text-primary',
+                    className: 'text-sm text-text-secondary transition-colors duration-[var(--motion-control)] ease-premium hover:text-text-primary dark:text-text-secondary dark:hover:text-text-primary',
                     children: item.label
                   })
                 )}

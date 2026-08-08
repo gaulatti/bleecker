@@ -22,7 +22,7 @@ export const Default: Story = {
         <Drawer isOpen={open} onClose={() => setOpen(false)} title='Quick actions' description='Choose an action to perform.'>
           <div className='space-y-2'>
             {['Edit profile', 'Change password', 'Export data', 'Delete account'].map((item) => (
-              <Button key={item} variant='ghost' className='w-full justify-start rounded-xl px-4 py-3 hover:translate-y-0'>
+              <Button key={item} variant='ghost' className='w-full justify-start'>
                 {item}
               </Button>
             ))}

@@ -1,7 +1,10 @@
+'use client';
+
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
 import React from 'react';
 
 import { cn } from '../utils/cn';
+import { Checkbox } from './checkbox';
 
 // ─── SortState ────────────────────────────────────────────────────────────────
 
@@ -30,7 +33,7 @@ export function SortableTableHeader({ align = 'left', className, currentSort, fi
       <th
         className={cn(
           align === 'right' ? 'text-right' : 'text-left',
-          'h-11 px-4 text-xs font-semibold uppercase tracking-wider text-text-secondary dark:text-text-secondary',
+          'h-11 px-4 text-[11px] font-semibold uppercase tracking-[0.08em] text-text-secondary dark:text-text-secondary',
           className
         )}
       >
@@ -47,12 +50,12 @@ export function SortableTableHeader({ align = 'left', className, currentSort, fi
         type='button'
         onClick={() => onSort(field, isSorted && currentSort.order === 'asc' ? 'desc' : 'asc')}
         className={cn(
-          'inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider transition-colors duration-150 focus:outline-none focus-visible:underline',
+          'inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] transition-colors duration-[var(--motion-control)] ease-premium focus:outline-none focus-visible:underline',
           isSorted ? 'text-sea dark:text-accent-blue' : 'text-text-secondary hover:text-text-primary dark:text-text-secondary dark:hover:text-text-primary'
         )}
       >
         {label}
-        <SortIcon size={12} className={cn('flex-shrink-0 transition-opacity duration-150', isSorted ? 'opacity-100' : 'opacity-40')} />
+        <SortIcon size={12} className={cn('flex-shrink-0 transition-opacity duration-[var(--motion-control)] ease-premium', isSorted ? 'opacity-100' : 'opacity-40')} />
       </button>
     </th>
   );
@@ -82,7 +85,7 @@ export const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLA
   return (
     <thead
       ref={ref}
-      className={cn('border-b border-sand/10 bg-sand/5 dark:border-sand/20 dark:bg-sand/10', '[&_tr]:hover:bg-transparent', className)}
+      className={cn('border-b border-sand/25 bg-light-sand/40 dark:border-white/10 dark:bg-white/[0.035]', '[&_tr]:hover:bg-transparent', className)}
       {...props}
     />
   );
@@ -157,9 +160,8 @@ export const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttribut
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={cn(
-        'border-b border-sand/10 data-[selected=true]:bg-sea/5 dark:border-sand/20 dark:data-[selected=true]:bg-accent-blue/10',
-        'hover:bg-black/[0.04] dark:hover:bg-white/[0.05]',
-        'transition-colors duration-150',
+        'border-b border-sand/20 data-[selected=true]:bg-sea/[0.045] dark:border-white/[0.07] dark:data-[selected=true]:bg-accent-blue/[0.08]',
+        'transition-colors duration-[var(--motion-surface)] ease-premium hover:bg-light-sand/45 dark:hover:bg-white/[0.035]',
         className
       )}
       {...props}
@@ -174,7 +176,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, React.ThHTMLAttr
     <th
       ref={ref}
       className={cn(
-        'h-11 px-4 text-left align-middle text-xs font-semibold uppercase tracking-wider text-text-secondary dark:text-text-secondary',
+        'h-11 px-4 text-left align-middle text-[11px] font-semibold uppercase tracking-[0.08em] text-text-secondary dark:text-text-secondary',
         '[&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
         className
       )}
@@ -307,21 +309,19 @@ export function DataTable<TData>({
   };
 
   return (
-    <div className={cn('overflow-hidden rounded-xl border border-sand/10 bg-white dark:border-sand/20 dark:bg-dark-sand', containerClassName)}>
+    <div className={cn('overflow-hidden rounded-[var(--radius-card)] border border-sand/30 bg-white shadow-[var(--shadow-surface)] dark:border-white/10 dark:bg-deep-sea', containerClassName)}>
       <Table className={className}>
         {caption && <TableCaption>{caption}</TableCaption>}
         <TableHeader>
           <TableRow>
             {selectable && (
               <TableHead className='w-10'>
-                <input
-                  type='checkbox'
+                <Checkbox
                   checked={allSelected}
                   ref={(el) => {
                     if (el) el.indeterminate = someSelected;
                   }}
                   onChange={(e) => toggleAll(e.target.checked)}
-                  className='h-4 w-4 rounded border-sand/30 accent-sea dark:accent-accent-blue'
                   aria-label='Select all'
                 />
               </TableHead>
@@ -356,11 +356,9 @@ export function DataTable<TData>({
                 <TableRow key={key} data-selected={isSelected}>
                   {selectable && (
                     <TableCell>
-                      <input
-                        type='checkbox'
+                      <Checkbox
                         checked={isSelected}
                         onChange={(e) => toggleRow(key, e.target.checked)}
-                        className='h-4 w-4 rounded border-sand/30 accent-sea dark:accent-accent-blue'
                         aria-label={`Select row ${key}`}
                       />
                     </TableCell>

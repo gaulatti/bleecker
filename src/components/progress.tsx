@@ -1,6 +1,9 @@
 import React from 'react';
 
+import type { ProgressSize, ProgressVariant } from '../core';
 import { cn } from '../utils/cn';
+
+export type { ProgressSize, ProgressVariant } from '../core';
 
 export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   /** 0–100 */
@@ -8,17 +11,17 @@ export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   max?: number;
   /** Show the numeric label inside/next to the bar */
   showLabel?: boolean;
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'default' | 'success' | 'warning' | 'destructive';
+  size?: ProgressSize;
+  variant?: ProgressVariant;
 }
 
-const sizeClasses = {
+const sizeClasses: Record<ProgressSize, string> = {
   sm: 'h-1.5',
-  md: 'h-2.5',
-  lg: 'h-4'
+  md: 'h-2',
+  lg: 'h-3'
 };
 
-const variantFill = {
+const variantFill: Record<ProgressVariant, string> = {
   default: 'bg-sea dark:bg-accent-blue',
   success: 'bg-sea dark:bg-accent-blue',
   warning: 'bg-sunset dark:bg-accent-gold',
@@ -37,7 +40,7 @@ export function Progress({ className, max = 100, showLabel = false, size = 'md',
         aria-valuemax={max}
         className={cn('flex-1 overflow-hidden rounded-full bg-sand/15 dark:bg-sand/20', sizeClasses[size])}
       >
-        <div className={cn('h-full rounded-full transition-[width] duration-500 ease-out', variantFill[variant])} style={{ width: `${pct}%` }} />
+        <div className={cn('h-full rounded-full transition-[width] duration-[var(--motion-overlay)] ease-premium', variantFill[variant])} style={{ width: `${pct}%` }} />
       </div>
       {showLabel && (
         <span className='min-w-[2.5rem] text-right text-xs font-medium tabular-nums text-text-secondary dark:text-text-primary'>{Math.round(pct)}%</span>

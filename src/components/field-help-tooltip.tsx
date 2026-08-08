@@ -19,7 +19,7 @@ export function FieldHelpTooltip({ className, text }: FieldHelpTooltipProps) {
         type='button'
         tabIndex={0}
         aria-label={text}
-        className='inline-flex h-4 w-4 items-center justify-center rounded-full text-text-secondary transition-colors hover:text-text-primary focus:outline-none focus:ring-2 focus:ring-sea dark:focus:ring-accent-blue'
+        className='inline-flex h-4 w-4 scale-100 items-center justify-center rounded-full text-text-secondary transition-[color,transform] duration-[var(--motion-control)] ease-premium hover:text-text-primary active:scale-[0.9] focus:outline-none focus:ring-2 focus:ring-sea dark:focus:ring-accent-blue'
       >
         <Info size={14} />
       </button>

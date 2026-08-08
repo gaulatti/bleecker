@@ -48,7 +48,7 @@ export const Left: Story = {
         <Sheet isOpen={open} onClose={() => setOpen(false)} side='left' title='Navigation'>
           <nav className='space-y-1'>
             {['Dashboard', 'Projects', 'Reports', 'Settings'].map((item) => (
-              <Button key={item} variant='ghost' className='w-full justify-start rounded-lg px-3 py-2'>
+              <Button key={item} variant='ghost' className='w-full justify-start'>
                 {item}
               </Button>
             ))}
@@ -68,7 +68,7 @@ export const Bottom: Story = {
         <Sheet isOpen={open} onClose={() => setOpen(false)} side='bottom' title='Options'>
           <div className='space-y-2'>
             {['Edit', 'Duplicate', 'Share', 'Archive'].map((item) => (
-              <Button key={item} variant='ghost' className='w-full justify-start rounded-lg px-3 py-2'>
+              <Button key={item} variant='ghost' className='w-full justify-start'>
                 {item}
               </Button>
             ))}

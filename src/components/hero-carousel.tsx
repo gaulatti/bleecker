@@ -1,3 +1,5 @@
+'use client';
+
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import React from 'react';
 
@@ -204,7 +206,7 @@ export function HeroCarousel({
                           {item.tags.map((tag) => (
                             <span
                               key={`${item.id ?? item.href}:${tag}`}
-                              className='inline-block rounded-full border border-white/10 bg-white/15 px-3 py-1 text-sm backdrop-blur-sm light:text-white'
+                              className='inline-block rounded-[6px] border border-white/15 bg-black/15 px-2.5 py-1 text-[12px] font-medium backdrop-blur-[2px] light:text-white'
                             >
                               {tag}
                             </span>
@@ -212,15 +214,15 @@ export function HeroCarousel({
                         </div>
                       ) : null}
 
-                      <h1 className='mb-4 text-3xl font-bold text-balance transition-colors drop-shadow-[0_0_14px_rgba(0,0,0,0.5)] group-hover:text-white/90 light:text-white sm:text-4xl lg:text-5xl'>
+                      <h1 className='mb-4 text-3xl font-semibold text-balance transition-colors duration-[var(--motion-surface)] ease-premium drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] group-hover:text-white/90 light:text-white sm:text-4xl lg:text-5xl'>
                         {item.title}
                       </h1>
 
-                      <p className='mb-6 text-base text-gray-100 transition-colors drop-shadow-[0_0_10px_rgba(0,0,0,0.45)] group-hover:text-gray-200 sm:text-lg'>
+                      <p className='mb-6 text-base text-gray-100 transition-colors duration-[var(--motion-surface)] ease-premium drop-shadow-[0_0_10px_rgba(0,0,0,0.45)] group-hover:text-gray-200 sm:text-lg'>
                         {item.description}
                       </p>
 
-                      <div className='inline-block rounded-full border px-6 py-2 font-medium transition-colors backdrop-blur-sm light:border-white/20 light:bg-white/90 light:text-gray-900 light:group-hover:bg-white dark:border-sand/35 dark:bg-sand/90 dark:text-text-primary dark:group-hover:bg-dark-sand/90'>
+                      <div className='inline-block rounded-[var(--radius-button)] border px-5 py-2.5 text-sm font-medium transition-colors duration-[var(--motion-surface)] ease-premium backdrop-blur-[2px] light:border-white/25 light:bg-white/92 light:text-gray-900 light:group-hover:bg-white dark:border-sand/35 dark:bg-sand/90 dark:text-text-primary dark:group-hover:bg-dark-sand/90'>
                         {getCtaLabel(item)}
                       </div>
                     </div>
@@ -234,7 +236,7 @@ export function HeroCarousel({
         {showNavigation ? (
           <div className='absolute bottom-8 left-4 right-4 flex items-center justify-between'>
             <IconButton
-              className='border-0 bg-black/20 p-2 text-white/75 shadow-none backdrop-blur-sm hover:translate-y-0 hover:scale-100 hover:bg-black/30 hover:text-white dark:bg-black/20 dark:hover:bg-black/30'
+              className='border-white/15 bg-black/20 text-white/80 shadow-none backdrop-blur-[2px] hover:border-white/25 hover:bg-black/30 hover:text-white dark:bg-black/20 dark:hover:bg-black/30'
               data-carousel-prev
               aria-label='Previous slide'
               onClick={() => setCurrentSlide((previous) => (previous - 1 + items.length) % items.length)}
@@ -244,7 +246,7 @@ export function HeroCarousel({
             </IconButton>
 
             {showIndicators ? (
-              <div className='flex gap-2 rounded-full bg-black/20 p-2 backdrop-blur-sm'>
+              <div className='flex gap-1 rounded-[var(--radius-ui)] border border-white/10 bg-black/20 p-1 backdrop-blur-[2px]'>
                 {items.map((item, index) => (
                   <button
                     key={`dot:${item.id ?? `${item.title}:${item.href}`}`}
@@ -254,7 +256,7 @@ export function HeroCarousel({
                     onClick={() => setCurrentSlide(index)}
                     type='button'
                   >
-                    <span className='dot-indicator block h-2 w-2 rounded-full bg-white/50 transition-colors' />
+                    <span className='dot-indicator block h-2 w-2 rounded-full bg-white/50 transition-[background-color,transform] duration-[var(--motion-control)] ease-premium' />
                     <span className='sr-only'>Slide {index + 1}</span>
                   </button>
                 ))}
@@ -262,7 +264,7 @@ export function HeroCarousel({
             ) : null}
 
             <IconButton
-              className='border-0 bg-black/20 p-2 text-white/75 shadow-none backdrop-blur-sm hover:translate-y-0 hover:scale-100 hover:bg-black/30 hover:text-white dark:bg-black/20 dark:hover:bg-black/30'
+              className='border-white/15 bg-black/20 text-white/80 shadow-none backdrop-blur-[2px] hover:border-white/25 hover:bg-black/30 hover:text-white dark:bg-black/20 dark:hover:bg-black/30'
               data-carousel-next
               aria-label='Next slide'
               onClick={() => setCurrentSlide((previous) => (previous + 1) % items.length)}

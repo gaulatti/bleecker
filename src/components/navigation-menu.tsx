@@ -1,7 +1,10 @@
+'use client';
+
 import { ChevronDown } from 'lucide-react';
 import React from 'react';
 
 import { cn } from '../utils/cn';
+import { usePresence } from '../utils/hooks';
 import { type NavItem, renderDefaultLink, type RenderLink } from './nav-menu';
 
 export interface NavigationMenuLink extends NavItem {
@@ -24,6 +27,24 @@ export interface NavigationMenuProps<TLink extends NavigationMenuLink = Navigati
   className?: string;
   entries: NavigationMenuEntry[];
   renderLink?: RenderLink<TLink>;
+}
+
+function NavigationMenuSurface({ children, open }: { children: React.ReactNode; open: boolean }) {
+  const { present, visible } = usePresence(open, 150);
+  if (!present) return null;
+
+  return (
+    <div
+      className={cn(
+        'absolute left-0 top-full z-50 mt-1 min-w-[16rem] origin-top-left rounded-[var(--radius-ui)] border border-sand/35 bg-white p-1.5 shadow-[var(--shadow-overlay)] transition-[opacity,transform] dark:border-white/15 dark:bg-deep-sea',
+        visible
+          ? 'translate-y-0 scale-100 opacity-100 duration-[var(--motion-surface)] ease-premium'
+          : '-translate-y-1 scale-[0.992] opacity-0 duration-[var(--motion-exit)] ease-in'
+      )}
+    >
+      {children}
+    </div>
+  );
 }
 
 export function NavigationMenu<TLink extends NavigationMenuLink>({ className, entries, renderLink }: NavigationMenuProps<TLink>) {
@@ -49,7 +70,7 @@ export function NavigationMenu<TLink extends NavigationMenuLink>({ className, en
               {linkRenderer({
                 item: entry as NavigationMenuLink,
                 className:
-                  'px-3 py-2 text-sm font-medium text-text-secondary transition-colors duration-200 hover:text-text-primary rounded-lg hover:bg-sand/10 dark:text-text-secondary dark:hover:text-text-primary dark:hover:bg-sand/15',
+                  'rounded-[var(--radius-ui)] px-3 py-2 text-sm font-medium text-text-secondary transition-colors duration-[var(--motion-control)] ease-premium hover:bg-sand/10 hover:text-text-primary dark:text-text-secondary dark:hover:bg-sand/15 dark:hover:text-text-primary',
                 children: entry.label
               })}
             </React.Fragment>
@@ -65,24 +86,23 @@ export function NavigationMenu<TLink extends NavigationMenuLink>({ className, en
               onClick={() => setActiveIndex(isOpen ? null : i)}
               aria-expanded={isOpen}
               className={cn(
-                'flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sea dark:focus-visible:ring-accent-blue',
+                'flex translate-y-0 items-center gap-1 rounded-[var(--radius-button)] px-3 py-2 text-[13px] font-medium tracking-ui transition-[background-color,color,transform] duration-[var(--motion-control)] ease-premium active:translate-y-px focus:outline-none focus-visible:ring-2 focus-visible:ring-sea/30 dark:focus-visible:ring-accent-blue/40',
                 isOpen
                   ? 'bg-sand/10 text-text-primary dark:bg-sand/15 dark:text-text-primary'
                   : 'text-text-secondary hover:bg-sand/10 hover:text-text-primary dark:text-text-secondary dark:hover:bg-sand/15 dark:hover:text-text-primary'
               )}
             >
               {entry.trigger}
-              <ChevronDown size={14} className={cn('transition-transform duration-200', isOpen ? 'rotate-180' : 'rotate-0')} />
+              <ChevronDown size={14} className={cn('transition-transform duration-[var(--motion-surface)] ease-premium', isOpen ? 'rotate-180' : 'rotate-0')} />
             </button>
 
             {/* Dropdown */}
-            {isOpen && (
-              <div className='absolute left-0 top-full z-50 mt-1.5 min-w-[16rem] animate-in fade-in slide-in-from-top-2 duration-200 ease-out-expo rounded-[var(--radius-card)] border-0 ring-1 ring-black/5 bg-white/95 backdrop-blur-xl p-2 shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:ring-white/10 dark:bg-deep-sea/95 dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]'>
+            <NavigationMenuSurface open={isOpen}>
                 {entry.items.map((item) => (
                   <React.Fragment key={item.href}>
                     {linkRenderer({
                       item,
-                      className: 'flex flex-col rounded-lg px-3 py-2.5 hover:bg-sand/10 dark:hover:bg-sand/15 transition-colors duration-200',
+                      className: 'flex flex-col rounded-[var(--radius-ui)] px-3 py-2.5 transition-colors duration-[var(--motion-control)] ease-premium hover:bg-sand/10 dark:hover:bg-sand/15',
                       children: (
                         <>
                           <span className='text-sm font-medium text-text-primary dark:text-text-primary'>{item.label}</span>
@@ -95,8 +115,7 @@ export function NavigationMenu<TLink extends NavigationMenuLink>({ className, en
                     })}
                   </React.Fragment>
                 ))}
-              </div>
-            )}
+            </NavigationMenuSurface>
           </div>
         );
       })}

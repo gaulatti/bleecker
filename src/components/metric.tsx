@@ -1,9 +1,12 @@
+'use client';
+
 import * as React from 'react';
 
+import type { MetricFormat } from '../core';
 import { cn } from '../utils/cn';
 import { formatNumber, formatCurrency, formatPercent, formatCompactNumber } from '../utils/format';
 
-type MetricFormat = 'number' | 'currency' | 'percent' | 'compact';
+export type { MetricFormat } from '../core';
 
 export interface MetricProps {
   value: number | undefined | null;

@@ -29,7 +29,8 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
         <button
           type='button'
           onClick={onClear}
-          className='absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full p-0.5 text-text-secondary transition-colors hover:bg-sand/10 hover:text-text-primary dark:hover:bg-sand/15'
+          className='absolute right-2.5 top-1/2 scale-100 -translate-y-1/2 rounded-[4px] p-0.5 text-text-secondary transition-[background-color,color,transform] duration-[var(--motion-control)] ease-premium hover:bg-sand/10 hover:text-text-primary active:scale-[0.92] dark:hover:bg-sand/15'
+          aria-label='Clear search'
         >
           <X size={14} />
         </button>

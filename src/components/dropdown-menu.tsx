@@ -18,7 +18,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
   <DropdownMenuPrimitive.SubTrigger
     ref={ref}
     className={cn(
-      'flex cursor-default select-none items-center rounded-[var(--radius-ui)] px-2 py-1.5 text-sm text-text-primary outline-none focus:bg-sand/10 data-[state=open]:bg-sand/10 dark:text-text-primary dark:focus:bg-sand/15',
+      'flex cursor-default select-none items-center rounded-[var(--radius-ui)] px-2 py-1.5 text-sm text-text-primary outline-none transition-colors duration-[var(--motion-control)] ease-premium focus:bg-sand/10 data-[state=open]:bg-sand/10 dark:text-text-primary dark:focus:bg-sand/15',
       inset && 'pl-8',
       className
     )}
@@ -37,7 +37,7 @@ const DropdownMenuSubContent = React.forwardRef<
   <DropdownMenuPrimitive.SubContent
     ref={ref}
     className={cn(
-      'z-50 min-w-[8rem] overflow-hidden rounded-[var(--radius-card)] border border-border bg-card p-1 shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:bg-deep-sea',
+      'z-50 min-w-[9rem] overflow-hidden rounded-[var(--radius-ui)] border border-sand/35 bg-card p-1.5 shadow-[var(--shadow-overlay)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-[0.99] data-[state=open]:zoom-in-[0.99] data-[state=open]:duration-[var(--motion-surface)] data-[state=closed]:duration-[var(--motion-exit)] data-[state=open]:ease-premium data-[state=closed]:ease-in dark:border-white/15 dark:bg-deep-sea',
       className
     )}
     {...props}
@@ -54,7 +54,7 @@ const DropdownMenuContent = React.forwardRef<
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        'z-50 min-w-[10rem] overflow-hidden rounded-[var(--radius-card)] border border-border bg-card p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.08)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:border-white/10 dark:bg-deep-sea dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]',
+        'z-50 min-w-[11rem] overflow-hidden rounded-[var(--radius-ui)] border border-sand/35 bg-card p-1.5 shadow-[var(--shadow-overlay)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-[0.99] data-[state=open]:zoom-in-[0.99] data-[state=open]:duration-[var(--motion-surface)] data-[state=closed]:duration-[var(--motion-exit)] data-[state=open]:ease-premium data-[state=closed]:ease-in dark:border-white/15 dark:bg-deep-sea',
         className
       )}
       {...props}
@@ -70,7 +70,7 @@ const DropdownMenuItem = React.forwardRef<
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      'relative flex cursor-pointer select-none items-center rounded-[var(--radius-ui)] px-2 py-1.5 text-sm text-text-primary outline-none transition-colors focus:bg-sand/10 focus:text-text-primary data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:text-text-primary dark:focus:bg-sand/15',
+      'relative flex cursor-pointer select-none items-center rounded-[var(--radius-ui)] px-2 py-1.5 text-sm text-text-primary outline-none transition-colors duration-[var(--motion-control)] ease-premium focus:bg-sand/10 focus:text-text-primary data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:text-text-primary dark:focus:bg-sand/15',
       inset && 'pl-8',
       className
     )}
@@ -86,7 +86,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
   <DropdownMenuPrimitive.CheckboxItem
     ref={ref}
     className={cn(
-      'relative flex cursor-pointer select-none items-center rounded-[var(--radius-ui)] py-1.5 pl-8 pr-2 text-sm text-text-primary outline-none transition-colors focus:bg-sand/10 focus:text-text-primary data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:text-text-primary dark:focus:bg-sand/15',
+      'relative flex cursor-pointer select-none items-center rounded-[var(--radius-ui)] py-1.5 pl-8 pr-2 text-sm text-text-primary outline-none transition-colors duration-[var(--motion-control)] ease-premium focus:bg-sand/10 focus:text-text-primary data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:text-text-primary dark:focus:bg-sand/15',
       className
     )}
     checked={checked}
@@ -109,7 +109,7 @@ const DropdownMenuRadioItem = React.forwardRef<
   <DropdownMenuPrimitive.RadioItem
     ref={ref}
     className={cn(
-      'relative flex cursor-pointer select-none items-center rounded-[var(--radius-ui)] py-1.5 pl-8 pr-2 text-sm text-text-primary outline-none transition-colors focus:bg-sand/10 focus:text-text-primary data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:text-text-primary dark:focus:bg-sand/15',
+      'relative flex cursor-pointer select-none items-center rounded-[var(--radius-ui)] py-1.5 pl-8 pr-2 text-sm text-text-primary outline-none transition-colors duration-[var(--motion-control)] ease-premium focus:bg-sand/10 focus:text-text-primary data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:text-text-primary dark:focus:bg-sand/15',
       className
     )}
     {...props}
@@ -130,7 +130,7 @@ const DropdownMenuLabel = React.forwardRef<
 >(({ className, inset, ...props }, ref) => (
   <DropdownMenuPrimitive.Label
     ref={ref}
-    className={cn('px-2 py-1.5 text-xs font-semibold uppercase tracking-wider text-text-secondary', inset && 'pl-8', className)}
+    className={cn('px-2 py-1.5 text-[10px] font-semibold uppercase tracking-[0.09em] text-text-secondary', inset && 'pl-8', className)}
     {...props}
   />
 ));

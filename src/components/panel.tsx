@@ -60,8 +60,8 @@ export function Panel({
   return (
     <div
       className={cn(
-        'group flex flex-col h-full min-h-0 overflow-hidden transition-all duration-300 ease-out-expo',
-        'border-r border-black/[0.04] dark:border-white/[0.04] border-l-0 border-y-0 rounded-none bg-transparent shadow-none',
+        'group flex h-full min-h-0 flex-col overflow-hidden transition-[border-color] duration-200',
+        'border-l-2 border-r border-r-sand/20 border-y-0 rounded-none bg-transparent shadow-none dark:border-r-white/[0.06]',
         className
       )}
       style={accentStyle}
@@ -69,27 +69,27 @@ export function Panel({
       {/* Panel header */}
       <div
         className={cn(
-          'flex flex-col relative z-10 bg-white/40 dark:bg-deep-sea/40 backdrop-blur-md',
-          'border-b border-black/[0.04] dark:border-white/[0.08] select-none'
+          'relative z-10 flex flex-col bg-white dark:bg-deep-sea',
+          'select-none border-b border-black/[0.06] dark:border-white/[0.08]'
         )}
       >
-        <div className='flex items-center gap-3 px-5 py-4'>
+        <div className='flex min-h-14 items-center gap-3 px-5 py-3.5'>
           {dragHandle ? (
-            <span className='cursor-grab text-black/40 hover:text-black/80 dark:text-white/40 dark:hover:text-white/80 active:cursor-grabbing transition-colors'>
+            <span className='cursor-grab text-black/40 transition-colors duration-[var(--motion-control)] ease-premium hover:text-black/80 active:cursor-grabbing dark:text-white/40 dark:hover:text-white/80'>
               {dragHandle}
             </span>
           ) : null}
 
-          {/* LED dot */}
+          {/* Quiet status marker */}
           <span
-            className='h-2 w-2 flex-shrink-0 rounded-full shadow-[0_0_8px_currentColor] opacity-80 group-hover:opacity-100 transition-opacity'
+            className='h-1.5 w-1.5 flex-shrink-0 rounded-full opacity-80'
             style={{ backgroundColor: accent ?? 'var(--color-sea)', color: accent ?? 'var(--color-sea)' }}
           />
 
-          <span className='flex-1 text-xs font-bold uppercase tracking-widest text-[color:var(--panel-accent,var(--color-sea))]'>{title}</span>
+          <span className='flex-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-[color:var(--panel-accent,var(--color-sea))]'>{title}</span>
 
           {count !== undefined ? (
-            <span className='rounded-full bg-light-sand/50 dark:bg-white/10 px-2.5 py-0.5 text-xs font-semibold tabular-nums text-text-primary ring-1 ring-inset ring-black/5 dark:ring-white/10'>
+            <span className='rounded-[5px] border border-sand/30 bg-light-sand/40 px-2 py-0.5 text-[11px] font-semibold tabular-nums text-text-primary dark:border-white/10 dark:bg-white/5'>
               {count}
             </span>
           ) : null}
@@ -98,7 +98,7 @@ export function Panel({
         {filter ? <div className='px-5 pb-4'>{filter}</div> : null}
 
         {toolbar ? (
-          <div className='flex items-center justify-center gap-2 border-t border-black/[0.04] dark:border-white/[0.04] bg-light-sand/20 dark:bg-white/5 px-5 py-2.5'>
+          <div className='flex items-center justify-center gap-2 border-t border-sand/20 bg-light-sand/20 px-5 py-3 dark:border-white/[0.06] dark:bg-white/[0.03]'>
             {toolbar}
           </div>
         ) : null}

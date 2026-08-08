@@ -1,6 +1,7 @@
 import { Tv } from 'lucide-react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
+import { expect, userEvent, within } from 'storybook/test';
 
 import { HeaderSelect, type HeaderSelectProps } from '../../src/components/header-select';
 
@@ -56,7 +57,16 @@ export const Default: Story = {
       setValue(initialValue);
     }, [initialValue]);
 
-    return <HeaderSelect {...args} icon={showIcon ? <Tv size={15} className='flex-shrink-0 text-sea dark:text-accent-blue' strokeWidth={1.5} /> : null} onChange={setValue} value={value} />;
+    return <HeaderSelect {...args} icon={showIcon ? <Tv size={15} strokeWidth={1.5} /> : null} onChange={setValue} value={value} />;
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('combobox', { name: 'Select TV' });
+    await userEvent.click(trigger);
+    const menu = within(document.body);
+    await expect(menu.getByRole('listbox')).toBeVisible();
+    await userEvent.click(menu.getByRole('option', { name: 'Studio C' }));
+    await expect(trigger).toHaveTextContent('Studio C');
   }
 };
 

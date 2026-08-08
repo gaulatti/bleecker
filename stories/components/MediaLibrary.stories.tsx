@@ -4,6 +4,7 @@ import React from 'react';
 
 import { Button } from '../../src/components/button';
 import { MediaLibrary } from '../../src/components/media-library';
+import { Select } from '../../src/components/select';
 
 const mediaItems = [
   {
@@ -47,6 +48,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => {
     const [searchTerm, setSearchTerm] = React.useState('');
+    const [assignment, setAssignment] = React.useState('all');
     const items = mediaItems.filter((item) => item.filename.toLowerCase().includes(searchTerm.toLowerCase()) || (item.alt || '').toLowerCase().includes(searchTerm.toLowerCase()));
 
     return (
@@ -63,14 +65,17 @@ export const Default: Story = {
           </Button>
         }
         filterSlot={
-          <div className='relative'>
-            <Filter size={16} className='absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary' />
-            <select className='w-full appearance-none rounded-lg border border-sand/30 bg-white py-2 pl-9 pr-8 text-text-primary outline-none focus:ring-2 focus:ring-sea dark:border-sand/50 dark:bg-sand/10 dark:text-text-primary dark:focus:ring-accent-blue'>
-              <option>All Assignments</option>
-              <option>Homepage</option>
-              <option>Politics</option>
-            </select>
-          </div>
+          <Select
+            aria-label='Filter by assignment'
+            value={assignment}
+            onChange={setAssignment}
+            startIcon={<Filter size={15} />}
+            options={[
+              { label: 'All assignments', value: 'all' },
+              { label: 'Homepage', value: 'homepage' },
+              { label: 'Politics', value: 'politics' }
+            ]}
+          />
         }
       />
     );

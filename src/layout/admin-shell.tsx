@@ -18,8 +18,8 @@ export function AdminShell({ children, className, sidebar, header, footer, conte
       <div className='flex flex-1 overflow-hidden'>
         {sidebar}
         <main className={cn('flex flex-1 flex-col min-h-0 overflow-y-auto scrollbar-thin bg-background', contentClassName)}>
-          <div className='flex-1 p-4 sm:p-6 lg:p-8'>{children}</div>
-          {footer && <div className='border-t border-border px-4 py-4 sm:px-6 lg:px-8'>{footer}</div>}
+          <div className='flex-1 px-5 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10'>{children}</div>
+          {footer && <div className='border-t border-border px-5 py-5 sm:px-8 lg:px-10'>{footer}</div>}
         </main>
       </div>
     </div>
