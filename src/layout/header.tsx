@@ -29,20 +29,20 @@ export function Header({ actions, brand, className, fullWidth = false, mobileAct
       )}
     >
       <div className={cn(fullWidth ? 'w-full px-4' : 'container mx-auto px-4')}>
-        <div className='flex h-[72px] items-center justify-between gap-8 md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]'>
+        <div className='flex h-[72px] items-center justify-between gap-8 lg:grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]'>
           <div className='min-w-0 justify-self-start'>
             <BrandLockup {...brand} renderLink={renderLink} />
           </div>
 
-          <div className='hidden md:flex md:items-center md:justify-self-center'>
+          <div className='hidden lg:flex lg:items-center lg:justify-self-center'>
             <NavMenu items={navigation} renderLink={renderLink} />
           </div>
 
-          <div className='hidden md:flex md:items-center md:justify-self-end md:gap-3'>{actions}</div>
+          <div className='hidden lg:flex lg:items-center lg:justify-self-end lg:gap-3'>{actions}</div>
 
           <IconButton
             variant='ghost'
-            className='md:hidden'
+            className='lg:hidden'
             aria-label='Toggle navigation menu'
             type='button'
             onClick={() => setMobileMenuOpen((value) => !value)}
@@ -54,7 +54,7 @@ export function Header({ actions, brand, className, fullWidth = false, mobileAct
 
       <div
         className={cn(
-          'absolute left-0 top-[72px] w-full origin-top overflow-hidden border-t border-sand/20 bg-white shadow-[var(--shadow-overlay)] transition-[max-height,opacity] duration-200 dark:border-white/10 dark:bg-deep-sea md:hidden',
+          'absolute left-0 top-[72px] w-full origin-top overflow-hidden border-t border-sand/20 bg-white shadow-[var(--shadow-overlay)] transition-[max-height,opacity] duration-200 dark:border-white/10 dark:bg-deep-sea lg:hidden',
           mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         )}
       >
