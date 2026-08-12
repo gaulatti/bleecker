@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+import { Button } from '../../src/components/button';
 import { ThemeToggle } from '../../src/components/theme-toggle';
 import type { HeaderProps } from '../../src/layout/header';
 import { Header } from '../../src/layout/header';
@@ -82,6 +83,21 @@ export const BrandOnly: Story = {
       brand={{ href: '/', logoAlt: 'gaulatti', logoSrc, name: brandName }}
       navigation={[]}
       fullWidth
+    />
+  )
+};
+
+export const AsymmetricActions: Story = {
+  render: ({ navigation }) => (
+    <Header
+      actions={
+        <>
+          <Button variant='ghost'>Sign in</Button>
+          <Button>Request access</Button>
+        </>
+      }
+      brand={{ href: '/', logoAlt: 'gaulatti', logoSrc }}
+      navigation={navigation}
     />
   )
 };

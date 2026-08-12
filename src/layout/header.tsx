@@ -29,14 +29,16 @@ export function Header({ actions, brand, className, fullWidth = false, mobileAct
       )}
     >
       <div className={cn(fullWidth ? 'w-full px-4' : 'container mx-auto px-4')}>
-        <div className='flex h-[72px] items-center justify-between gap-8'>
-          <BrandLockup {...brand} renderLink={renderLink} />
+        <div className='flex h-[72px] items-center justify-between gap-8 md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]'>
+          <div className='min-w-0 justify-self-start'>
+            <BrandLockup {...brand} renderLink={renderLink} />
+          </div>
 
-          <div className='hidden md:flex md:flex-1 md:items-center md:justify-center'>
+          <div className='hidden md:flex md:items-center md:justify-self-center'>
             <NavMenu items={navigation} renderLink={renderLink} />
           </div>
 
-          <div className='hidden md:flex md:items-center md:gap-3'>{actions}</div>
+          <div className='hidden md:flex md:items-center md:justify-self-end md:gap-3'>{actions}</div>
 
           <IconButton
             variant='ghost'
