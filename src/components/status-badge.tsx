@@ -12,15 +12,15 @@ export interface StatusBadgeProps {
 
 const variantClasses: Record<StatusBadgeVariant, { badge: string; dot: string }> = {
   live: {
-    badge: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500 dark:bg-emerald-500/10 dark:border-emerald-500/20 dark:text-emerald-400',
+    badge: 'border-emerald-600/20 bg-emerald-600/[0.08] text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300',
     dot: 'bg-emerald-500'
   },
   offline: {
-    badge: 'bg-terracotta/10 border-terracotta/20 text-terracotta dark:bg-terracotta/10 dark:border-terracotta/20 dark:text-terracotta',
+    badge: 'border-terracotta/20 bg-terracotta/10 text-[#874641] dark:border-terracotta/20 dark:bg-terracotta/10 dark:text-terracotta',
     dot: 'bg-terracotta'
   },
   warning: {
-    badge: 'bg-desert/10 border-desert/20 text-desert dark:bg-desert/10 dark:border-desert/20 dark:text-desert',
+    badge: 'border-desert/20 bg-desert/10 text-accent-text dark:border-desert/20 dark:bg-desert/10 dark:text-accent-text',
     dot: 'bg-desert'
   },
   info: {

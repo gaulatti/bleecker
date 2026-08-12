@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@400;500;600;700&family=Libre+Franklin:wght@400;500&display=swap');
-@import "tailwindcss";
+@import "tailwindcss" source(none);
 @import "./tokens.generated.css";
 
 @source "../**/*.{ts,tsx}";
@@ -10,6 +10,10 @@
 /* Design tokens are generated in tokens.generated.css. */
 
 @layer base {
+
+  :root {
+    --bleecker-header-height: 4.5rem;
+  }
 
   html {
     color-scheme: light;
@@ -254,17 +258,6 @@
   }
 
   /* Animate-in utilities used by menus/dropdowns are provided by Tailwind 4 */
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 1ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 1ms !important;
-  }
 }
 
 @keyframes elegantFadeIn {

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Card } from '../../src/components/card';
+import { Eyebrow } from '../../src/components/eyebrow';
 
 const meta = {
   title: 'Foundations/Theme',
@@ -44,12 +45,12 @@ export const Typography: Story = {
   render: () => (
     <div className='mx-auto max-w-4xl space-y-10 bg-background p-8 text-foreground'>
       <div>
-        <p className='text-xs uppercase tracking-elegant text-desert'>Eyebrow / Libre Franklin</p>
+        <Eyebrow>Eyebrow / Encode Sans</Eyebrow>
         <h1 className='mt-2 font-header text-5xl'>Display heading / Encode Sans</h1>
       </div>
       <div className='space-y-4'>
         <h2 className='font-header text-3xl'>Section heading</h2>
-        <p className='max-w-2xl text-base leading-relaxed text-text-secondary'>Body copy uses a readable rhythm for product interfaces, documentation, and content-dense dashboard surfaces.</p>
+        <p className='font-secondary max-w-2xl text-base leading-relaxed text-text-secondary'>Body copy uses Libre Franklin for a quieter supporting voice across product interfaces, documentation, and content-dense dashboard surfaces.</p>
         <p className='text-sm text-text-secondary'>Supporting text at the compact interface size.</p>
         <p className='text-xs uppercase tracking-elegant text-text-secondary'>Label / metadata</p>
       </div>

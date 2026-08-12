@@ -1,54 +1,67 @@
 import React from 'react';
-import { Card } from './components/card';
+
 import { Button } from './components/button';
+import { Card } from './components/card';
+import { Field } from './components/field';
 import { Input } from './components/input';
-import { Label } from './components/label';
+import { AuthShell } from './layout/auth-shell';
 
-export const LoginScreen = () => {
+export interface LoginScreenProps {
+  brand?: React.ReactNode;
+  description?: string;
+  forgotPasswordHref?: string;
+  onSubmit?: React.FormEventHandler<HTMLFormElement>;
+  signUpHref?: string;
+  title?: string;
+}
+
+export function LoginScreen({
+  brand,
+  description = 'Sign in to your account to continue.',
+  forgotPasswordHref = '#',
+  onSubmit,
+  signUpHref = '#',
+  title = 'Welcome back'
+}: LoginScreenProps) {
   return (
-    <div className='flex min-h-screen items-center justify-center bg-white dark:bg-deep-sea p-4'>
-      <Card className='w-full max-w-sm p-6'>
-        <div className='space-y-6'>
-          <div className='space-y-1.5 text-center'>
-            <h2 className='text-2xl font-semibold tracking-tight text-text-primary dark:text-text-primary'>Welcome Back</h2>
-            <p className='text-sm text-text-secondary dark:text-text-secondary'>Sign in to your account to continue.</p>
-          </div>
+    <AuthShell brand={brand} layout='centered'>
+      <Card variant='elevated' className='w-full space-y-7 p-7 sm:p-8'>
+        <header className='space-y-2 text-center'>
+          <h1 className='text-balance text-3xl font-semibold tracking-refined text-text-primary'>{title}</h1>
+          <p className='font-secondary text-pretty text-sm leading-6 text-text-secondary'>{description}</p>
+        </header>
 
-          <form
-            className='space-y-4'
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
+        <form
+          className='space-y-5'
+          onSubmit={(event) => {
+            if (!onSubmit) event.preventDefault();
+            onSubmit?.(event);
+          }}
+        >
+          <Field label='Email address' required>
+            <Input id='email' name='email' type='email' autoComplete='email' placeholder='name@example.com' required />
+          </Field>
+
+          <Field
+            label='Password'
+            required
+            action={
+              <a href={forgotPasswordHref} className='text-xs font-medium text-sea underline-offset-4 hover:underline dark:text-accent-blue'>
+                Forgot password?
+              </a>
+            }
           >
-            <div className='space-y-2'>
-              <Label htmlFor='email'>Email Address</Label>
-              <Input id='email' type='email' placeholder='jane@example.com' required />
-            </div>
+            <Input id='password' name='password' type='password' autoComplete='current-password' required />
+          </Field>
 
-            <div className='space-y-2'>
-              <div className='flex items-center justify-between'>
-                <Label htmlFor='password'>Password</Label>
-                <a href='#' className='text-sm font-medium text-sea hover:underline dark:text-accent-blue'>
-                  Forgot password?
-                </a>
-              </div>
-              <Input id='password' type='password' required />
-              <p className='text-xs text-terracotta mt-1'>This field is required.</p>
-            </div>
+          <Button fullWidth size='lg' type='submit'>Sign in</Button>
+        </form>
 
-            <Button className='w-full mt-2' type='submit'>
-              Sign In
-            </Button>
-          </form>
-
-          <div className='text-center text-sm text-text-secondary dark:text-text-secondary'>
-            Don't have an account?{' '}
-            <a href='#' className='font-medium text-sea hover:underline dark:text-accent-blue'>
-              Sign up
-            </a>
-          </div>
-        </div>
+        <p className='font-secondary text-center text-sm text-text-secondary'>
+          Don&apos;t have an account?{' '}
+          <a href={signUpHref} className='font-medium text-sea underline-offset-4 hover:underline dark:text-accent-blue'>Sign up</a>
+        </p>
       </Card>
-    </div>
+    </AuthShell>
   );
-};
+}

@@ -9,6 +9,7 @@ type FieldControlProps = {
 };
 
 export interface FieldProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
+  action?: React.ReactNode;
   children: React.ReactElement<FieldControlProps>;
   description?: React.ReactNode;
   error?: React.ReactNode;
@@ -18,7 +19,7 @@ export interface FieldProps extends Omit<React.HTMLAttributes<HTMLDivElement>, '
 }
 
 /** A consistent, accessible label/control/help/error composition. */
-export function Field({ children, className, description, error, label, optional, required, ...props }: FieldProps) {
+export function Field({ action, children, className, description, error, label, optional, required, ...props }: FieldProps) {
   const generatedId = React.useId();
   const controlId = children.props.id ?? `${generatedId}-control`;
   const descriptionId = description ? `${generatedId}-description` : undefined;
@@ -32,7 +33,7 @@ export function Field({ children, className, description, error, label, optional
           {label}
           {required ? <span className='ml-1 text-terracotta' aria-hidden='true'>*</span> : null}
         </label>
-        {optional ? <span className='font-secondary text-[11px] text-text-secondary'>Optional</span> : null}
+        {action ?? (optional ? <span className='font-secondary text-[11px] text-text-secondary'>Optional</span> : null)}
       </div>
       {React.cloneElement(children, {
         id: controlId,

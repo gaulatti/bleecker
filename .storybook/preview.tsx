@@ -1,6 +1,6 @@
 import type { Preview } from '@storybook/react-vite';
 
-import '../src/styles/global.css';
+import './storybook.css';
 import { ThemeProvider } from '../src/theme/theme-provider';
 
 const preview: Preview = {
@@ -18,7 +18,7 @@ const preview: Preview = {
     layout: 'fullscreen',
     options: {
       storySort: {
-        order: ['Foundations', 'Components', 'Layout']
+        order: ['Foundations', 'Components', 'Layout', 'Templates']
       }
     }
   }

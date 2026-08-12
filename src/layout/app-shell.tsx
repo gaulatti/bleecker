@@ -13,10 +13,10 @@ export interface AppShellProps {
 
 export function AppShell({ children, className, contentClassName, footer, header, offsetHeader = true }: AppShellProps) {
   return (
-    <div className={cn('min-h-screen flex flex-col text-text-primary dark:text-text-primary', className)}>
+    <div className={cn('flex min-h-screen flex-col bg-background text-foreground', className)}>
       {header}
-      <main className={cn('flex-1 flex flex-col min-h-0 bg-white dark:bg-deep-sea', offsetHeader && 'pt-[72px]', contentClassName)}>
-        <div className='flex-1 flex flex-col min-h-0'>{children}</div>
+      <main className={cn('flex min-h-0 flex-1 flex-col bg-background', header && offsetHeader && 'pt-[var(--bleecker-header-height)]', contentClassName)}>
+        <div className='flex min-h-0 flex-1 flex-col'>{children}</div>
       </main>
       {footer}
     </div>

@@ -59,6 +59,7 @@
   --color-dark-sand: var(--app-dark-sand);
   --color-sunset: var(--app-sunset);
   --color-accent-gold: var(--app-accent-gold);
+  --color-accent-text: var(--app-accent-text);
   --color-accent-oxblood: var(--app-accent-oxblood);
   --color-accent-bronze: var(--app-accent-bronze);
   --color-accent-blue: var(--app-accent-blue);
@@ -100,6 +101,7 @@
     --app-dark-sand: #d4c4a9;
     --app-sunset: #ff9677;
     --app-accent-gold: #c6a760;
+    --app-accent-text: #8a5735;
     --app-accent-oxblood: #76323f;
     --app-accent-bronze: #cd7f32;
     --app-accent-blue: #2c5784;
@@ -140,6 +142,7 @@
     --app-dark-sand: #243447;
     --app-sunset: #ff9677;
     --app-accent-gold: #d4af37;
+    --app-accent-text: #e0ac69;
     --app-accent-oxblood: #76323f;
     --app-accent-bronze: #cd7f32;
     --app-accent-blue: #5ba3f5;

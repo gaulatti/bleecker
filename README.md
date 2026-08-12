@@ -40,6 +40,19 @@ import { Button } from '@gaulatti/bleecker/components/button';
 - Controls use consistent 32, 40, and 48 pixel heights.
 - Motion is brief and functional, with reduced-motion behavior included globally.
 
+## Luxury composition
+
+Luxury in Bleecker comes from editing and proportion, not decoration. The most reliable compositions use one dominant focal plane, one quieter supporting rail, and enough negative space for the hierarchy to remain obvious.
+
+- Start with `PageFrame` so product pages share the same gutters, readable widths, and vertical cadence.
+- Use `DetailLayout` for asymmetric detail pages, editorial views, and sticky summary rails instead of assembling new grid proportions each time.
+- Use `AuthShell` for focused sign-in, invitation, and onboarding moments with an optional narrative panel.
+- Prefer hairline borders for default surfaces. Reserve `Card`'s `elevated` variant and stronger shadows for the single surface that truly sits above the page.
+- Keep supporting copy in `font-secondary`, eyebrow copy brief, and data labels at a readable contrast. A restrained accent should guide attention rather than tint every section.
+- Avoid grids of equally weighted cards when one number, action, or story is more important. Give that item more scale or span and quiet the rest.
+
+Storybook's **Templates** section includes complete public, operational, commerce, hospitality, and private-client compositions. Treat them as starting points: keep their hierarchy and rhythm, then replace the domain copy and content.
+
 ## Theming
 
 The default light and dark themes are defined with `--app-*` custom properties in the stylesheet. Override those properties after importing Bleecker styles to adapt the theme without changing component markup.

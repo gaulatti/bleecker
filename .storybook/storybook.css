@@ -1,0 +1,5 @@
+@import '../src/styles/global.css';
+
+/* Template-only utilities belong in Storybook, not the published package CSS. */
+@source '../stories/**/*.{ts,tsx,mdx}';
+@source './**/*.{ts,tsx}';

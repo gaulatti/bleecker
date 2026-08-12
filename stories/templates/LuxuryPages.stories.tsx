@@ -19,7 +19,7 @@ import { Tabs } from '../../src/components/tabs';
 import { Timeline } from '../../src/components/timeline';
 
 const meta = {
-  title: 'Foundations/Luxury Calibration',
+  title: 'Templates/Luxury Pages',
   parameters: { layout: 'fullscreen' }
 } satisfies Meta;
 
