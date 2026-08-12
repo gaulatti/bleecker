@@ -9,7 +9,7 @@ export interface BrandLockupProps {
   href: string;
   logoAlt?: string;
   logoSrc?: string;
-  name: string;
+  name?: string;
   renderLink?: RenderLink<NavItem>;
   size?: 'sm' | 'lg';
 }
@@ -23,9 +23,9 @@ export function BrandLockup({ className, href, logoAlt = 'gaulatti', logoSrc = g
       {linkRenderer({
         item: {
           href,
-          label: name
+          label: name ?? logoAlt
         },
-        className: cn('group inline-flex items-center gap-4 transition-all duration-400', className),
+        className: cn('group inline-flex items-center transition-all duration-400', name && 'gap-4', className),
         children: (
           <>
             <img
@@ -33,15 +33,19 @@ export function BrandLockup({ className, href, logoAlt = 'gaulatti', logoSrc = g
               alt={logoAlt}
               className={cn('w-auto opacity-90 transition-opacity duration-400 group-hover:opacity-100 dark:invert', isLarge ? 'h-12' : 'h-8')}
             />
-            <div className={cn('w-px bg-sand/55 dark:bg-white/18', isLarge ? 'h-12' : 'h-8')} />
-            <span
-              className={cn(
-                'font-[family-name:var(--font-display)] font-semibold tracking-refined text-text-primary dark:text-text-primary',
-                isLarge ? 'text-3xl' : 'text-xl'
-              )}
-            >
-              {name}
-            </span>
+            {name ? (
+              <>
+                <div className={cn('w-px bg-sand/55 dark:bg-white/18', isLarge ? 'h-12' : 'h-8')} />
+                <span
+                  className={cn(
+                    'font-[family-name:var(--font-display)] font-semibold tracking-refined text-text-primary dark:text-text-primary',
+                    isLarge ? 'text-3xl' : 'text-xl'
+                  )}
+                >
+                  {name}
+                </span>
+              </>
+            ) : null}
           </>
         )
       })}

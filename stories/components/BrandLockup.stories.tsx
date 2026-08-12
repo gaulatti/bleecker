@@ -27,6 +27,12 @@ export const CustomLogo: Story = {
   }
 };
 
+export const LogoOnly: Story = {
+  args: {
+    name: undefined
+  }
+};
+
 export const LongName: Story = {
   args: {
     name: 'Bleecker Design System',
