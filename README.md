@@ -8,11 +8,50 @@ Bleecker is a refined React component library built around the Encode Sans typef
 npm install @gaulatti/bleecker
 ```
 
-Import the compiled component styles once in your application:
+Choose one stylesheet integration. Tailwind CSS v4 applications should compile
+Bleecker together with their own utilities:
+
+```css
+/* app.css */
+@import "@gaulatti/bleecker/styles.base.css";
+@source "../node_modules/@gaulatti/bleecker/dist/**/*.js";
+@source "./**/*.{ts,tsx}";
+```
+
+Do not also import `@gaulatti/bleecker/styles.css` in a Tailwind application.
+Doing so loads a second compiled utility layer and can change responsive layout
+behavior through the cascade.
+
+Applications that do not compile Tailwind should instead import the complete,
+precompiled stylesheet once:
 
 ```ts
 import '@gaulatti/bleecker/styles.css';
 ```
+
+## Attention feeds
+
+Use Bleecker's feed primitives for multi-column monitoring, event indexes, and
+other continuously updated operational views:
+
+```tsx
+import { AttentionSurface } from '@gaulatti/bleecker/components/attention-surface';
+import { FeedColumn } from '@gaulatti/bleecker/layout/feed-column';
+import { FeedGrid } from '@gaulatti/bleecker/layout/feed-grid';
+
+<FeedColumn accent='hsl(285 64% 66%)' count={50} title='Business'>
+  <AttentionSurface hue={285} intensity={2}>
+    Low-urgency item: 80% column hue, 20% red.
+  </AttentionSurface>
+</FeedColumn>;
+
+<FeedGrid minColumnWidth={360}>{eventCards}</FeedGrid>;
+```
+
+`AttentionSurface` accepts a continuous intensity from 0–10. Intensity changes
+both the category-to-red color mix and the distance traveled by the gradient.
+Consumers decide what intensity means—relevance, magnitude, risk, confidence,
+or another domain measure—but should not reimplement the visual interpolation.
 
 ```tsx
 import { Button, Field, Input } from '@gaulatti/bleecker';
