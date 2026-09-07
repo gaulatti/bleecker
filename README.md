@@ -115,6 +115,14 @@ import { radii, spacing, themes } from '@gaulatti/bleecker/tokens';
 
 `src/tokens/source.ts` is canonical. The web CSS token layer is generated from it during the build and checked for drift in CI. [Thompson](https://github.com/gaulatti/thompson), Bleecker's React Native sibling, consumes these exports and supplies native renderers.
 
+## Generated contract conformance
+
+Bleecker may consume a pinned renderer-neutral artifact as conformance input,
+but generated output never overwrites its hand-authored components. The
+[Kolibri Toggle parity decision](docs/kolibri-toggle-parity.md) documents the
+first bounded proof, its immutable fixture, browser accessibility and visual
+evidence, unsupported `ToggleGroup` boundary, and proceed-with-adapter result.
+
 ## Development
 
 ```sh

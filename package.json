@@ -59,14 +59,15 @@
     "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
     "build:tokens": "node scripts/generate-token-css.mjs",
     "check:tokens": "node scripts/generate-token-css.mjs --check",
+    "check:kolibri-toggle": "npm --prefix conformance/kolibri-toggle test",
     "build:css": "npm run build:tokens && node -e \"require('node:fs').mkdirSync('dist',{recursive:true})\" && tailwindcss -i src/styles/global.css -o dist/styles.css --minify",
-    "build": "npm run clean && npm run check:exports-stories && npm run build:css && tsc && node scripts/fix-esm-imports.mjs",
+    "build": "npm run clean && npm run check:exports-stories && npm run check:kolibri-toggle && npm run build:css && tsc && node scripts/fix-esm-imports.mjs",
     "storybook": "npm run build:css && storybook dev -p 6006",
     "test": "vitest run",
-    "build-storybook": "npm run check:exports-stories && npm run build:css && storybook build",
+    "build-storybook": "npm run check:exports-stories && npm run check:kolibri-toggle && npm run build:css && storybook build",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "check:exports-stories": "node scripts/check-exports-and-stories.mjs",
-    "check": "npm run check:tokens && npm run typecheck && npm run check:exports-stories && npm test",
+    "check": "npm run check:tokens && npm run typecheck && npm run check:exports-stories && npm run check:kolibri-toggle && npm test",
     "prepack": "npm run build"
   },
   "peerDependencies": {
