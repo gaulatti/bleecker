@@ -1,0 +1,255 @@
+{
+  "artifact": {
+    "assetSha256": "49f13d21e868cf81be3ef1b2b7a611d6bb0d2655771734db84d41f4244ea0fa8",
+    "commit": "6beefce0f1d2e6bbd87bd0a573753be6c9565705",
+    "fixtureSha256": "43d00f4ca3a68a8ff3f41525285a29239acef3da626b7d1a0c634ae280f0affd",
+    "manifestSha256": "aec1a74fb557ab0a5d254b5ac8d98306e552dc88cdb6ebeeb6f98d1460cfe134",
+    "releaseLandedCommit": "f14a631a001f867e208be6053ac07df32fda4dca",
+    "releaseVersion": "0.1.0",
+    "repository": "gaulatti/kolibri",
+    "schemaVersion": "1.0.0",
+    "sourceRevision": "24e6905a0a6b9e6dae08b0832781b0f06f8c0b5f"
+  },
+  "classificationCounts": {
+    "adapted": 10,
+    "exact": 10,
+    "kolibri-defect": 0,
+    "platform-exception": 2,
+    "unsupported": 1
+  },
+  "defects": [],
+  "family": {
+    "behaviors": [
+      "press-on",
+      "press-off",
+      "focus-control"
+    ],
+    "entrypoint": "bleecker-toggle-family",
+    "focusTargets": [
+      "control"
+    ],
+    "name": "Toggle",
+    "semanticParts": [
+      "control",
+      "icon",
+      "label"
+    ],
+    "states": {
+      "disabled": [
+        false,
+        true
+      ],
+      "pressed": [
+        false,
+        true
+      ]
+    },
+    "transitions": [
+      {
+        "behavior": "press-off",
+        "emit": "pressed-change",
+        "event": "activate-pressed",
+        "state": "pressed",
+        "value": false
+      },
+      {
+        "behavior": "press-on",
+        "emit": "pressed-change",
+        "event": "activate-unpressed",
+        "state": "pressed",
+        "value": true
+      }
+    ],
+    "variants": {
+      "size": [
+        "sm",
+        "md",
+        "lg"
+      ],
+      "variant": [
+        "default",
+        "outline"
+      ]
+    }
+  },
+  "mappings": [
+    {
+      "bleecker": "checksummed input is validated and rendered through the Lucide Bold icon",
+      "classification": "adapted",
+      "dimension": "asset.bold-icon",
+      "kolibri": "checksummed bold.svg icon asset",
+      "reason": "Bleecker retains icon-library ownership while preserving the pinned asset identity and meaning."
+    },
+    {
+      "bleecker": "onPressedChange(false) precedes the consumer onClick callback",
+      "classification": "adapted",
+      "dimension": "behavior.activate-pressed",
+      "kolibri": "clear pressed, then emit pressed-change=false",
+      "reason": "Bleecker is controlled, so the parent owns the state write while callback ordering preserves the sequence."
+    },
+    {
+      "bleecker": "onPressedChange(true) precedes the consumer onClick callback",
+      "classification": "adapted",
+      "dimension": "behavior.activate-unpressed",
+      "kolibri": "set pressed, then emit pressed-change=true",
+      "reason": "Bleecker is controlled, so the parent owns the state write while callback ordering preserves the sequence."
+    },
+    {
+      "bleecker": "native disabled button suppresses pointer and keyboard activation",
+      "classification": "exact",
+      "dimension": "behavior.disabled-suppression",
+      "kolibri": "disabled state is declared; DOM suppression is consumer-owned",
+      "reason": "The browser-native disabled control supplies the required observable behavior."
+    },
+    {
+      "bleecker": "the forwarded ref and native button receive keyboard focus",
+      "classification": "exact",
+      "dimension": "behavior.focus",
+      "kolibri": "focus-control targets the control part",
+      "reason": "Focus lands on the same semantic control."
+    },
+    {
+      "bleecker": "ToggleGroup and ToggleGroupItem remain hand-authored extensions",
+      "classification": "unsupported",
+      "dimension": "family.toggle-group",
+      "kolibri": "no single-select or multiple-select group contract is present",
+      "reason": "The pinned artifact cannot safely generate or validate group selection semantics."
+    },
+    {
+      "bleecker": "Toggle React component at @gaulatti/bleecker/components/toggle",
+      "classification": "adapted",
+      "dimension": "identity.component",
+      "kolibri": "Toggle atom at bleecker-toggle-family",
+      "reason": "The component identity matches while the renderer-owned module entrypoint stays unchanged."
+    },
+    {
+      "bleecker": "native button element with type=button",
+      "classification": "exact",
+      "dimension": "part.control",
+      "kolibri": "button element with type=button",
+      "reason": "Element and non-submit behavior match."
+    },
+    {
+      "bleecker": "consumer-composed Lucide Bold icon is explicitly aria-hidden",
+      "classification": "adapted",
+      "dimension": "part.icon",
+      "kolibri": "icon part references checksummed bold.svg and is aria-hidden",
+      "reason": "Asset identity is verified, but Bleecker retains icon-library rendering ownership."
+    },
+    {
+      "bleecker": "consumer-composed visible Bold text supplies the accessible name",
+      "classification": "adapted",
+      "dimension": "part.label",
+      "kolibri": "label part contains Bold",
+      "reason": "Text semantics match without adding generated part markup to the public API."
+    },
+    {
+      "bleecker": "pressed, onPressedChange, size, variant, children, and native button props",
+      "classification": "adapted",
+      "dimension": "public.react-api",
+      "kolibri": "renderer-neutral state, event, action, and part vocabulary",
+      "reason": "The existing controlled React API expresses the contract without an additive public adapter."
+    },
+    {
+      "bleecker": "visible Bold text and optional aria-label are exposed by the native button",
+      "classification": "exact",
+      "dimension": "semantics.accessible-name",
+      "kolibri": "aria-label=Bold",
+      "reason": "The browser accessibility tree resolves the same role and name."
+    },
+    {
+      "bleecker": "native disabled attribute",
+      "classification": "exact",
+      "dimension": "semantics.disabled",
+      "kolibri": "boolean disabled state",
+      "reason": "State and platform semantics match."
+    },
+    {
+      "bleecker": "aria-pressed mirrors the controlled pressed prop",
+      "classification": "exact",
+      "dimension": "semantics.pressed",
+      "kolibri": "boolean aria-pressed state",
+      "reason": "Both pressed values are observable to assistive technology."
+    },
+    {
+      "bleecker": "false and true",
+      "classification": "exact",
+      "dimension": "state.disabled",
+      "kolibri": "false and true",
+      "reason": "The complete declared state vocabulary is rendered."
+    },
+    {
+      "bleecker": "false and true",
+      "classification": "exact",
+      "dimension": "state.pressed",
+      "kolibri": "false and true",
+      "reason": "The complete declared state vocabulary is rendered."
+    },
+    {
+      "bleecker": "sm, md, lg",
+      "classification": "exact",
+      "dimension": "variant.size",
+      "kolibri": "sm, md, lg",
+      "reason": "The public vocabulary is identical."
+    },
+    {
+      "bleecker": "default, outline",
+      "classification": "exact",
+      "dimension": "variant.variant",
+      "kolibri": "default, outline",
+      "reason": "The public vocabulary is identical."
+    },
+    {
+      "bleecker": "tokenized focus-visible ring with a dark-theme color",
+      "classification": "adapted",
+      "dimension": "visual.focus-ring",
+      "kolibri": "focus intent only; presentation is consumer-owned",
+      "reason": "Bleecker supplies its established visual language without changing contract semantics."
+    },
+    {
+      "bleecker": "pressed, unpressed, outline, and focus colors use Bleecker theme tokens",
+      "classification": "adapted",
+      "dimension": "visual.light-dark",
+      "kolibri": "theme presentation is not specified",
+      "reason": "Theme ownership correctly remains with Bleecker."
+    },
+    {
+      "bleecker": "tokenized control transition with global reduced-motion suppression",
+      "classification": "platform-exception",
+      "dimension": "visual.motion",
+      "kolibri": "motion is not specified",
+      "reason": "Browser motion and reduced-motion behavior are platform presentation concerns."
+    },
+    {
+      "bleecker": "the intrinsic control keeps the same semantics and dimensions at mobile and desktop widths",
+      "classification": "platform-exception",
+      "dimension": "visual.responsive",
+      "kolibri": "no breakpoint behavior is declared",
+      "reason": "No generated responsive rule exists to map; viewport behavior remains stable."
+    },
+    {
+      "bleecker": "tokenized heights, spacing, and type scale per size",
+      "classification": "adapted",
+      "dimension": "visual.size-style",
+      "kolibri": "size names only",
+      "reason": "Bleecker owns the concrete size presentation."
+    }
+  ],
+  "recommendation": {
+    "decision": "proceed-with-adapter",
+    "generatedSourcePolicy": "never-overwrite-hand-authored-source",
+    "publicAPI": "unchanged",
+    "rationale": "Use pinned Kolibri intent as an input to conformance checks while Bleecker retains React behavior, accessibility, assets, and presentation ownership."
+  },
+  "visualMatrix": {
+    "cells": 48,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "viewports": [
+      "390x844",
+      "1280x960"
+    ]
+  }
+}
