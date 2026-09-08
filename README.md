@@ -133,3 +133,8 @@ npm run build
 ```
 
 The build cleans generated output before compilation so removed modules cannot remain in published packages.
+
+## License
+
+Bleecker, including its published npm versions, is available under the
+[MIT License](LICENSE).
