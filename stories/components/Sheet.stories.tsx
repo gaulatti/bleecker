@@ -4,15 +4,35 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Sheet } from '../../src/components/sheet';
 import { Button } from '../../src/components/button';
 import { SectionHeader } from '../../src/components/section-header';
+import { ModalLayerContract, verifyInitiallyOpen, verifyModalLayer, verifyParentUnmount } from './modal-layer-contract';
 
 const meta = {
   component: Sheet,
   title: 'Components/Sheet',
-  parameters: { layout: 'centered' }
+  parameters: {
+    layout: 'centered',
+    viewport: { options: { modalMobile: { name: 'Mobile modal', styles: { width: '390px', height: '844px' } } } }
+  },
+  globals: { viewport: { value: 'modalMobile', isRotated: false } }
 } satisfies Meta<typeof Sheet>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+export const KeyboardLifecycle: Story = {
+  render: () => <ModalLayerContract kind='sheet' />,
+  play: async ({ canvasElement }) => verifyModalLayer(canvasElement)
+};
+
+export const InitiallyOpen: Story = {
+  render: () => <ModalLayerContract kind='sheet' initiallyOpen />,
+  play: async ({ canvasElement }) => verifyInitiallyOpen(canvasElement)
+};
+
+export const ParentUnmount: Story = {
+  render: () => <ModalLayerContract kind='sheet' />,
+  play: async ({ canvasElement }) => verifyParentUnmount(canvasElement)
+};
 
 export const Right: Story = {
   render: () => {

@@ -19,7 +19,15 @@ export default defineConfig({
             enabled: true,
             headless: true,
             provider: playwright({}),
-            instances: [{ browser: 'chromium' }]
+            instances: [
+              { browser: 'chromium' },
+              {
+                browser: 'chromium',
+                name: 'modal-mobile-reduced-motion',
+                include: ['stories/components/{Drawer,Sheet}.stories.tsx'],
+                provider: playwright({ contextOptions: { reducedMotion: 'reduce' } })
+              }
+            ]
           }
         }
       }

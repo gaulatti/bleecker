@@ -37,7 +37,7 @@ export function Drawer({ children, className, description, isOpen, onClose, titl
   if (typeof document === 'undefined' || !present) return null;
 
   return createPortal(
-    <div className='fixed inset-0 z-50'>
+    <div className={cn('fixed inset-0 z-50', !isOpen && 'pointer-events-none')} aria-hidden={!isOpen || undefined}>
       {/* Backdrop */}
       <div
         className={cn(

@@ -112,67 +112,123 @@ export function useEventCallback<T extends (...args: any[]) => any>(callback?: T
 
 const focusableSelector = [
   'a[href]',
-  'button:not([disabled])',
-  'input:not([disabled])',
-  'select:not([disabled])',
-  'textarea:not([disabled])',
-  '[tabindex]:not([tabindex="-1"])'
+  'button',
+  'input',
+  'select',
+  'textarea',
+  '[contenteditable="true"]',
+  '[tabindex]'
 ].join(',');
 
+function focusableElements(layer: HTMLElement) {
+  return Array.from(layer.querySelectorAll<HTMLElement>(focusableSelector)).filter((element) =>
+    element.tabIndex >= 0 &&
+    !element.matches(':disabled') &&
+    !element.closest('[hidden], [inert], [aria-hidden="true"]') &&
+    element.getClientRects().length > 0 &&
+    getComputedStyle(element).visibility === 'visible'
+  );
+}
+
+interface ModalEntry {
+  layer: HTMLElement;
+  previousFocus: HTMLElement | null;
+}
+
+interface ModalStack {
+  entries: ModalEntry[];
+  overflow: string;
+}
+
+// One scroll lock per document, including nested portals and out-of-order unmounts.
+const modalStacks = new WeakMap<Document, ModalStack>();
+
 /**
- * Supplies the focus, Escape, and scroll-lock behavior expected of custom
- * modal surfaces such as sheets and drawers.
+ * Attach the returned ref to the panel. Activation follows actual DOM
+ * attachment, including panels mounted after an entrance-presence update.
  */
 export function useModalLayer<T extends HTMLElement>(open: boolean, onDismiss: () => void) {
+  const [layer, setLayer] = React.useState<T | null>(null);
   const layerRef = React.useRef<T>(null);
   const dismiss = useEventCallback(onDismiss);
 
+  // Presence can attach the DOM on a later commit without changing `open`.
+  // Preserve the public object-ref contract while tracking those attachments.
+  React.useLayoutEffect(() => {
+    const node = layerRef.current;
+    // An exit animation keeps the panel mounted after it stops being modal.
+    if (node) node.inert = !open;
+    setLayer(node);
+  });
+
   React.useEffect(() => {
-    if (!open || typeof document === 'undefined') return undefined;
+    if (!open || !layer) return undefined;
 
-    const layer = layerRef.current;
-    if (!layer) return undefined;
-
-    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
-    const focusable = Array.from(layer.querySelectorAll<HTMLElement>(focusableSelector));
-    (focusable[0] ?? layer).focus({ preventScroll: true });
+    const doc = layer.ownerDocument;
+    let stack = modalStacks.get(doc);
+    if (!stack) {
+      stack = { entries: [], overflow: doc.body.style.overflow };
+      modalStacks.set(doc, stack);
+      doc.body.style.overflow = 'hidden';
+    }
+    const entry: ModalEntry = {
+      layer,
+      previousFocus: doc.activeElement instanceof HTMLElement ? doc.activeElement : null
+    };
+    stack.entries.push(entry);
+    const isActive = () => stack.entries.at(-1) === entry;
+    const focusFirst = () => (focusableElements(layer)[0] ?? layer).focus({ preventScroll: true });
+    focusFirst();
 
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (!isActive() || event.defaultPrevented) return;
       if (event.key === 'Escape') {
         event.preventDefault();
         dismiss();
         return;
       }
-
       if (event.key !== 'Tab') return;
-      const currentFocusable = Array.from(layer.querySelectorAll<HTMLElement>(focusableSelector));
-      if (currentFocusable.length === 0) {
+      const focusable = focusableElements(layer);
+      const first = focusable[0];
+      const last = focusable.at(-1);
+      if (!first || !last) {
         event.preventDefault();
-        layer.focus();
-        return;
-      }
-
-      const first = currentFocusable[0];
-      const last = currentFocusable[currentFocusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
+        layer.focus({ preventScroll: true });
+      } else if (!focusable.includes(doc.activeElement as HTMLElement)) {
         event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
+        (event.shiftKey ? last : first).focus({ preventScroll: true });
+      } else if (event.shiftKey && doc.activeElement === first) {
         event.preventDefault();
-        first.focus();
+        last.focus({ preventScroll: true });
+      } else if (!event.shiftKey && doc.activeElement === last) {
+        event.preventDefault();
+        first.focus({ preventScroll: true });
       }
     };
-
-    document.addEventListener('keydown', handleKeyDown);
+    doc.addEventListener('keydown', handleKeyDown);
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = previousOverflow;
-      previouslyFocused?.focus({ preventScroll: true });
+      doc.removeEventListener('keydown', handleKeyDown);
+      const wasActive = isActive();
+      const index = stack.entries.indexOf(entry);
+      // A child must return to the original trigger if its parent disappears.
+      for (const successor of stack.entries.slice(index + 1)) {
+        if (successor.previousFocus && layer.contains(successor.previousFocus)) successor.previousFocus = entry.previousFocus;
+      }
+      stack.entries.splice(index, 1);
+      const parent = stack.entries.at(-1);
+      if (!parent) {
+        doc.body.style.overflow = stack.overflow;
+        modalStacks.delete(doc);
+      }
+      if (!wasActive) return;
+      const previous = entry.previousFocus;
+      if (previous?.isConnected && (!parent || parent.layer.contains(previous))) {
+        previous.focus({ preventScroll: true });
+      } else if (parent) {
+        (focusableElements(parent.layer)[0] ?? parent.layer).focus({ preventScroll: true });
+      }
     };
-  }, [dismiss, open]);
+  }, [dismiss, layer, open]);
 
   return layerRef;
 }
