@@ -1,3 +1,4 @@
+import { PortaledMenusContract, verifyPortaledMenus } from './modal-composition-contract';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Settings, Trash2 } from 'lucide-react';
 
@@ -70,3 +71,5 @@ export const OnIconButton: Story = {
     </div>
   )
 };
+
+export const ModalPortalOwnership: Story = { render: () => <PortaledMenusContract />, play: async ({ canvasElement }) => verifyPortaledMenus(canvasElement) };

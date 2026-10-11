@@ -1,3 +1,4 @@
+import { PortaledMenusContract, verifyPortaledMenus } from './modal-composition-contract';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Button } from '../../src/components/button';
@@ -62,3 +63,5 @@ export const SelectionControls: Story = {
     </DropdownMenu>
   )
 };
+
+export const ModalPortalOwnership: Story = { render: () => <PortaledMenusContract />, play: async ({ canvasElement }) => verifyPortaledMenus(canvasElement) };

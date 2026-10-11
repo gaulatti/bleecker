@@ -2,6 +2,7 @@ import * as PopoverPrimitive from '@radix-ui/react-popover';
 import React from 'react';
 
 import { cn } from '../utils/cn';
+import { useModalBranch } from '../utils/hooks';
 
 export type PopoverSide = 'top' | 'bottom' | 'left' | 'right';
 export type PopoverAlign = 'start' | 'center' | 'end';
@@ -19,11 +20,14 @@ export interface PopoverProps {
 }
 
 export function Popover({ align = 'center', children, className, content, defaultOpen, onOpenChange, open, side = 'bottom', sideOffset = 4 }: PopoverProps) {
+  const branchRef = useModalBranch<HTMLDivElement>();
+
   return (
     <PopoverPrimitive.Root defaultOpen={defaultOpen} onOpenChange={onOpenChange} open={open}>
       <PopoverPrimitive.Trigger asChild>{children}</PopoverPrimitive.Trigger>
       <PopoverPrimitive.Portal>
         <PopoverPrimitive.Content
+          ref={branchRef}
           align={align}
           side={side}
           sideOffset={sideOffset}

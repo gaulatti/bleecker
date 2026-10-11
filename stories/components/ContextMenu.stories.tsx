@@ -1,3 +1,4 @@
+import { PortaledMenusContract, verifyPortaledMenus } from './modal-composition-contract';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '../../src/components/context-menu';
 
@@ -40,3 +41,5 @@ export const CompactActions: Story = {
     </ContextMenu>
   )
 };
+
+export const ModalPortalOwnership: Story = { render: () => <PortaledMenusContract />, play: async ({ canvasElement }) => verifyPortaledMenus(canvasElement) };

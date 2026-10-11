@@ -5,6 +5,8 @@ import { Button } from '../../src/components/button';
 import { Modal } from '../../src/components/modal';
 import { SectionHeader } from '../../src/components/section-header';
 
+import { MixedModalContract, verifyMixedModals } from './modal-composition-contract';
+
 const meta = {
   component: Modal,
   title: 'Components/Modal',
@@ -74,3 +76,5 @@ export const LongContent: Story = {
     );
   }
 };
+
+export const MixedModalStack: Story = { render: () => <MixedModalContract />, play: async ({ canvasElement }) => verifyMixedModals(canvasElement) };

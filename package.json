@@ -1,6 +1,6 @@
 {
   "name": "@gaulatti/bleecker",
-  "version": "0.1.41",
+  "version": "0.1.42",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -62,14 +62,15 @@
     "check:tokens": "node scripts/generate-token-css.mjs --check",
     "check:kolibri-toggle": "npm --prefix conformance/kolibri-toggle test",
     "build:css": "npm run build:tokens && node -e \"require('node:fs').mkdirSync('dist',{recursive:true})\" && tailwindcss -i src/styles/global.css -o dist/styles.css --minify",
-    "build": "npm run clean && npm run check:exports-stories && npm run check:kolibri-toggle && npm run build:css && tsc && node scripts/fix-esm-imports.mjs",
+    "build": "npm run clean && npm run check:exports-stories && npm run check:kolibri-toggle && npm run build:css && tsc && node scripts/fix-esm-imports.mjs && npm run check:runtime",
     "storybook": "npm run build:css && storybook dev -p 6006",
     "test": "vitest run",
     "build-storybook": "npm run check:exports-stories && npm run check:kolibri-toggle && npm run build:css && storybook build",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "check:exports-stories": "node scripts/check-exports-and-stories.mjs",
     "check": "npm run check:tokens && npm run typecheck && npm run check:exports-stories && npm run check:kolibri-toggle && npm test",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "check:runtime": "node scripts/check-package-runtime.mjs"
   },
   "peerDependencies": {
     "react": "^18.2.0 || ^19.0.0",
@@ -77,6 +78,7 @@
   },
   "dependencies": {
     "@radix-ui/react-collapsible": "^1.1.14",
+    "@radix-ui/react-compose-refs": "1.1.2",
     "@radix-ui/react-context-menu": "^2.2.16",
     "@radix-ui/react-dropdown-menu": "^2.1.18",
     "@radix-ui/react-label": "^2.1.10",

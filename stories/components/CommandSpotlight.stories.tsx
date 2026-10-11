@@ -68,6 +68,8 @@ const sampleActions: CommandSpotlightAction[] = [
   }
 ];
 
+import { MixedModalContract, verifyMixedModals } from './modal-composition-contract';
+
 const meta = {
   component: CommandSpotlight,
   title: 'Components/CommandSpotlight',
@@ -121,3 +123,5 @@ export const ShortcutOnly: Story = {
     </div>
   )
 };
+
+export const MixedModalStack: Story = { render: () => <MixedModalContract />, play: async ({ canvasElement }) => verifyMixedModals(canvasElement) };

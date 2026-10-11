@@ -65,7 +65,7 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const trigger = within(canvasElement).getByRole('combobox');
     await userEvent.click(trigger);
-    await expect(within(document.body).getByRole('listbox')).toBeVisible();
+    await expect(await within(document.body).findByRole('listbox')).toBeVisible();
     await userEvent.keyboard('{ArrowDown}{Enter}');
     await expect(trigger).toHaveTextContent('Madrid');
   }
