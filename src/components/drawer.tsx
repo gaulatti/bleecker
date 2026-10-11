@@ -5,7 +5,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 
 import { cn } from '../utils/cn';
-import { useModalLayer, usePresence } from '../utils/hooks';
+import { ModalLayerScope, useModalLayer, usePresence } from '../utils/hooks';
 
 export interface DrawerProps {
   children: React.ReactNode;
@@ -37,7 +37,7 @@ export function Drawer({ children, className, description, isOpen, onClose, titl
   if (typeof document === 'undefined' || !present) return null;
 
   return createPortal(
-    <div className={cn('fixed inset-0 z-50', !isOpen && 'pointer-events-none')} aria-hidden={!isOpen || undefined}>
+    <ModalLayerScope layerRef={panelRef}><div data-bleecker-modal-overlay className={cn('fixed inset-0 z-50', !isOpen && 'pointer-events-none')} aria-hidden={!isOpen || undefined}>
       {/* Backdrop */}
       <div
         className={cn(
@@ -78,7 +78,7 @@ export function Drawer({ children, className, description, isOpen, onClose, titl
         )}
         <div className='flex-1 overflow-y-auto px-6 pb-6 pt-0'>{children}</div>
       </div>
-    </div>,
+    </div></ModalLayerScope>,
     document.body
   );
 }

@@ -104,7 +104,7 @@ Interactive overlays and selection controls use accessible behavioral primitives
 
 Applications are still responsible for meaningful labels, logical page structure, and testing complete user flows in their own context.
 
-Drawer and Sheet activate keyboard focus when their panels mount, contain Tab
+Modal surfaces activate keyboard focus when their panels mount, contain Tab
 navigation, and restore focus and scrolling after dismissal, including nested
 panels. See the [modal keyboard lifecycle](docs/modal-keyboard-lifecycle.md) for
 the contract, interaction fixtures, and browser evidence.

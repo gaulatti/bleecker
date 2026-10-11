@@ -7,7 +7,7 @@ import { createPortal } from 'react-dom';
 import { Button } from './button';
 import { Kbd } from './kbd';
 import { cn } from '../utils/cn';
-import { usePresence } from '../utils/hooks';
+import { ModalLayerScope, useModalLayer, usePresence } from '../utils/hooks';
 
 const DEFAULT_GROUP = 'Actions';
 
@@ -191,20 +191,6 @@ export function CommandSpotlight({
       return;
     }
 
-    const timeout = window.setTimeout(() => {
-      inputRef.current?.focus();
-    }, 0);
-
-    return () => {
-      window.clearTimeout(timeout);
-    };
-  }, [isOpen]);
-
-  React.useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-
     setSelectedActionId((currentSelectedActionId) => {
       if (currentSelectedActionId && selectableActionIds.includes(currentSelectedActionId)) {
         return currentSelectedActionId;
@@ -246,12 +232,7 @@ export function CommandSpotlight({
         return;
       }
 
-      if (!isOpen || pressedKey !== 'escape') {
-        return;
-      }
 
-      event.preventDefault();
-      closeSpotlight();
     };
 
     window.addEventListener('keydown', handleWindowKeyDown);
@@ -259,6 +240,8 @@ export function CommandSpotlight({
       window.removeEventListener('keydown', handleWindowKeyDown);
     };
   }, [closeSpotlight, hotkey, isOpen, setIsOpen]);
+
+  const panelRef = useModalLayer<HTMLDivElement>(isOpen, closeSpotlight);
 
   const hotkeyHint = React.useMemo(() => {
     const modifier = isMacLike ? '⌘' : 'Ctrl';
@@ -288,7 +271,7 @@ export function CommandSpotlight({
   const renderOverlay =
     isOverlayPresent && typeof document !== 'undefined'
       ? createPortal(
-          <div className={cn('fixed inset-0 z-9999 flex items-start justify-center px-4 pt-[12vh]', overlayClassName)}>
+          <ModalLayerScope layerRef={panelRef}><div data-bleecker-modal-overlay aria-hidden={!isOpen || undefined} className={cn('fixed inset-0 z-9999 flex items-start justify-center px-4 pt-[12vh]', !isOpen && 'pointer-events-none', overlayClassName)}>
             <button
               type='button'
               onClick={closeSpotlight}
@@ -300,6 +283,9 @@ export function CommandSpotlight({
             />
 
             <div
+              ref={panelRef}
+              tabIndex={-1}
+              aria-label='Command spotlight'
               role='dialog'
               aria-modal='true'
               className={cn(
@@ -405,7 +391,7 @@ export function CommandSpotlight({
                 )}
               </div>
             </div>
-          </div>,
+          </div></ModalLayerScope>,
           document.body
         )
       : null;

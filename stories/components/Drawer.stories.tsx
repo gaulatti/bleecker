@@ -1,9 +1,13 @@
+import { NestedBranchContract, verifyNestedBranch } from './modal-composition-contract';
+import { PortaledMenusContract, verifyPortaledMenus } from './modal-composition-contract';
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Drawer } from '../../src/components/drawer';
 import { Button } from '../../src/components/button';
 import { EmptyModalContract, ModalLayerContract, verifyEmptyModal, verifyInitiallyOpen, verifyModalLayer, verifyParentUnmount } from './modal-layer-contract';
+
+import { MixedModalContract, SimultaneousNestedContract, NativeFocusContract, PortaledWidgetContract, FrameRealmContract, verifyMixedModals, verifySimultaneousNested, verifyNativeFocus, verifyPortaledWidget, verifyFrameRealm } from './modal-composition-contract';
 
 const meta = {
   component: Drawer,
@@ -88,3 +92,13 @@ export const WithContent: Story = {
     );
   }
 };
+
+export const MixedModalStack: Story = { render: () => <MixedModalContract />, play: async ({ canvasElement }) => verifyMixedModals(canvasElement) };
+export const SimultaneousNested: Story = { render: () => <SimultaneousNestedContract />, play: async ({ canvasElement }) => verifySimultaneousNested(canvasElement) };
+export const NativeFocusOrder: Story = { render: () => <NativeFocusContract />, play: async ({ canvasElement }) => verifyNativeFocus(canvasElement) };
+export const PortaledWidget: Story = { render: () => <PortaledWidgetContract />, play: async ({ canvasElement }) => verifyPortaledWidget(canvasElement) };
+export const FrameRealm: Story = { render: () => <FrameRealmContract />, play: async ({ canvasElement }) => verifyFrameRealm(canvasElement) };
+
+export const ModalPortalOwnership: Story = { render: () => <PortaledMenusContract />, play: async ({ canvasElement }) => verifyPortaledMenus(canvasElement) };
+
+export const NestedPortalFocusReturn: Story = { render: () => <NestedBranchContract />, play: async ({ canvasElement }) => verifyNestedBranch(canvasElement) };

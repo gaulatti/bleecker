@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 
 import { DialogCloseButton } from './dialog-close-button';
 import { cn } from '../utils/cn';
-import { useModalLayer, usePresence } from '../utils/hooks';
+import { ModalLayerScope, useModalLayer, usePresence } from '../utils/hooks';
 
 export type SheetSide = 'left' | 'right' | 'top' | 'bottom';
 
@@ -53,7 +53,7 @@ export function Sheet({ children, className, description, isOpen, onClose, scrol
   if (typeof document === 'undefined' || !present) return null;
 
   return createPortal(
-    <div className={cn('fixed inset-0 z-50 flex', !isOpen && 'pointer-events-none')} aria-hidden={!isOpen || undefined}>
+    <ModalLayerScope layerRef={panelRef}><div data-bleecker-modal-overlay className={cn('fixed inset-0 z-50 flex', !isOpen && 'pointer-events-none')} aria-hidden={!isOpen || undefined}>
       {/* Backdrop */}
       <div
         className={cn(
@@ -99,7 +99,7 @@ export function Sheet({ children, className, description, isOpen, onClose, scrol
           <div className={cn(scrollContent ? 'min-h-0 flex-1 overflow-y-auto' : 'flex min-h-0 flex-1 flex-col overflow-hidden')}>{children}</div>
         </div>
       </div>
-    </div>,
+    </div></ModalLayerScope>,
     document.body
   );
 }

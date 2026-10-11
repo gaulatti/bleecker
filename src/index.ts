@@ -1,5 +1,5 @@
-export * from './core';
-export * from './tokens';
+export * from './core/index';
+export * from './tokens/index';
 export * from './components/brand-lockup';
 export * from './components/bauhaus-background';
 export * from './components/activity-item';

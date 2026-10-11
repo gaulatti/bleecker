@@ -64,7 +64,7 @@ export const Default: Story = {
     const trigger = canvas.getByRole('combobox', { name: 'Select TV' });
     await userEvent.click(trigger);
     const menu = within(document.body);
-    await expect(menu.getByRole('listbox')).toBeVisible();
+    await expect(await menu.findByRole('listbox')).toBeVisible();
     await userEvent.click(menu.getByRole('option', { name: 'Studio C' }));
     await expect(trigger).toHaveTextContent('Studio C');
   }

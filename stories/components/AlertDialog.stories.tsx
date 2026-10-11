@@ -4,6 +4,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { AlertDialog } from '../../src/components/alert-dialog';
 import { Button } from '../../src/components/button';
 
+import { MixedModalContract, verifyMixedModals } from './modal-composition-contract';
+
 const meta = {
   component: AlertDialog,
   title: 'Components/AlertDialog',
@@ -56,3 +58,5 @@ export const Destructive: Story = {
     );
   }
 };
+
+export const MixedModalStack: Story = { render: () => <MixedModalContract />, play: async ({ canvasElement }) => verifyMixedModals(canvasElement) };

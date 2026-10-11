@@ -5,6 +5,7 @@ import { Check, ChevronDown, ChevronUp } from 'lucide-react';
 import React from 'react';
 
 import { cn } from '../utils/cn';
+import { useModalBranch } from '../utils/hooks';
 
 export interface SelectOption {
   disabled?: boolean;
@@ -59,6 +60,8 @@ export function Select({
   const hasEmptyOption = options.some((option) => option.value === '');
   const internalValue = value === '' && hasEmptyOption ? EMPTY_OPTION_VALUE : value || undefined;
 
+  const branchRef = useModalBranch<HTMLDivElement>();
+
   return (
     <SelectPrimitive.Root
       disabled={disabled}
@@ -89,6 +92,7 @@ export function Select({
 
       <SelectPrimitive.Portal>
         <SelectPrimitive.Content
+          ref={branchRef}
           position='popper'
           side='bottom'
           align='start'
