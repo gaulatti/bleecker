@@ -1,6 +1,6 @@
 {
   "name": "@gaulatti/bleecker",
-  "version": "0.1.42",
+  "version": "0.1.43",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -68,7 +68,8 @@
     "build-storybook": "npm run check:exports-stories && npm run check:kolibri-toggle && npm run build:css && storybook build",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "check:exports-stories": "node scripts/check-exports-and-stories.mjs",
-    "check": "npm run check:tokens && npm run typecheck && npm run check:exports-stories && npm run check:kolibri-toggle && npm test",
+    "check": "npm run check:tokens && npm run typecheck && npm run check:exports-stories && npm run check:kolibri-toggle && npm run test:select-reset && npm test",
+    "test:select-reset": "node --test tests/select-controlled-reset.test.mjs",
     "prepack": "npm run build",
     "check:runtime": "node scripts/check-package-runtime.mjs"
   },
