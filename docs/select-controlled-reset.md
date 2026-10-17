@@ -32,8 +32,9 @@ string and filters empty-valued options out of ordinary selects. Its
 validated form model as JSON, rather than reading DOM `FormData`, and it owns its
 required-field rules. The library's named form fixture and that application path
 are separate acceptance boundaries; a hidden-field test cannot establish the
-application's request behavior. No Ariston source or installed package is changed
-by this library preparation.
+application's request behavior. The library extraction changes no Ariston source
+or dependency declaration. The later temporary runtime-overlay trial below was
+restored to the original normal package afterward.
 
 ## Fixtures and checks
 
@@ -58,7 +59,9 @@ writing. Source checks, full strict affected-story types, normal prepack/runtime
 package/Storybook builds and packed public Select consumers on React 18.2.0 and
 19.2.4 pass separately. The local default browser suite remains unrun under the
 native-only restriction; allowed Node/build checks are not the full default
-chain. The repository's existing remote quality CI is a separate release check.
+chain. Existing source head `051b6aa` passed remote quality CI with 369 browser
+cases across 110 story files. A later documentation head requires its own quality
+run; the earlier head's result is not evidence for that later CI state.
 
 ## Recorded mounted native acceptance
 
@@ -98,9 +101,59 @@ changed. Screenshots were emitted in the conversation only, with no standalone
 image artifact claimed. The immutable native receipt has SHA-256
 `1cf5c55fdcce2ff636ebe7c8cb8e7801036758e4836296a77730124f9e034d7e`.
 
-Normal Ariston React Hook Form reset, required rejection, submitted JSON and
-dependency adoption remain open. This trial makes no physical-device, VoiceOver,
-IME/composition, hydration or production claim.
+The packed fixture proves its named native/FormData boundary. The distinct
+ordinary Ariston JSON-form trial is recorded below. Neither trial makes a
+physical-device, VoiceOver, IME/composition, hydration or production claim.
+
+## Recorded ordinary Ariston consumer acceptance
+
+The same exact unpublished archive was temporarily mounted read-only over the
+package in the normal Compose-served frontend, with application source and lock
+unchanged. The actual consumer used React 19.2.3, React Hook Form 7.71.1, Radix
+Select 2.3.7 and its nested controllable-state 1.2.6. Its standard typecheck and
+production build passed once in bounded scratch using the actual dependencies
+and archive. Normal visible TEST AUTH and guarded application paths remained in
+use; this was not production Cognito acceptance.
+
+With Language and Status empty, ordinary submission displayed both required
+errors, and the actual browser Network view recorded zero article POST requests.
+After keyboard selection of Spanish and Draft, one actual Create request returned
+201. While that real request was pending under Chrome's 3G preset, the unchanged
+parent reset supplied empty values and both Select trigger child texts visibly
+changed to “Select…”. This verifies the external-reset boundary rather than only
+an initially empty rendering or an accessible control name.
+
+The captured actual JSON, its 201 response and a normal guarded GET agreed on
+`es`, `draft`, existing author `1`, exact Unicode writing and social flags off.
+There was exactly one new retained draft, `35`; no duplicate create or deletion
+was performed. The original twelve article records and protected article/page
+fixtures remained exact. Ordinary desktop reopening and a native deep-link reload
+at 390×844 CSS pixels showed the unchanged writing, author and selected values.
+The Language and Status menus fit the narrow frame. After actual pointer focus,
+Space opened Language with Spanish selected; Escape dismissed it and restored
+focus. Status likewise dismissed with focus restored. No changes were saved by
+those reopen checks.
+
+The parent already resets other fields and default social controls while a create
+is pending. This change does not repair that parent policy; the captured submitted
+JSON, rather than pending UI defaults, establishes what was sent. A controlled-
+input warning from unchanged `DynamicForm` and an `aria-hidden` retained-focus
+warning during accessibility-index activation were sampled. Later actual pointer/
+keyboard open-and-Escape checks passed; this is not a clean-console or broader
+accessibility claim. The private capture and extracted request/response bodies
+were kept separate from public evidence and are not reproduced here. Draft and
+publication metadata do not prove physical S3 live-output absence; no S3/provider
+operation was part of this trial.
+
+The normal `0.1.42` package was restored afterward. The restored frontend was
+healthy and served HTTP 200; a real native reload again showed retained draft
+`35` unchanged. Restoration verification preserved all 53,440 original dependency
+files, application source/configuration/lock and the other 98 checked containers.
+Browser overrides were restored and DevTools closed. The public native acceptance
+receipt has SHA-256
+`f2aff052f11f4e97010138bc933d571b29ed35fb76434dbdd6cabccca0c0eec6`;
+its separate root review accepts the scoped behavior and completed restoration.
+This is temporary local consumer acceptance, not permanent dependency adoption.
 
 ## Release boundary
 
@@ -114,6 +167,7 @@ The preserved Select-writing/composition, modal lifecycle/hydration and command
 accessibility candidates are not included. This change makes no IME, screen-reader,
 streaming hydration, broader accessibility or production claim. Package review,
 release CI, tag/publication and exact registry artifact verification are separate
-steps. Normal Ariston adoption then needs its own dependency-only update, build
-and Compose-served controlled-form acceptance. There is no backend, API,
-publication-state, infrastructure or telemetry behavior change here.
+steps. The temporary ordinary Ariston form trial above passed and was restored;
+permanent adoption of a verified published package still needs its own scoped
+dependency update and delivery checks. There is no backend, API, publication-state,
+infrastructure or telemetry behavior change here.
