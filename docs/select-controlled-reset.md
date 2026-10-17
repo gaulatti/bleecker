@@ -119,9 +119,11 @@ With Language and Status empty, ordinary submission displayed both required
 errors, and the actual browser Network view recorded zero article POST requests.
 After keyboard selection of Spanish and Draft, one actual Create request returned
 201. While that real request was pending under Chrome's 3G preset, the unchanged
-parent reset supplied empty values and both Select trigger child texts visibly
-changed to “Select…”. This verifies the external-reset boundary rather than only
-an initially empty rendering or an accessible control name.
+parent reset supplied empty values. The triggers were offviewport at that pending
+observation; the native accessibility tree showed both Select trigger child texts
+change to “Select…”, while Creating… and the pending XHR were visible. This is a
+child-display-text observation, not an AX Value or VoiceOver speech claim. The
+separate packed fixture above establishes visible placeholder reset behavior.
 
 The captured actual JSON, its 201 response and a normal guarded GET agreed on
 `es`, `draft`, existing author `1`, exact Unicode writing and social flags off.
