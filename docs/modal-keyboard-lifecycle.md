@@ -26,7 +26,8 @@ on closure or unmount. A closing panel is inert and hidden from accessibility
 navigation during its retained exit animation; the backdrop no longer intercepts
 pointer input.
 
-The public modal component props and object-ref hook signature are unchanged.
+Existing modal prop usage and the object-ref hook signature remain supported.
+The additive CommandSpotlight input contract is described below.
 Typography, theme tokens, motion, SSR guards, and reduced-motion rules remain the
 established Bleecker contract. Modal and AlertDialog now use managed portals
 instead of independent native-dialog event lifecycles; this gives mixed overlays
@@ -156,3 +157,52 @@ The explicit action keeps the empty-state assertion independent of CPU timing.
 
 The public repository wiki remote was unavailable during the mandatory freshness
 check; documentation is maintained here until that wiki becomes accessible.
+
+## Command input identification and name
+
+CommandSpotlight's raw search input needs its own identity and explicit accessible
+name. The dialog's name labels the dialog; the placeholder remains a hint.
+The repair adds optional `inputLabel`, with the component default `Search commands`,
+and applies it directly as the input's `aria-label`. A caller can supply a
+nonempty localized/contextual name independently of `placeholder`. Existing
+callers need no new prop. An empty supplied label is not silently repaired.
+
+An unconditional component-level `React.useId()` supplies the input's native
+`id`. It stays stable through query rerenders and portal close/reopen while that
+CommandSpotlight component remains mounted, and differs between component
+instances. Its format is opaque; remounts need not retain the ID. Hosts with
+multiple independent React roots still own React's identifier-prefix contract.
+No `name`, autocomplete policy, generated data identity or persistence is added.
+Query matching, action dispatch, controlled-open callbacks, portal presence,
+Escape, focus return, motion and styling retain their existing contracts.
+Generic Input and Textarea remain unchanged.
+
+`DefaultInputIdentification` and `CustomInputIdentification` run through the
+existing Storybook/Vitest browser project. The shared
+`command-input-identification-contract.tsx` helper is outside package source
+and is not a registered story. Its play functions open the real
+portal input, assert explicit `aria-label` and accessible name rather than
+passing from placeholder text, inspect a nonempty native ID, type/filter and
+dispatch an action, then check focus return, query reset and ID stability on
+reopen. The custom fixture keeps two component instances mounted and verifies
+their IDs differ. It also verifies a supplied label remains independent from
+the placeholder after typing and that native name/autocomplete remain absent.
+Callback order is checked through the real controlled component path.
+
+The first regression phase intentionally keeps the old runtime: default naming
+and native-ID assertions must fail at the actual input boundary in remote CI.
+The custom prop is requested through a normal fixture object spread so the old
+API compiles without a cast or suppressed error. Genuine public root/direct
+type checks follow the runtime/API repair. No local automated browser runs,
+new project, dependency or workflow are needed. Native consumer acceptance
+and the disappearance of this specific advisory remain separate gates.
+
+Chromium describes missing id/name as an
+[autofill-identification advisory](https://chromium.googlesource.com/devtools/devtools-frontend/+/32c7209c2fbe12239d1be807b6452c7f3b1b961b/front_end/models/issues_manager/descriptions/genericFormEmptyIdAndNameAttributesForInputError.md),
+which does not by itself prove an absent accessible name. This change does not
+claim native autofill, assistive-technology speech, globally clean DevTools or
+full accessibility. Official pinned [React 19.2.4 source](https://github.com/facebook/react/blob/v19.2.4/packages/react-reconciler/src/ReactFiberHooks.js)
+stores the ID in mounted Hook state; [React 18.2.0 exposes the same Hook](https://github.com/facebook/react/blob/v18.2.0/packages/react/src/ReactHooks.js).
+The fixtures follow [Storybook 10.3.3 interaction testing](https://github.com/storybookjs/storybook/blob/v10.3.3/docs/writing-tests/interaction-testing.mdx).
+The public wiki was unavailable during the required freshness check; this
+contract is maintained in-repository.
