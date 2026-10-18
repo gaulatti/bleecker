@@ -51,9 +51,8 @@ changes continue to reread their stored preference.
 requests, observe the parent/provider readouts, and use the independent parent
 update. This story owns its provider, so its explicit Storybook parameter skips
 the outer persisted decorator and avoids two owners of the document class.
-Ordinary stories retain the original decorator. This fixture does not claim to
-be an opaque sandbox. Actual opaque host rendering
-and host appearance ownership require their own consumer acceptance.
+Ordinary stories retain the original decorator. This fixture is separate from
+the actual opaque-host consumer acceptance recorded below.
 
 `npm run test:theme` compiles the real provider, hook and toggle into an IIFE and
 mounts them inside JSDOM's own opaque window. `npm run typecheck:theme` checks
@@ -85,12 +84,49 @@ dependencies require `lru-cache ^11.5.3`, so the existing dev-only 11.2.7 entry
 advances to 11.5.3. All other prior lock entries, runtime/peer declarations and
 package version remain unchanged.
 
+Full remote [Check CI](https://github.com/gaulatti/bleecker/actions/runs/39144177583)
+passed for implementation `4f4b926bcd10135ae0be2227afa7180dbb5ce79e`:
+370 browser tests across 110 story files, four mounted theme cases, three
+Select-reset cases, five Kolibri cases, contract/source/public types, package
+build and Storybook build. The synthetic PR merge checkout
+`d1d4eb519fcf8380c5f496bc013df30f77894b85` has the same Git tree as that
+implementation. This is remote browser evidence; the browser leg was not run
+locally.
+
+Native Chrome checked the source-built controlled Storybook fixture: accepted
+and refused requests retained parent ownership, keyboard Space requested system
+mode and resolved the OS preference, and an independent parent update added no
+request. The ordinary fixture cycled and retained saved dark mode after a fresh
+document reload, then was restored to system mode. One initial default-story
+navigation failed a dynamic import despite asset HTTP 304/200; a normal hard
+reload resolved it without a source change.
+
+The corrected local archive also rendered in an actual opaque-origin iframe
+with its unchanged `allow-scripts`-only sandbox. Explicit host light/dark changes
+painted correctly at desktop and 390-width responsive preview, with 844-height
+metadata, using the desktop engine at 50% canvas scale. Original branding and
+UTF-8 writing rendered, and exact Unicode text remained through appearance and
+viewport changes. Native keyboard interaction remained functional. No storage
+SecurityError was observed in this repaired run. The host owned appearance and
+the consumer omitted its local theme toggle; the provider did not gain a host
+adapter or storage fallback.
+
+That native run observed CSP-blocked DevTools and two Lucide source-map
+requests, a four-warning badge and two issues. It does not establish a globally
+clean console, physical touch/device behavior, contrast measurement, or complete
+accessibility acceptance. These provider checks close the native controlled,
+default-persistence and opaque-host appearance gates for the tested artifacts;
+they do not approve the whole consumer product. A compact public
+[evidence record](evidence/controlled-theme-acceptance.json) binds the source,
+archive, compiled fragment and sandbox wrapper without private consumer details.
+
 The local artifact retains version 0.1.43 for testing only. It is distinct from
 the earlier Select-only release artifact and does not change that release's
-approval. No npm publication, version/tag selection, consumer adoption, remote
-push, deployment or backend/infrastructure behavior change is included. The
-existing default browser test leg, native opaque-sandbox rendering and consumer
-appearance bridge remain explicit review/acceptance gates.
+approval. Main merge/deployment, version/tag selection, npm publication and
+permanent consumer adoption remain separate decisions. Consumer product/human
+acceptance remains open. This documentation-only follow-up does not rebuild or
+repack the tested archive; its new PR head requires its own remote CI result.
+No backend/infrastructure behavior changes are included.
 
 Framework authority: the locked React 19.2.4 and minimum React 18.2.0 hook APIs
 are checked against their official
