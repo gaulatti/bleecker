@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { resolveTheme } from './theme-script';
-import type { ThemeMode, ThemeProviderProps } from './types';
+import type { ThemeMode, ThemeProviderOptions } from './types';
 
 interface ThemeContextValue {
   theme: ThemeMode;
@@ -54,15 +54,22 @@ function applyDocumentTheme(theme: ThemeMode) {
   return resolved;
 }
 
-export function ThemeProvider({ children, defaultTheme = 'system', storageKey = 'theme' }: ThemeProviderProps) {
-  const [theme, setThemeState] = React.useState<ThemeMode>(defaultTheme);
-  const [resolvedTheme, setResolvedTheme] = React.useState<'light' | 'dark'>(() => resolveTheme(defaultTheme, false));
+export function ThemeProvider(props: ThemeProviderOptions) {
+  const { children, defaultTheme = 'system', storageKey = 'theme' } = props;
+  const isControlled = props.theme !== undefined;
+  const [storedTheme, setThemeState] = React.useState<ThemeMode>(defaultTheme);
+  const theme = props.theme ?? storedTheme;
+  const [resolvedTheme, setResolvedTheme] = React.useState<'light' | 'dark'>(() => resolveTheme(theme, false));
 
   React.useEffect(() => {
+    if (isControlled) {
+      return;
+    }
+
     const initialTheme = readStoredTheme(storageKey, defaultTheme);
     setThemeState(initialTheme);
     setResolvedTheme(applyDocumentTheme(initialTheme));
-  }, [defaultTheme, storageKey]);
+  }, [isControlled, defaultTheme, storageKey]);
 
   React.useEffect(() => {
     if (typeof window === 'undefined') {
@@ -79,6 +86,11 @@ export function ThemeProvider({ children, defaultTheme = 'system', storageKey = 
 
   const setTheme = React.useCallback(
     (value: ThemeMode) => {
+      if (props.theme !== undefined) {
+        props.onThemeChange(value);
+        return;
+      }
+
       setThemeState(value);
       setResolvedTheme(applyDocumentTheme(value));
 
@@ -86,7 +98,7 @@ export function ThemeProvider({ children, defaultTheme = 'system', storageKey = 
         window.localStorage.setItem(storageKey, value);
       }
     },
-    [storageKey]
+    [props.theme, props.onThemeChange, storageKey]
   );
 
   const cycleTheme = React.useCallback(() => {

@@ -5,7 +5,7 @@ import { ThemeProvider } from '../src/theme/theme-provider';
 
 const preview: Preview = {
   decorators: [
-    (Story) => (
+    (Story, context) => context.parameters.themeProvider === 'story' ? <Story /> : (
       <ThemeProvider>
         <Story />
       </ThemeProvider>
