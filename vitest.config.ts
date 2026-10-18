@@ -45,6 +45,20 @@ export default defineConfig({
             instances: [{ browser: 'chromium' }]
           }
         }
+      },
+      {
+        extends: true,
+        plugins: [tailwindcss()],
+        test: {
+          name: 'control-focus-contrast',
+          include: ['tests/control-focus.browser.test.tsx'],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({}),
+            instances: [{ browser: 'chromium' }]
+          }
+        }
       }
     ]
   }
