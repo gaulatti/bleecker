@@ -104,6 +104,15 @@ Interactive overlays and selection controls use accessible behavioral primitives
 
 Applications are still responsible for meaningful labels, logical page structure, and testing complete user flows in their own context.
 
+`Select` stays controlled by its required string `value`, including `''`. Without
+an explicit empty-valued option, clearing the parent value restores the supplied
+placeholder and empty native form entry. An explicit empty-valued option keeps
+its existing label and callback translation. The **Components/Select/Controlled
+Empty** fixture exposes choice, callbacks, native value and submitted form value;
+**Empty Option And Reading** covers the existing empty option and disabled saved
+selection. See the [controlled reset contract](docs/select-controlled-reset.md)
+for the feature boundary and remaining acceptance.
+
 Modal surfaces activate keyboard focus when their panels mount, contain Tab
 navigation, and restore focus and scrolling after dismissal, including nested
 panels. See the [modal keyboard lifecycle](docs/modal-keyboard-lifecycle.md) for
