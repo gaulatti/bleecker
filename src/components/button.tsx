@@ -40,7 +40,7 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
   ref
 ) {
   const classes = cn(
-    'inline-flex shrink-0 translate-y-0 scale-100 items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-button)] border font-medium tracking-ui transition-[background-color,border-color,color,box-shadow,transform,opacity] duration-[var(--motion-control)] ease-premium outline-none active:translate-y-px active:scale-[0.99] active:shadow-none focus-visible:ring-2 focus-visible:ring-sea/35 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:transform-none disabled:opacity-45 dark:focus-visible:ring-accent-blue/45 dark:focus-visible:ring-offset-deep-sea',
+    'inline-flex shrink-0 translate-y-0 scale-100 items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-button)] border font-medium tracking-ui transition-[background-color,border-color,color,box-shadow,transform,opacity] duration-[var(--motion-control)] ease-premium outline-none active:translate-y-px active:scale-[0.99] active:shadow-none focus-visible:ring-2 focus-visible:ring-sea focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:transform-none disabled:opacity-45 dark:focus-visible:ring-accent-blue dark:focus-visible:ring-offset-deep-sea',
     variantClasses[variant],
     variant !== 'link' && sizeClasses[size],
     fullWidth && 'w-full',
