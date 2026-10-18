@@ -9,3 +9,15 @@ export interface ThemeProviderProps {
   defaultTheme?: ThemeMode;
   storageKey?: string;
 }
+
+export interface ControlledThemeProviderProps {
+  children: ReactNode;
+  theme: ThemeMode;
+  onThemeChange: (theme: ThemeMode) => void;
+  defaultTheme?: never;
+  storageKey?: never;
+}
+
+export type ThemeProviderOptions =
+  | (ThemeProviderProps & { theme?: never; onThemeChange?: never })
+  | ControlledThemeProviderProps;

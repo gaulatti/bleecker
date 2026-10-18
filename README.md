@@ -98,6 +98,11 @@ The default light and dark themes are defined with `--app-*` custom properties i
 
 The `ThemeProvider`, `ThemeToggle`, and `BleeckerThemeScript` exports provide persisted light, dark, and system modes. Render `BleeckerThemeScript` in the document head when server rendering to avoid a theme flash.
 
+Pass `theme` and the required `onThemeChange` together for a parent-controlled,
+storage-free provider. Requests do not change the provider until its parent
+updates `theme`. Controlled hosts omit the persisted head script. See the
+[controlled-theme contract](docs/controlled-theme.md).
+
 ## Accessibility
 
 Interactive overlays and selection controls use accessible behavioral primitives. Form controls forward native attributes; `Field` connects labels, descriptions, errors, and invalid state automatically.
