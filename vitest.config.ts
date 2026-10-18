@@ -2,6 +2,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+import tailwindcss from '@tailwindcss/vite';
 import { playwright } from '@vitest/browser-playwright';
 import { defineConfig } from 'vitest/config';
 
@@ -28,6 +29,20 @@ export default defineConfig({
                 provider: playwright({ contextOptions: { reducedMotion: 'reduce' } })
               }
             ]
+          }
+        }
+      },
+      {
+        extends: true,
+        plugins: [tailwindcss()],
+        test: {
+          name: 'button-link-contrast',
+          include: ['tests/button-link.browser.test.tsx'],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({}),
+            instances: [{ browser: 'chromium' }]
           }
         }
       }

@@ -103,6 +103,9 @@ storage-free provider. Requests do not change the provider until its parent
 updates `theme`. Controlled hosts omit the persisted head script. See the
 [controlled-theme contract](docs/controlled-theme.md).
 
+The transparent link Button's themed-surface and hover checks are documented
+in the [link contrast contract](docs/button-link-contrast.md).
+
 ## Accessibility
 
 Interactive overlays and selection controls use accessible behavioral primitives. Form controls forward native attributes; `Field` connects labels, descriptions, errors, and invalid state automatically.
