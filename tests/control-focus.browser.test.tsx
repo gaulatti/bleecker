@@ -3,7 +3,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, describe, expect, test } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 
-import '../src/styles/global.css';
+import '../.storybook/storybook.css';
 import { themes } from '../src/tokens/source';
 import { ControlFocusContrastFixture } from '../stories/components/control-focus-contrast-fixture';
 
