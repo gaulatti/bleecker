@@ -189,11 +189,17 @@ their IDs differ. It also verifies a supplied label remains independent from
 the placeholder after typing and that native name/autocomplete remain absent.
 Callback order is checked through the real controlled component path.
 
-The first regression phase intentionally keeps the old runtime: default naming
-and native-ID assertions must fail at the actual input boundary in remote CI.
+The first regression phase kept the old runtime. Commit `2329651` produced
+exactly two genuine input-boundary failures in
+[Check 39154044555](https://github.com/gaulatti/bleecker/actions/runs/39154044555):
+the default input's explicit `aria-label` was absent and its native ID was empty.
+All 422 prior cases passed (424 total across 114 files). The actual synthetic
+checkout `bc38ed2b2737696418911349153349cfbe9423a5` had the same source tree
+as that RED commit, with the accepted `365fc5e` base. The unchanged fixture
+continues to check the additive repair against those same boundaries.
 The custom prop is requested through a normal fixture object spread so the old
 API compiles without a cast or suppressed error. Genuine public root/direct
-type checks follow the runtime/API repair. No local automated browser runs,
+type checks accompany the runtime/API repair. No local automated browser runs,
 new project, dependency or workflow are needed. Native consumer acceptance
 and the disappearance of this specific advisory remain separate gates.
 
