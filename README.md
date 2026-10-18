@@ -109,6 +109,10 @@ Interactive overlays and selection controls use accessible behavioral primitives
 
 Applications are still responsible for meaningful labels, logical page structure, and testing complete user flows in their own context.
 
+Input and Textarea default placeholder contrast is covered by the mounted
+[field-placeholder contract](docs/field-placeholders.md); explicit caller color
+overrides remain the caller's responsibility.
+
 `Select` stays controlled by its required string `value`, including `''`. Without
 an explicit empty-valued option, clearing the parent value restores the supplied
 placeholder and empty native form entry. An explicit empty-valued option keeps
