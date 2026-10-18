@@ -23,7 +23,7 @@ const variantClasses: Record<ButtonVariant, string> = {
   ghost:
     'border-transparent bg-transparent text-text-primary hover:bg-sand/12 dark:text-text-primary dark:hover:bg-white/[0.06]',
   link:
-    'h-auto border-transparent bg-transparent px-0 text-sea underline-offset-4 hover:text-deep-sea hover:underline active:translate-y-0 active:scale-100 dark:text-accent-blue dark:hover:text-light-sand',
+    'h-auto border-transparent bg-transparent px-0 text-sea underline-offset-4 hover:text-deep-sea hover:underline active:translate-y-0 active:scale-100 dark:text-accent-blue dark:hover:text-accent-blue',
   destructive:
     'border-terracotta bg-terracotta text-white shadow-[0_1px_2px_rgba(133,71,47,0.14)] hover:border-terracotta/90 hover:bg-terracotta/90 hover:shadow-[0_4px_12px_-7px_rgba(133,71,47,0.38)]'
 };
