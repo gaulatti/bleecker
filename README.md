@@ -105,6 +105,8 @@ updates `theme`. Controlled hosts omit the persisted head script. See the
 
 The transparent link Button's themed-surface and hover checks are documented
 in the [link contrast contract](docs/button-link-contrast.md).
+Button and IconButton keyboard-focus indicators and their dedicated browser
+checks are documented in the [focus contrast contract](docs/control-focus-contrast.md).
 
 ## Accessibility
 
