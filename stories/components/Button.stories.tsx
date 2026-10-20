@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ArrowRight, Bookmark, Check, Plus, ShoppingBag } from 'lucide-react';
 
 import { Button } from '../../src/components/button';
+import { ButtonLinkContrastFixture } from './button-link-contrast-fixture';
 
 const meta = {
   component: Button,
@@ -24,6 +25,14 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {};
 export const Secondary: Story = { args: { variant: 'secondary' } };
 export const Ghost: Story = { args: { variant: 'ghost' } };
+export const LinkLightSurfaces: Story = {
+  parameters: { themeProvider: 'story' },
+  render: () => <ButtonLinkContrastFixture theme='light' />
+};
+export const LinkDarkSurfaces: Story = {
+  parameters: { themeProvider: 'story' },
+  render: () => <ButtonLinkContrastFixture theme='dark' />
+};
 export const Destructive: Story = { args: { children: 'Delete record', variant: 'destructive' } };
 
 export const CompleteHierarchy: Story = {

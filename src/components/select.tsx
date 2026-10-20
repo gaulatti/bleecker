@@ -58,7 +58,7 @@ export function Select({
   value
 }: SelectProps) {
   const hasEmptyOption = options.some((option) => option.value === '');
-  const internalValue = value === '' && hasEmptyOption ? EMPTY_OPTION_VALUE : value || undefined;
+  const internalValue = value === '' && hasEmptyOption ? EMPTY_OPTION_VALUE : value;
 
   const branchRef = useModalBranch<HTMLDivElement>();
 

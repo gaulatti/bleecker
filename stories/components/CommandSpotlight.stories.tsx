@@ -69,6 +69,7 @@ const sampleActions: CommandSpotlightAction[] = [
 ];
 
 import { MixedModalContract, verifyMixedModals } from './modal-composition-contract';
+import { InputIdentificationFixture, verifyDefaultInputIdentification, verifyCustomInputIdentification } from './command-input-identification-contract';
 
 const meta = {
   component: CommandSpotlight,
@@ -125,3 +126,14 @@ export const ShortcutOnly: Story = {
 };
 
 export const MixedModalStack: Story = { render: () => <MixedModalContract />, play: async ({ canvasElement }) => verifyMixedModals(canvasElement) };
+
+
+export const DefaultInputIdentification: Story = {
+  render: args => <InputIdentificationFixture args={args} />,
+  play: async ({ canvasElement }) => verifyDefaultInputIdentification(canvasElement)
+};
+
+export const CustomInputIdentification: Story = {
+  render: args => <InputIdentificationFixture args={args} includeCustom />,
+  play: async ({ canvasElement }) => verifyCustomInputIdentification(canvasElement)
+};

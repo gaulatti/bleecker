@@ -31,6 +31,7 @@ export interface CommandSpotlightProps {
   dialogClassName?: string;
   emptyMessage?: string;
   hotkey?: string;
+  inputLabel?: string;
   onActionSelect?: (action: CommandSpotlightAction) => void;
   onOpenChange?: (isOpen: boolean) => void;
   open?: boolean;
@@ -64,6 +65,7 @@ export function CommandSpotlight({
   dialogClassName,
   emptyMessage = 'No matching commands.',
   hotkey = 'k',
+  inputLabel = 'Search commands',
   onActionSelect,
   onOpenChange,
   open,
@@ -73,6 +75,7 @@ export function CommandSpotlight({
   triggerClassName,
   triggerLabel = 'Search'
 }: CommandSpotlightProps) {
+  const inputId = React.useId();
   const [isOpenInternal, setIsOpenInternal] = React.useState(false);
   const [query, setQuery] = React.useState('');
   const [selectedActionId, setSelectedActionId] = React.useState<string | null>(null);
@@ -301,6 +304,8 @@ export function CommandSpotlight({
                 <Search size={18} className='shrink-0 text-text-secondary dark:text-text-secondary' />
                 <input
                   ref={inputRef}
+                  id={inputId}
+                  aria-label={inputLabel}
                   type='text'
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}

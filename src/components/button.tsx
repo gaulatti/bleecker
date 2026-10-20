@@ -23,7 +23,7 @@ const variantClasses: Record<ButtonVariant, string> = {
   ghost:
     'border-transparent bg-transparent text-text-primary hover:bg-sand/12 dark:text-text-primary dark:hover:bg-white/[0.06]',
   link:
-    'h-auto border-transparent bg-transparent px-0 text-sea underline-offset-4 hover:text-deep-sea hover:underline active:translate-y-0 active:scale-100 dark:text-accent-blue dark:hover:text-light-sand',
+    'h-auto border-transparent bg-transparent px-0 text-sea underline-offset-4 hover:text-deep-sea hover:underline active:translate-y-0 active:scale-100 dark:text-accent-blue dark:hover:text-accent-blue',
   destructive:
     'border-terracotta bg-terracotta text-white shadow-[0_1px_2px_rgba(133,71,47,0.14)] hover:border-terracotta/90 hover:bg-terracotta/90 hover:shadow-[0_4px_12px_-7px_rgba(133,71,47,0.38)]'
 };
@@ -40,7 +40,7 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
   ref
 ) {
   const classes = cn(
-    'inline-flex shrink-0 translate-y-0 scale-100 items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-button)] border font-medium tracking-ui transition-[background-color,border-color,color,box-shadow,transform,opacity] duration-[var(--motion-control)] ease-premium outline-none active:translate-y-px active:scale-[0.99] active:shadow-none focus-visible:ring-2 focus-visible:ring-sea/35 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:transform-none disabled:opacity-45 dark:focus-visible:ring-accent-blue/45 dark:focus-visible:ring-offset-deep-sea',
+    'inline-flex shrink-0 translate-y-0 scale-100 items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-button)] border font-medium tracking-ui transition-[background-color,border-color,color,box-shadow,transform,opacity] duration-[var(--motion-control)] ease-premium outline-none active:translate-y-px active:scale-[0.99] active:shadow-none focus-visible:ring-2 focus-visible:ring-sea focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:transform-none disabled:opacity-45 dark:focus-visible:ring-accent-blue dark:focus-visible:ring-offset-deep-sea',
     variantClasses[variant],
     variant !== 'link' && sizeClasses[size],
     fullWidth && 'w-full',

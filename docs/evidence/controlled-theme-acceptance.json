@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "acceptedAt": "2026-10-18T16:29:32.695855+00:00",
+  "scope": "ThemeProvider controlled ownership, persisted-default compatibility, and opaque-host appearance; not whole-consumer approval",
+  "implementation": {
+    "repository": "https://github.com/gaulatti/bleecker",
+    "pullRequest": 11,
+    "head": "4f4b926bcd10135ae0be2227afa7180dbb5ce79e",
+    "archiveVersion": "0.1.43 (unreleased local evidence only)",
+    "archiveSHA256": "5ea4683d21401c592a4fd1ea0e75c7f03d34a1094ee11c3025e6184c75d1b453"
+  },
+  "remoteCheck": {
+    "url": "https://github.com/gaulatti/bleecker/actions/runs/39144177583",
+    "conclusion": "success",
+    "head": "4f4b926bcd10135ae0be2227afa7180dbb5ce79e",
+    "checkout": "d1d4eb519fcf8380c5f496bc013df30f77894b85",
+    "checkoutTreeEqualsImplementation": true,
+    "browserTests": 370,
+    "storyFiles": 110,
+    "mountedThemeCases": 4,
+    "selectResetCases": 3,
+    "kolibriCases": 5,
+    "types": "pass",
+    "packageBuild": "pass",
+    "storybookBuild": "pass"
+  },
+  "nativeMethod": "Chrome accessibility tree, keyboard, screenshots and DevTools controls; no page-JavaScript/CDP/Playwright in this native leg",
+  "nativeStorybook": {
+    "controlledFixture": "components-themetoggle--controlled",
+    "observations": [
+      "accepted light-to-dark request updates parent/provider",
+      "refused system request retains parent/provider dark",
+      "keyboard Space accepts system and resolves OS light",
+      "independent parent dark update adds no request"
+    ],
+    "persistedDefault": [
+      "cycling works",
+      "saved dark survives a fresh-document reload",
+      "restored system after observation"
+    ],
+    "qualification": "One initial default-story navigation failed a dynamic import despite asset HTTP304/200; normal hard reload resolved without source change."
+  },
+  "nativeOpaqueHost": {
+    "compiledFragment": {
+      "bytes": 508993,
+      "sha256": "93db930ef6e4cc4be010a85c005e7eaabdfc095f31e12245821f7a5d2a7d64e3"
+    },
+    "sandboxWrapper": {
+      "bytes": 658959,
+      "sha256": "5e82f028a4398c490c548c864c3fbe99858027684a0af0378ace633bb049707f"
+    },
+    "sandbox": "unchanged allow-scripts only; no allow-same-origin",
+    "appearance": [
+      "explicit desktop light/dark/light paints",
+      "390-width responsive preview light/dark paints"
+    ],
+    "responsiveQualification": {
+      "heightMetadata": 844,
+      "engine": "desktop",
+      "canvasScalePercent": 50,
+      "physicalDevice": false
+    },
+    "observations": [
+      "original branding and UTF-8 writing render instead of a blank frame",
+      "exact Unicode text persists through appearance and viewport changes",
+      "native keyboard interaction remains functional",
+      "consumer omits local theme toggle because host owns appearance"
+    ],
+    "storageSecurityErrorObserved": false,
+    "consoleQualification": {
+      "cspBlockedDevToolsProbe": true,
+      "cspBlockedLucideSourceMapRequests": 2,
+      "warningBadge": 4,
+      "issuesBadge": 2,
+      "globallyCleanConsole": false
+    }
+  },
+  "limitations": [
+    "no physical touch/device acceptance",
+    "no measured contrast or full accessibility acceptance",
+    "whole-consumer human/product acceptance remains open",
+    "no npm publication or permanent consumer adoption"
+  ],
+  "documentationFollowup": "No behavior change, rebuild or repack; remote CI for the follow-up head is separate from the implementation run above."
+}

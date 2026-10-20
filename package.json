@@ -1,6 +1,6 @@
 {
   "name": "@gaulatti/bleecker",
-  "version": "0.1.42",
+  "version": "0.1.43",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -68,9 +68,12 @@
     "build-storybook": "npm run check:exports-stories && npm run check:kolibri-toggle && npm run build:css && storybook build",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "check:exports-stories": "node scripts/check-exports-and-stories.mjs",
-    "check": "npm run check:tokens && npm run typecheck && npm run check:exports-stories && npm run check:kolibri-toggle && npm test",
+    "check": "npm run check:tokens && npm run typecheck && npm run check:exports-stories && npm run check:kolibri-toggle && npm run test:select-reset && npm run typecheck:theme && npm run test:theme && npm test",
+    "test:select-reset": "node --test tests/select-controlled-reset.test.mjs",
     "prepack": "npm run build",
-    "check:runtime": "node scripts/check-package-runtime.mjs"
+    "check:runtime": "node scripts/check-package-runtime.mjs",
+    "test:theme": "node --test tests/theme-provider.test.mjs",
+    "typecheck:theme": "tsc --noEmit -p tests/tsconfig.theme.json"
   },
   "peerDependencies": {
     "react": "^18.2.0 || ^19.0.0",
@@ -105,6 +108,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitest/browser-playwright": "^4.0.18",
     "@vitest/coverage-v8": "^4.0.18",
+    "jsdom": "30.1.2",
     "playwright": "^1.58.2",
     "storybook": "^10.2.16",
     "tailwindcss": "^4.2.1",

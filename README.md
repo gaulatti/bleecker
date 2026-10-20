@@ -98,11 +98,34 @@ The default light and dark themes are defined with `--app-*` custom properties i
 
 The `ThemeProvider`, `ThemeToggle`, and `BleeckerThemeScript` exports provide persisted light, dark, and system modes. Render `BleeckerThemeScript` in the document head when server rendering to avoid a theme flash.
 
+Pass `theme` and the required `onThemeChange` together for a parent-controlled,
+storage-free provider. Requests do not change the provider until its parent
+updates `theme`. Controlled hosts omit the persisted head script. See the
+[controlled-theme contract](docs/controlled-theme.md).
+
+The transparent link Button's themed-surface and hover checks are documented
+in the [link contrast contract](docs/button-link-contrast.md).
+Button and IconButton keyboard-focus indicators and their dedicated browser
+checks are documented in the [focus contrast contract](docs/control-focus-contrast.md).
+
 ## Accessibility
 
 Interactive overlays and selection controls use accessible behavioral primitives. Form controls forward native attributes; `Field` connects labels, descriptions, errors, and invalid state automatically.
 
 Applications are still responsible for meaningful labels, logical page structure, and testing complete user flows in their own context.
+
+Input and Textarea default placeholder contrast is covered by the mounted
+[field-placeholder contract](docs/field-placeholders.md); explicit caller color
+overrides remain the caller's responsibility.
+
+`Select` stays controlled by its required string `value`, including `''`. Without
+an explicit empty-valued option, clearing the parent value restores the supplied
+placeholder and empty native form entry. An explicit empty-valued option keeps
+its existing label and callback translation. The **Components/Select/Controlled
+Empty** fixture exposes choice, callbacks, native value and submitted form value;
+**Empty Option And Reading** covers the existing empty option and disabled saved
+selection. See the [controlled reset contract](docs/select-controlled-reset.md)
+for the feature boundary and remaining acceptance.
 
 Modal surfaces activate keyboard focus when their panels mount, contain Tab
 navigation, and restore focus and scrolling after dismissal, including nested
