@@ -54,9 +54,9 @@ export function formatRelativeTime(value: string | number | Date | undefined | n
   const hours = Math.round(minutes / 60);
   const days = Math.round(hours / 24);
 
-  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
-  if (Math.abs(seconds) < 60) return rtf.format(seconds, 'second');
-  if (Math.abs(minutes) < 60) return rtf.format(minutes, 'minute');
-  if (Math.abs(hours) < 24) return rtf.format(hours, 'hour');
-  return rtf.format(days, 'day');
+  const relativeFormatter = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
+  if (Math.abs(seconds) < 60) return relativeFormatter.format(seconds, 'second');
+  if (Math.abs(minutes) < 60) return relativeFormatter.format(minutes, 'minute');
+  if (Math.abs(hours) < 24) return relativeFormatter.format(hours, 'hour');
+  return relativeFormatter.format(days, 'day');
 }
