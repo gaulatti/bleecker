@@ -73,6 +73,7 @@ describe('date formatters', () => {
       expect(formatRelativeTime(Date.parse('2024-03-05T15:00:00Z'))).toBe('in 3 hours');
       expect(formatRelativeTime('2024-03-03T12:00:00Z')).toBe('2 days ago');
       expect(formatRelativeTime('2024-03-05T11:55:00Z', 'es')).toBe('hace 5 minutos');
+      expect(formatRelativeTime('2024-03-05T11:00:00Z')).toBe('1 hour ago');
     });
   });
 });
