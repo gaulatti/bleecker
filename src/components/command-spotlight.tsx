@@ -163,8 +163,8 @@ export function CommandSpotlight({
               console.error('Command spotlight action failed:', error);
             });
           }
-        } catch (error) {
-          console.error('Command spotlight action failed:', error);
+        } catch {
+          // action failures are not actionable for the user
         }
       } else if (action.href) {
         if (action.external) {
