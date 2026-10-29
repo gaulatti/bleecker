@@ -34,6 +34,50 @@ export default defineConfig({
       },
       {
         extends: true,
+        resolve: { dedupe: ['react', 'react-dom'] },
+        optimizeDeps: {
+          include: [
+            'react',
+            'react/jsx-dev-runtime',
+            'react-dom',
+            'react-dom/client',
+            'clsx',
+            'tailwind-merge',
+            'lucide-react',
+            '@radix-ui/react-collapsible',
+            '@radix-ui/react-compose-refs',
+            '@radix-ui/react-context-menu',
+            '@radix-ui/react-dropdown-menu',
+            '@radix-ui/react-label',
+            '@radix-ui/react-popover',
+            '@radix-ui/react-select',
+            '@radix-ui/react-separator',
+            '@radix-ui/react-tooltip',
+            '@tanstack/react-table',
+            'recharts'
+          ]
+        },
+        test: {
+          name: 'unit',
+          include: ['tests/unit/**/*.test.{ts,tsx}'],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({}),
+            instances: [{ browser: 'chromium' }]
+          }
+        }
+      },
+      {
+        extends: true,
+        test: {
+          name: 'ssr',
+          environment: 'node',
+          include: ['tests/ssr/**/*.test.{ts,tsx}']
+        }
+      },
+      {
+        extends: true,
         plugins: [tailwindcss()],
         test: {
           name: 'button-link-contrast',

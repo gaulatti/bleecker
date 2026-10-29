@@ -5,3 +5,7 @@ coverage
 .DS_Store
 debug-storybook.log
 src/styles/compiled.css
+coverage-tmp
+__screenshots__
+.vitest-attachments
+coverage-tmp2

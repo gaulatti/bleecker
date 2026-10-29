@@ -43,10 +43,6 @@ export function PanelLayout({ children, className, padding }: PanelLayoutProps) 
           if (!React.isValidElement(child)) return child;
           const shouldFill = Boolean((child.props as { grow?: boolean }).grow);
 
-          // PanelColumn already handles its own layout — render it directly.
-          if (child.type === PanelColumn) {
-            return <div className={cn('flex h-full min-h-0 flex-col', shouldFill ? 'flex-1 min-w-0' : 'shrink-0')}>{child}</div>;
-          }
 
           return <div className={cn('flex h-full min-h-0 flex-col', shouldFill ? 'flex-1 min-w-0' : 'shrink-0')}>{child}</div>;
         })}

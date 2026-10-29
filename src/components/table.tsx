@@ -114,25 +114,13 @@ export const TableFooter = React.forwardRef<HTMLTableSectionElement, React.HTMLA
 let hoveredRow: HTMLTableRowElement | null = null;
 
 export const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTMLTableRowElement>>(function TableRow(
-  { className, onMouseEnter, onMouseLeave, ...props },
+  { className, onMouseEnter, ...props },
   ref
 ) {
-  const rowRef = React.useRef<HTMLTableRowElement>(null);
-
-  const mergedRef = React.useCallback(
-    (el: HTMLTableRowElement | null) => {
-      rowRef.current = el;
-      if (typeof ref === 'function') ref(el);
-      else if (ref) (ref as React.MutableRefObject<HTMLTableRowElement | null>).current = el;
-    },
-    [ref]
-  );
-
   const handleMouseEnter = React.useCallback(
     (e: React.MouseEvent<HTMLTableRowElement>) => {
       onMouseEnter?.(e);
-      const el = rowRef.current;
-      if (!el) return;
+      const el = e.currentTarget;
 
       const prev = hoveredRow;
       hoveredRow = el;
@@ -147,18 +135,10 @@ export const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttribut
     [onMouseEnter]
   );
 
-  const handleMouseLeave = React.useCallback(
-    (e: React.MouseEvent<HTMLTableRowElement>) => {
-      onMouseLeave?.(e);
-    },
-    [onMouseLeave]
-  );
-
   return (
     <tr
-      ref={mergedRef}
+      ref={ref}
       onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       className={cn(
         'border-b border-sand/20 data-[selected=true]:bg-sea/[0.045] dark:border-white/[0.07] dark:data-[selected=true]:bg-accent-blue/[0.08]',
         'transition-colors duration-[var(--motion-surface)] ease-premium hover:bg-light-sand/45 dark:hover:bg-white/[0.035]',

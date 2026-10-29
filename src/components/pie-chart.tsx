@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Cell, Pie, PieChart as RechartsPieChart, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 
 import { chartTheme } from './chart-theme';
