@@ -59,6 +59,9 @@ export default defineConfig({
         },
         test: {
           name: 'unit',
+          // Run after the Storybook and contrast projects instead of beside them: parallel
+          // browsers on a small CI runner slow the timing-sensitive interaction stories.
+          sequence: { groupOrder: 1 },
           include: ['tests/unit/**/*.test.{ts,tsx}'],
           browser: {
             enabled: true,
@@ -72,6 +75,7 @@ export default defineConfig({
         extends: true,
         test: {
           name: 'ssr',
+          sequence: { groupOrder: 1 },
           environment: 'node',
           include: ['tests/ssr/**/*.test.{ts,tsx}']
         }

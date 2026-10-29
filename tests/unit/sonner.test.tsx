@@ -47,6 +47,7 @@ describe('Sonner', () => {
     expect(id).not.toBe('');
     await act(async () => toast.dismiss(id));
     expect(alerts()).toHaveLength(1);
+    await eventually(() => expect(alerts()[0].className).toContain('opacity-100'));
     await click(document.querySelector('button[aria-label=Dismiss]')!);
     expect(alerts()[0].className).toContain('opacity-0');
     await eventually(() => expect(alerts()).toHaveLength(0));

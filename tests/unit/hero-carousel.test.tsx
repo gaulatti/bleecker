@@ -68,8 +68,10 @@ describe('HeroCarousel', () => {
 
   test('auto-advances, pauses while hovered and resumes afterwards', async () => {
     await render(<HeroCarousel items={items} autoAdvanceMs={40} />);
-    await eventually(() => expect(visibleTitle()).not.toBe('Alpha'));
     const container = document.querySelector('.hero-carousel')!;
+    // The browser's real pointer may rest over the carousel and pause it; start from a known state.
+    await act(async () => { container.dispatchEvent(new MouseEvent('mouseout', { bubbles: true, relatedTarget: document.body })); });
+    await eventually(() => expect(visibleTitle()).not.toBe('Alpha'));
     await act(async () => { container.dispatchEvent(new MouseEvent('mouseover', { bubbles: true, relatedTarget: document.body })); });
     const paused = visibleTitle();
     await wait(120);
