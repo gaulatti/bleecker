@@ -24,7 +24,7 @@ export function formatCompactNumber(value: number | undefined | null, options: F
 
 export function formatPercent(value: number | undefined | null, options: FormatNumberOptions = {}): string {
   if (value === undefined || value === null || Number.isNaN(value)) return '';
-  return new Intl.NumberFormat(options.locale, { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1, ...options }).format(value);
+  return new Intl.NumberFormat(options.locale, { style: 'percent', minimumFractionDigits: 0, maximumFractionDigits: 0, ...options }).format(value);
 }
 
 export function formatDate(value: string | number | Date | undefined | null, options: FormatNumberOptions & { dateStyle?: 'full' | 'long' | 'medium' | 'short' } = {}): string {
