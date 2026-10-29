@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Funnel, FunnelChart as RechartsFunnelChart, LabelList, ResponsiveContainer, Tooltip } from 'recharts';
 
 import { chartTheme } from './chart-theme';

@@ -62,10 +62,6 @@ export function Alert({ className, duration = 5000, message, onClose, type = 'in
   const Icon = config.icon;
 
   React.useEffect(() => {
-    if (typeof window === 'undefined') {
-      return undefined;
-    }
-
     window.requestAnimationFrame(() => {
       setIsVisible(true);
     });
@@ -83,11 +79,6 @@ export function Alert({ className, duration = 5000, message, onClose, type = 'in
 
   const handleClose = () => {
     setIsVisible(false);
-
-    if (typeof window === 'undefined') {
-      onClose();
-      return;
-    }
 
     window.setTimeout(onClose, 220);
   };

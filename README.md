@@ -162,6 +162,19 @@ npm run build
 
 The build cleans generated output before compilation so removed modules cannot remain in published packages.
 
+### Tests and coverage
+
+`npm test` runs every Vitest project: the Storybook interaction stories, the
+button/focus contrast checks, the `unit` project (`tests/unit`, real Chromium
+through Playwright) and the `ssr` project (`tests/ssr`, Node server rendering
+for components that render nothing without a `document`). Run
+`npx playwright install chromium` once before the browser projects.
+
+`npm run test:coverage` writes an Istanbul-format V8 report to
+`coverage/coverage-final.json`. The Clouseau gate requires exactly 100% line
+and branch coverage over every non-test file in `src`; new behaviour needs a
+test in `tests/unit` or `tests/ssr`, never a coverage pragma.
+
 ## License
 
 Bleecker, including its published npm versions, is available under the

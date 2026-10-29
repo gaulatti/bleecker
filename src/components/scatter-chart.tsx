@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { CartesianGrid, Legend, ResponsiveContainer, Scatter as RechartsScatter, ScatterChart as RechartsScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts';
 
 import { chartTheme } from './chart-theme';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { TrendingDown, TrendingUp, Minus } from 'lucide-react';
 
 import { cn } from '../utils/cn';

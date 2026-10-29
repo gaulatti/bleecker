@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { CartesianGrid, Line, LineChart as RechartsLineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 import { chartTheme } from './chart-theme';

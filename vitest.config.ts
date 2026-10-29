@@ -34,6 +34,54 @@ export default defineConfig({
       },
       {
         extends: true,
+        resolve: { dedupe: ['react', 'react-dom'] },
+        optimizeDeps: {
+          include: [
+            'react',
+            'react/jsx-dev-runtime',
+            'react-dom',
+            'react-dom/client',
+            'clsx',
+            'tailwind-merge',
+            'lucide-react',
+            '@radix-ui/react-collapsible',
+            '@radix-ui/react-compose-refs',
+            '@radix-ui/react-context-menu',
+            '@radix-ui/react-dropdown-menu',
+            '@radix-ui/react-label',
+            '@radix-ui/react-popover',
+            '@radix-ui/react-select',
+            '@radix-ui/react-separator',
+            '@radix-ui/react-tooltip',
+            '@tanstack/react-table',
+            'recharts'
+          ]
+        },
+        test: {
+          name: 'unit',
+          // Run after the Storybook and contrast projects instead of beside them: parallel
+          // browsers on a small CI runner slow the timing-sensitive interaction stories.
+          sequence: { groupOrder: 1 },
+          include: ['tests/unit/**/*.test.{ts,tsx}'],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({}),
+            instances: [{ browser: 'chromium' }]
+          }
+        }
+      },
+      {
+        extends: true,
+        test: {
+          name: 'ssr',
+          sequence: { groupOrder: 1 },
+          environment: 'node',
+          include: ['tests/ssr/**/*.test.{ts,tsx}']
+        }
+      },
+      {
+        extends: true,
         plugins: [tailwindcss()],
         test: {
           name: 'button-link-contrast',
