@@ -9,3 +9,4 @@ coverage-tmp
 __screenshots__
 .vitest-attachments
 coverage-tmp2
+.clouseau-ci
