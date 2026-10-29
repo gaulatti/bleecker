@@ -185,9 +185,10 @@ receipt in the initial ready PR body. Never push directly to `main`.
 
 Every PR runs, on `ubuntu-24.04` with Chromium installed for Playwright:
 
-- `npm run check` (token, type, export/story, Kolibri, select and theme checks and
-  every Vitest project),
-- `npm run test:coverage` with exactly 100% line and branch coverage over `src`,
+- the token, type, export/story, Kolibri, select-reset and theme checks,
+- `npm run test:coverage`: every Vitest project (Storybook interactions, contrast,
+  unit and SSR) in one run, with exactly 100% line and branch coverage over `src`
+  (CI retries a failed Storybook story twice before reporting it),
 - `npm run build` and `npm run build-storybook`,
 - the workflow-contract tests in `.github/tests`.
 

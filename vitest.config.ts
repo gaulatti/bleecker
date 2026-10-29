@@ -16,6 +16,9 @@ export default defineConfig({
         plugins: [storybookTest({ configDir: path.join(dirname, '.storybook') })],
         test: {
           name: 'storybook',
+          // Interaction stories drive real timers and animations; a loaded CI runner can
+          // miss a story's own timeout, so CI retries a failed story before reporting it.
+          retry: process.env.CI ? 2 : 0,
           browser: {
             enabled: true,
             headless: true,

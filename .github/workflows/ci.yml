@@ -74,8 +74,15 @@ jobs:
         run: npm ci
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
-      - name: Check contracts, types, stories, accessibility, and interactions
-        run: npm run check
+      - name: Check tokens, types, exports, stories, theme and controlled-select contracts
+        run: >-
+          npm run check:tokens &&
+          npm run typecheck &&
+          npm run check:exports-stories &&
+          npm run check:kolibri-toggle &&
+          npm run test:select-reset &&
+          npm run typecheck:theme &&
+          npm run test:theme
       - name: Test application with complete source coverage
         run: npm run test:coverage
       - name: Set up Python for frozen shared tests
