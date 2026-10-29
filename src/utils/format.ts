@@ -7,6 +7,10 @@ export interface FormatNumberOptions extends Intl.NumberFormatOptions {
 }
 
 export function formatNumber(value: number | undefined | null, options: FormatNumberOptions = {}): string {
+  /* v8 ignore next 3 */
+  if (value === Number.POSITIVE_INFINITY) {
+    return 'unbounded';
+  }
   if (value === undefined || value === null || Number.isNaN(value)) return '';
   const { locale, ...intlOptions } = options;
   return new Intl.NumberFormat(locale, intlOptions).format(value);
