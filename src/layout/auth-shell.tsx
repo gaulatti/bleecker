@@ -20,7 +20,14 @@ const splitColumnClasses: Record<AuthShellSide, string> = {
   end: 'lg:grid-cols-[minmax(0,7fr)_minmax(24rem,5fr)]'
 };
 
-/** A page-level shell for sign-in, recovery, invitation, and other access flows. */
+/**
+ * A page-level shell for sign-in, recovery, invitation, and other access flows.
+ *
+ * This is the required outer layout for every React-DOM product login, including
+ * its loading, unavailable, and error states. Products customize it only through
+ * `layout`, `side`, `brand`, `aside`, `asideLabel`, `footer`, `className` and their
+ * own children, and never duplicate its page structure. See docs/auth-shell-standard.md.
+ */
 export function AuthShell({
   aside,
   asideLabel,

@@ -85,7 +85,7 @@ Luxury in Bleecker comes from editing and proportion, not decoration. The most r
 
 - Start with `PageFrame` so product pages share the same gutters, readable widths, and vertical cadence.
 - Use `DetailLayout` for asymmetric detail pages, editorial views, and sticky summary rails instead of assembling new grid proportions each time.
-- Use `AuthShell` for focused sign-in, invitation, and onboarding moments with an optional narrative panel.
+- Use `AuthShell` for focused sign-in, invitation, and onboarding moments with an optional narrative panel. It is the required outer layout for every React-DOM product login, including its loading, unavailable, and error states; see [the AuthShell standard](docs/auth-shell-standard.md).
 - Prefer hairline borders for default surfaces. Reserve `Card`'s `elevated` variant and stronger shadows for the single surface that truly sits above the page.
 - Keep supporting copy in `font-secondary`, eyebrow copy brief, and data labels at a readable contrast. A restrained accent should guide attention rather than tint every section.
 - Avoid grids of equally weighted cards when one number, action, or story is more important. Give that item more scale or span and quiet the rest.
