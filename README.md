@@ -31,6 +31,8 @@ import '@gaulatti/bleecker/styles.css';
 
 ## Attention feeds
 
+Relative times follow the viewer's locale.
+
 Use Bleecker's feed primitives for multi-column monitoring, event indexes, and
 other continuously updated operational views:
 
