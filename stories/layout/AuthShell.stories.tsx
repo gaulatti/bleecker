@@ -1,19 +1,30 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, within } from 'storybook/test';
 import { ArrowRight, LockKeyhole, Mail } from 'lucide-react';
 
 import { Button } from '../../src/components/button';
 import { Card } from '../../src/components/card';
 import { Checkbox } from '../../src/components/checkbox';
 import { Field } from '../../src/components/field';
+import { ErrorState } from '../../src/components/error-state';
 import { Eyebrow } from '../../src/components/eyebrow';
 import { Input } from '../../src/components/input';
+import { LoadingSpinner } from '../../src/components/loading-spinner';
 import { AuthShell } from '../../src/layout/auth-shell';
 
 const meta = {
   component: AuthShell,
   title: 'Layout/AuthShell',
   tags: ['autodocs'],
-  parameters: { layout: 'fullscreen' },
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        component:
+          'AuthShell is the required outer layout for every React-DOM product login, including its loading, unavailable and error states, rendered directly or through a thin product wrapper. Products customize it only through layout (centered or split), side, brand, aside, asideLabel, footer, className and their own children, and never duplicate its page grid, background or responsive structure. Authentication providers, redirects, return paths, test-auth behavior and copy remain product-owned. React Native and other non-DOM interfaces are out of scope.'
+      }
+    }
+  },
   args: { children: null }
 } satisfies Meta<typeof AuthShell>;
 
@@ -104,4 +115,42 @@ export const CenteredRecovery: Story = {
       </Card>
     </AuthShell>
   )
+};
+
+export const SessionStates: Story = {
+  render: () => (
+    <div className='grid gap-px bg-sand/30'>
+      {(['loading', 'unavailable', 'error'] as const).map((state) => (
+        <AuthShell
+          key={state}
+          layout='centered'
+          className='min-h-0'
+          data-state={state}
+          brand={<div className='flex justify-center'><AtelierBrand /></div>}
+        >
+          {state === 'loading' ? (
+            <Card variant='elevated' padding='lg' className='space-y-4 text-center' role='status' aria-label='Checking your session'>
+              <LoadingSpinner />
+              <p className='font-secondary text-sm text-text-secondary'>Checking your session…</p>
+            </Card>
+          ) : null}
+          {state === 'unavailable' ? (
+            <ErrorState title='Sign-in is unavailable' description='Authentication is not configured for this environment.' />
+          ) : null}
+          {state === 'error' ? (
+            <ErrorState title='We could not sign you in' description='Your sign-in attempt failed. Try again.' onRetry={() => undefined} />
+          ) : null}
+        </AuthShell>
+      ))}
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const shells = canvasElement.querySelectorAll('main[data-layout="centered"]');
+    await expect(shells).toHaveLength(3);
+    await expect(canvas.getByRole('status', { name: 'Checking your session' })).toBeVisible();
+    await expect(canvas.getByRole('heading', { name: 'Sign-in is unavailable' })).toBeVisible();
+    await expect(canvas.getByRole('button', { name: 'Try again' })).toBeVisible();
+    for (const shell of Array.from(shells)) await expect(shell.querySelector('[data-slot="content"]')).not.toBeNull();
+  }
 };

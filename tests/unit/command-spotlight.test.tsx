@@ -211,6 +211,24 @@ describe('CommandSpotlight', () => {
     expect(document.querySelector('[role=dialog]')).not.toBeNull();
   });
 
+  test.each([
+    ['MacIntel', '⌘'],
+    ['iPhone', '⌘'],
+    ['Linux x86_64', 'Ctrl'],
+    ['Win32', 'Ctrl']
+  ])('shows the platform modifier in the hotkey hint on %s', async (platform, modifier) => {
+    const descriptor = Object.getOwnPropertyDescriptor(navigator, 'platform');
+    Object.defineProperty(navigator, 'platform', { value: platform, configurable: true });
+    try {
+      await render(<CommandSpotlight actions={actions} hotkey='p' />);
+      const hint = document.querySelector('button[aria-label="Open command spotlight"] [role=group]')!;
+      expect(hint.getAttribute('aria-label')).toBe(`${modifier}+P`);
+    } finally {
+      if (descriptor) Object.defineProperty(navigator, 'platform', descriptor);
+      else delete (navigator as unknown as Record<string, unknown>).platform;
+    }
+  });
+
   test('Escape closes the dialog and a click inside it does not reach the backdrop', async () => {
     const onOpenChange = vi.fn();
     await render(<CommandSpotlight actions={actions} onOpenChange={onOpenChange} />);
