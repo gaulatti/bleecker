@@ -14,17 +14,14 @@
   "merge_mode": "automatic",
   "repository_policy": ".github/clouseau.md",
   "readme": "README.md",
-  "sensitive_paths": [
-    ".clouseau-local.json",
-    "vitest.config.ts"
-  ],
+  "sensitive_paths": [],
   "deployment": null,
   "acceptance": {
     "examiner": "deepseek-flash",
     "challenger": "deepseek-v4-pro",
     "grader": "routed",
     "grading_model": "deepseek-flash",
-    "repair_attempts": 2
+    "repair_attempts": 0
   },
   "local_review": {
     "mode": "optional",
