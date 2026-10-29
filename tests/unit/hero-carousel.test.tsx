@@ -1,5 +1,6 @@
 import React, { act } from 'react';
 import { describe, expect, test } from 'vitest';
+import { userEvent } from 'vitest/browser';
 
 import { HeroCarousel, type HeroCarouselItem } from '../../src/components/hero-carousel';
 import { click, eventually, keydown, render } from './helpers';
@@ -69,8 +70,12 @@ describe('HeroCarousel', () => {
   test('auto-advances, pauses while hovered and resumes afterwards', async () => {
     await render(<HeroCarousel items={items} autoAdvanceMs={40} />);
     const container = document.querySelector('.hero-carousel')!;
-    // The browser's real pointer may rest over the carousel and pause it; start from a known state.
-    await act(async () => { container.dispatchEvent(new MouseEvent('mouseout', { bubbles: true, relatedTarget: document.body })); });
+    // Earlier real clicks can leave the browser's pointer resting over the carousel, which pauses it.
+    // Park the pointer on a corner outside the carousel so the first phase runs unpaused.
+    const corner = document.createElement('div');
+    corner.style.cssText = 'position:fixed;right:0;bottom:0;width:6px;height:6px';
+    document.body.append(corner);
+    await userEvent.hover(corner);
     await eventually(() => expect(visibleTitle()).not.toBe('Alpha'));
     await act(async () => { container.dispatchEvent(new MouseEvent('mouseover', { bubbles: true, relatedTarget: document.body })); });
     const paused = visibleTitle();
