@@ -53,6 +53,10 @@ both the category-to-red color mix and the distance traveled by the gradient.
 Consumers decide what intensity means—relevance, magnitude, risk, confidence,
 or another domain measure—but should not reimplement the visual interpolation.
 
+Values outside 0–10 are clamped to that range, and a non-finite intensity is
+treated as 0. `FeedGrid` uses a `minColumnWidth` of 340 pixels by default; a
+number is read as pixels and a string is used as a CSS length.
+
 ```tsx
 import { Button, Field, Input } from '@gaulatti/bleecker';
 
