@@ -30,7 +30,7 @@ export const AttentionSurface = React.forwardRef<HTMLElement, AttentionSurfacePr
   ref
 ) {
   const attention = createAttentionColor({ hue, intensity });
-  const isInteractive = interactive ?? Component === 'button';
+  const isInteractive = interactive ?? Component !== 'button';
 
   return React.createElement(
     Component,
