@@ -25,6 +25,7 @@ export const Sizes: Story = {
       <Progress value={40} size='sm' showLabel />
       <Progress value={60} size='md' showLabel />
       <Progress value={80} size='lg' showLabel />
+      <Progress value={100} size='lg' showLabel />
     </div>
   )
 };

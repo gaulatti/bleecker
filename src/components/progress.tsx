@@ -18,7 +18,7 @@ export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
 const sizeClasses: Record<ProgressSize, string> = {
   sm: 'h-1.5',
   md: 'h-2',
-  lg: 'h-3'
+  lg: 'h-3.5'
 };
 
 const variantFill: Record<ProgressVariant, string> = {
