@@ -27,9 +27,13 @@ export function formatPercent(value: number | undefined | null, options: FormatN
   return new Intl.NumberFormat(options.locale, { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1, ...options }).format(value);
 }
 
+function toDate(value: string | number | Date): Date {
+  return typeof value === 'string' || typeof value === 'number' ? new Date(value) : value;
+}
+
 export function formatDate(value: string | number | Date | undefined | null, options: FormatNumberOptions & { dateStyle?: 'full' | 'long' | 'medium' | 'short' } = {}): string {
   if (value === undefined || value === null) return '';
-  const date = typeof value === 'string' || typeof value === 'number' ? new Date(value) : value;
+  const date = toDate(value);
   if (Number.isNaN(date.getTime())) return '';
   const { locale, dateStyle = 'medium', ...intlOptions } = options;
   return new Intl.DateTimeFormat(locale, { dateStyle, ...intlOptions }).format(date);
@@ -37,7 +41,7 @@ export function formatDate(value: string | number | Date | undefined | null, opt
 
 export function formatDateTime(value: string | number | Date | undefined | null, options: FormatNumberOptions = {}): string {
   if (value === undefined || value === null) return '';
-  const date = typeof value === 'string' || typeof value === 'number' ? new Date(value) : value;
+  const date = toDate(value);
   if (Number.isNaN(date.getTime())) return '';
   const { locale, ...intlOptions } = options;
   return new Intl.DateTimeFormat(locale, { dateStyle: 'short', timeStyle: 'short', ...intlOptions }).format(date);
@@ -45,14 +49,14 @@ export function formatDateTime(value: string | number | Date | undefined | null,
 
 export function formatRelativeTime(value: string | number | Date | undefined | null, locale = 'en-US'): string {
   if (value === undefined || value === null) return '';
-  const date = typeof value === 'string' || typeof value === 'number' ? new Date(value) : value;
+  const date = toDate(value);
   if (Number.isNaN(date.getTime())) return '';
   const now = Date.now();
   const diff = date.getTime() - now;
   const seconds = Math.round(diff / 1000);
   const minutes = Math.round(seconds / 60);
   const hours = Math.round(minutes / 60);
-  const days = Math.round(hours / 24);
+  const days = Math.floor(hours / 24);
 
   const relativeFormatter = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
   if (Math.abs(seconds) < 60) return relativeFormatter.format(seconds, 'second');
