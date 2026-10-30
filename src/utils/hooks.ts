@@ -56,6 +56,8 @@ export function usePrevious<T>(value: T): T | undefined {
   return ref.current;
 }
 
+type TimerHandle = ReturnType<typeof setTimeout>;
+
 /**
  * Keeps a conditional surface mounted long enough for its exit motion to
  * complete, and separates DOM presence from visual visibility.
@@ -63,8 +65,8 @@ export function usePrevious<T>(value: T): T | undefined {
 export function usePresence(open: boolean, exitDuration = 150) {
   const [present, setPresent] = React.useState(open);
   const [visible, setVisible] = React.useState(false);
-  const enterTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-  const exitTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const enterTimerRef = React.useRef<TimerHandle | null>(null);
+  const exitTimerRef = React.useRef<TimerHandle | null>(null);
 
   React.useEffect(() => {
     if (open) {
