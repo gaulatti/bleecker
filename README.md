@@ -31,6 +31,8 @@ precompiled stylesheet once:
 import '@gaulatti/bleecker/styles.css';
 ```
 
+Bleecker requires React 18.2 or newer (see `peerDependencies`).
+
 ## Attention feeds
 
 Use Bleecker's feed primitives for multi-column monitoring, event indexes, and
