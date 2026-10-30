@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, test, vi } from 'vitest';
 
 import {
-  formatCompactNumber,
+  formatCompact,
   formatCurrency,
   formatDate,
   formatDateTime,
@@ -14,7 +14,7 @@ describe('number formatters', () => {
   test.each([undefined, null, Number.NaN])('return an empty string for %s', value => {
     expect(formatNumber(value)).toBe('');
     expect(formatCurrency(value)).toBe('');
-    expect(formatCompactNumber(value)).toBe('');
+    expect(formatCompact(value)).toBe('');
     expect(formatPercent(value)).toBe('');
   });
 
@@ -29,8 +29,8 @@ describe('number formatters', () => {
     expect(formatCurrency(12.5, 'EUR', { locale: 'de-DE' })).toBe('12,50 €');
   });
 
-  test('formatCompactNumber abbreviates large values', () => {
-    expect(formatCompactNumber(1500, { locale: 'en-US' })).toBe('1.5K');
+  test('formatCompact abbreviates large values', () => {
+    expect(formatCompact(1500, { locale: 'en-US' })).toBe('1.5K');
   });
 
   test('formatPercent uses one fractional digit by default', () => {
