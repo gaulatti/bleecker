@@ -156,6 +156,7 @@ but generated output never overwrites its hand-authored components. The
 [Kolibri Toggle parity decision](docs/kolibri-toggle-parity.md) documents the
 first bounded proof, its immutable fixture, browser accessibility and visual
 evidence, unsupported `ToggleGroup` boundary, and proceed-with-adapter result.
+Hand-authored components remain the source of truth.
 
 ## Development
 
