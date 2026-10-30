@@ -2,11 +2,11 @@ import { describe, expect, test } from 'vitest';
 
 import { pickColor, chartTheme } from '../../src/components/chart-theme';
 import { resolveTheme } from '../../src/core/contracts';
-import { createAttentionColor } from '../../src/utils/attention-color';
+import { buildAttentionColor } from '../../src/utils/attention-color';
 
-describe('createAttentionColor', () => {
+describe('buildAttentionColor', () => {
   test('mixes the category hue and red by intensity', () => {
-    const result = createAttentionColor({ hue: 200, intensity: 2 });
+    const result = buildAttentionColor({ hue: 200, intensity: 2 });
     expect(result.redMix).toBe(20);
     expect(result.intensity).toBe(2);
     expect(result.coverage).toBeCloseTo(38.4);
@@ -16,13 +16,13 @@ describe('createAttentionColor', () => {
   });
 
   test('clamps intensity and normalizes the hue into 0-359', () => {
-    expect(createAttentionColor({ hue: -10, intensity: 99 }).intensity).toBe(10);
-    expect(createAttentionColor({ hue: -10, intensity: -4 }).intensity).toBe(0);
-    expect(createAttentionColor({ hue: 725, intensity: 1 }).accent).toContain('hsl(5 66% 52%)');
+    expect(buildAttentionColor({ hue: -10, intensity: 99 }).intensity).toBe(10);
+    expect(buildAttentionColor({ hue: -10, intensity: -4 }).intensity).toBe(0);
+    expect(buildAttentionColor({ hue: 725, intensity: 1 }).accent).toContain('hsl(5 66% 52%)');
   });
 
   test('uses neutral defaults for non-finite input', () => {
-    const result = createAttentionColor({ hue: Number.NaN, intensity: Number.NaN });
+    const result = buildAttentionColor({ hue: Number.NaN, intensity: Number.NaN });
     expect(result.intensity).toBe(0);
     expect(result.accent).toContain('hsl(210 66% 52%)');
   });
