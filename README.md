@@ -86,6 +86,7 @@ import { Button } from '@gaulatti/bleecker/components/button';
 - Borders carry surface hierarchy; shadows are reserved for elevated surfaces and overlays.
 - Controls use consistent 32, 40, and 48 pixel heights.
 - Motion is brief and functional, with reduced-motion behavior included globally.
+- Spacing and radii values come from the shared tokens described in Shared foundations.
 
 ## Luxury composition
 
