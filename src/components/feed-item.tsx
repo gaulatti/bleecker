@@ -24,7 +24,7 @@ function formatPostedAt(postedAt: Date | string): string {
   }
 
   const now = new Date();
-  const diffMs = now.getTime() - dateValue.getTime();
+  const diffMs = dateValue.getTime() - now.getTime();
   const twelveHoursMs = 12 * 60 * 60 * 1000;
 
   if (diffMs >= 0 && diffMs <= twelveHoursMs) {
