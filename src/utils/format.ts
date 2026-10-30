@@ -55,7 +55,7 @@ export function formatRelativeTime(value: string | number | Date | undefined | n
   const diff = date.getTime() - now;
   const seconds = Math.round(diff / 1000);
   const minutes = Math.round(seconds / 60);
-  const hours = Math.round(minutes / 60);
+  const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
 
   const relativeFormatter = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
