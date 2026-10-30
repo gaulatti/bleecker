@@ -2,6 +2,8 @@
 
 Bleecker is a refined React component library built around the Encode Sans typeface and a warm, restrained palette of sand, sea, desert, and terracotta.
 
+It is published on npm as `@gaulatti/bleecker`.
+
 ## Install
 
 Bleecker ships ES modules only.
