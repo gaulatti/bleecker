@@ -1,0 +1,23 @@
+{
+  "note": "Fictional sample feed items.",
+  "items": [
+    {
+      "id": "item-24-1",
+      "title": "Sample headline 1",
+      "intensity": 2,
+      "hue": 210
+    },
+    {
+      "id": "item-24-2",
+      "title": "Sample headline 2",
+      "intensity": 4,
+      "hue": 220
+    },
+    {
+      "id": "item-24-3",
+      "title": "Sample headline 3",
+      "intensity": 6,
+      "hue": 230
+    }
+  ]
+}
