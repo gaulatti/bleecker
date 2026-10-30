@@ -153,6 +153,7 @@ export function CommandSpotlight({
 
   const runAction = React.useCallback(
     (action: CommandSpotlightAction) => {
+      closeSpotlight();
       onActionSelect?.(action);
 
       if (action.onSelect) {
