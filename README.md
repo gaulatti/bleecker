@@ -4,6 +4,8 @@ Bleecker is a refined React component library built around the Encode Sans typef
 
 ## Install
 
+Bleecker ships ES modules only.
+
 ```sh
 npm install @gaulatti/bleecker
 ```
