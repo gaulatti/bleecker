@@ -2,27 +2,29 @@
  * Locale-aware formatting helpers for dashboard numbers, currency and dates.
  */
 
+type NumericInput = number | undefined | null;
+
 export interface FormatNumberOptions extends Intl.NumberFormatOptions {
   locale?: string;
 }
 
-export function formatNumber(value: number | undefined | null, options: FormatNumberOptions = {}): string {
+export function formatNumber(value: NumericInput, options: FormatNumberOptions = {}): string {
   if (value === undefined || value === null || Number.isNaN(value)) return '';
   const { locale, ...numberOptions } = options;
   return new Intl.NumberFormat(locale, numberOptions).format(value);
 }
 
-export function formatCurrency(value: number | undefined | null, currency = 'USD', options: FormatNumberOptions = {}): string {
+export function formatCurrency(value: NumericInput, currency = 'USD', options: FormatNumberOptions = {}): string {
   if (value === undefined || value === null || Number.isNaN(value)) return '';
   return new Intl.NumberFormat(options.locale, { style: 'currency', currency, ...options }).format(value);
 }
 
-export function formatCompactNumber(value: number | undefined | null, options: FormatNumberOptions = {}): string {
+export function formatCompactNumber(value: NumericInput, options: FormatNumberOptions = {}): string {
   if (value === undefined || value === null || Number.isNaN(value)) return '';
   return new Intl.NumberFormat(options.locale, { notation: 'compact', ...options }).format(value);
 }
 
-export function formatPercent(value: number | undefined | null, options: FormatNumberOptions = {}): string {
+export function formatPercent(value: NumericInput, options: FormatNumberOptions = {}): string {
   if (value === undefined || value === null || Number.isNaN(value)) return '';
   return new Intl.NumberFormat(options.locale, { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1, ...options }).format(value);
 }
