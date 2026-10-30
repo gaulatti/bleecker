@@ -44,7 +44,7 @@ export function Footer({ bottomLeft, bottomRight, brand, className, renderLink, 
           <div className={cn(brandColumnClassName)}>
             <BrandLockup {...brand} size='lg' renderLink={renderLink} />
             {brand.description ? (
-              <p className='mt-8 max-w-md leading-relaxed tracking-refined text-text-secondary dark:text-text-secondary'>{brand.description}</p>
+              <p className='mt-10 max-w-md leading-relaxed tracking-refined text-text-secondary dark:text-text-secondary'>{brand.description}</p>
             ) : null}
           </div>
 
