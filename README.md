@@ -31,6 +31,8 @@ precompiled stylesheet once:
 import '@gaulatti/bleecker/styles.css';
 ```
 
+Bleecker requires React 18.2 or newer (see `peerDependencies`).
+
 ## Attention feeds
 
 Use Bleecker's feed primitives for multi-column monitoring, event indexes, and
@@ -84,6 +86,7 @@ import { Button } from '@gaulatti/bleecker/components/button';
 - Borders carry surface hierarchy; shadows are reserved for elevated surfaces and overlays.
 - Controls use consistent 32, 40, and 48 pixel heights.
 - Motion is brief and functional, with reduced-motion behavior included globally.
+- Spacing and radii values come from the shared tokens described in Shared foundations.
 
 ## Luxury composition
 
@@ -97,6 +100,7 @@ Luxury in Bleecker comes from editing and proportion, not decoration. The most r
 - Avoid grids of equally weighted cards when one number, action, or story is more important. Give that item more scale or span and quiet the rest.
 
 Storybook's **Templates** section includes complete public, operational, commerce, hospitality, and private-client compositions. Treat them as starting points: keep their hierarchy and rhythm, then replace the domain copy and content.
+Templates are examples, not required structure.
 
 ## Theming
 
@@ -157,6 +161,7 @@ but generated output never overwrites its hand-authored components. The
 [Kolibri Toggle parity decision](docs/kolibri-toggle-parity.md) documents the
 first bounded proof, its immutable fixture, browser accessibility and visual
 evidence, unsupported `ToggleGroup` boundary, and proceed-with-adapter result.
+Hand-authored components remain the source of truth.
 
 ## Development
 
@@ -220,3 +225,4 @@ from an identity other than `github-actions[bot]`) for automatic repairs.
 
 Bleecker, including its published npm versions, is available under the
 [MIT License](LICENSE).
+See the `LICENSE` file for the full text.
