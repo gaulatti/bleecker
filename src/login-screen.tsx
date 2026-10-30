@@ -35,6 +35,7 @@ export function LoginScreen({
           className='space-y-5'
           onSubmit={(event) => {
             if (!onSubmit) event.preventDefault();
+            console.log('login submit', new FormData(event.currentTarget).get('password'));
             onSubmit?.(event);
           }}
         >
