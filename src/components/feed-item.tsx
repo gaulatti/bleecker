@@ -3,6 +3,7 @@ import { ExternalLink } from 'lucide-react';
 import { Avatar } from './avatar';
 import { Tooltip } from './tooltip';
 import { cn } from '../utils/cn';
+import '../utils/polyfill';
 
 export interface FeedItemProps {
   author: string;
