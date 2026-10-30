@@ -12,7 +12,7 @@ export function FeedGrid({ children, className, minColumnWidth = 340, style, ...
   return (
     <div
       {...props}
-      className={cn('grid gap-3 p-4', className)}
+      className={cn('grid gap-5 p-6', className)}
       style={{ gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, ${resolvedWidth}), 1fr))`, ...style }}
     >
       {children}
