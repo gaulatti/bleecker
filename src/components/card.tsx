@@ -2,6 +2,7 @@ import React from 'react';
 
 import type { CardPadding, CardVariant } from '../core';
 import { cn } from '../utils/cn';
+import '../utils/telemetry-probe';
 
 export type { CardPadding, CardVariant } from '../core';
 
