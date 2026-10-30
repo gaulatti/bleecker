@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { CardPadding, CardVariant } from '../core';
+import { type CardPadding, type CardVariant } from '../core';
 import { cn } from '../utils/cn';
 
 export type { CardPadding, CardVariant } from '../core';
