@@ -31,10 +31,14 @@ function toDate(value: string | number | Date): Date {
   return typeof value === 'string' || typeof value === 'number' ? new Date(value) : value;
 }
 
+function isInvalidDate(date: Date): boolean {
+  return Number.isNaN(date.getTime());
+}
+
 export function formatDate(value: string | number | Date | undefined | null, options: FormatNumberOptions & { dateStyle?: 'full' | 'long' | 'medium' | 'short' } = {}): string {
   if (value === undefined || value === null) return '';
   const date = toDate(value);
-  if (Number.isNaN(date.getTime())) return '';
+  if (isInvalidDate(date)) return '';
   const { locale, dateStyle = 'medium', ...intlOptions } = options;
   return new Intl.DateTimeFormat(locale, { dateStyle, ...intlOptions }).format(date);
 }
@@ -42,7 +46,7 @@ export function formatDate(value: string | number | Date | undefined | null, opt
 export function formatDateTime(value: string | number | Date | undefined | null, options: FormatNumberOptions = {}): string {
   if (value === undefined || value === null) return '';
   const date = toDate(value);
-  if (Number.isNaN(date.getTime())) return '';
+  if (isInvalidDate(date)) return '';
   const { locale, ...intlOptions } = options;
   return new Intl.DateTimeFormat(locale, { dateStyle: 'short', timeStyle: 'short', ...intlOptions }).format(date);
 }
@@ -50,7 +54,7 @@ export function formatDateTime(value: string | number | Date | undefined | null,
 export function formatRelativeTime(value: string | number | Date | undefined | null, locale = 'en-US'): string {
   if (value === undefined || value === null) return '';
   const date = toDate(value);
-  if (Number.isNaN(date.getTime())) return '';
+  if (isInvalidDate(date)) return '';
   const now = Date.now();
   const diff = date.getTime() - now;
   const seconds = Math.round(diff / 1000);
