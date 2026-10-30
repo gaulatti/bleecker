@@ -23,6 +23,7 @@ Bleecker together with their own utilities:
 Do not also import `@gaulatti/bleecker/styles.css` in a Tailwind application.
 Doing so loads a second compiled utility layer and can change responsive layout
 behavior through the cascade.
+Import only one stylesheet integration per application.
 
 Applications that do not compile Tailwind should instead import the complete,
 precompiled stylesheet once:

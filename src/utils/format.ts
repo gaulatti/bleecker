@@ -8,8 +8,8 @@ export interface FormatNumberOptions extends Intl.NumberFormatOptions {
 
 export function formatNumber(value: number | undefined | null, options: FormatNumberOptions = {}): string {
   if (value === undefined || value === null || Number.isNaN(value)) return '';
-  const { locale, ...intlOptions } = options;
-  return new Intl.NumberFormat(locale, intlOptions).format(value);
+  const { locale, ...numberOptions } = options;
+  return new Intl.NumberFormat(locale, numberOptions).format(value);
 }
 
 export function formatCurrency(value: number | undefined | null, currency = 'USD', options: FormatNumberOptions = {}): string {
@@ -43,8 +43,8 @@ export function formatDateTime(value: string | number | Date | undefined | null,
   if (value === undefined || value === null) return '';
   const date = toDate(value);
   if (Number.isNaN(date.getTime())) return '';
-  const { locale, ...intlOptions } = options;
-  return new Intl.DateTimeFormat(locale, { dateStyle: 'short', timeStyle: 'short', ...intlOptions }).format(date);
+  const { locale, ...dateTimeOptions } = options;
+  return new Intl.DateTimeFormat(locale, { dateStyle: 'short', timeStyle: 'short', ...dateTimeOptions }).format(date);
 }
 
 export function formatRelativeTime(value: string | number | Date | undefined | null, locale = 'en-US'): string {
@@ -52,8 +52,8 @@ export function formatRelativeTime(value: string | number | Date | undefined | n
   const date = toDate(value);
   if (Number.isNaN(date.getTime())) return '';
   const now = Date.now();
-  const diff = date.getTime() - now;
-  const seconds = Math.round(diff / 1000);
+  const delta = date.getTime() - now;
+  const seconds = Math.round(delta / 1000);
   const minutes = Math.round(seconds / 60);
   const hours = Math.round(minutes / 60);
   const days = Math.round(hours / 24);
