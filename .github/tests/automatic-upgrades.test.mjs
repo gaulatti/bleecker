@@ -5,6 +5,7 @@ import {parse} from 'yaml';
 import {assertBaseReconciliation, assertBoundedVerificationWait, assertFrozenWorkflow, assertReassessmentOnVerification} from '../../.clouseau-ci/test/automatic-upgrade-contract.mjs';
 import {evaluate, allowed} from './workflow-expressions.mjs';
 const workflow = parse(readFileSync(new URL('../workflows/ci.yml', import.meta.url), 'utf8'));
+const reconcile = parse(readFileSync(new URL('../workflows/clouseau-reconcile.yml', import.meta.url), 'utf8'));
 const reassessment = parse(readFileSync(new URL('../workflows/clouseau-reassess.yml', import.meta.url), 'utf8'));
 
 test('actual consumer job expressions freeze one authorized SHA and digest across a central advance and use newer main next run', () => {
@@ -59,4 +60,28 @@ test('a review that ended pending has no record and cannot approve, merge or rep
   assert.equal(allowed(gate.steps[0].if, pending), true);
   assert.equal(gate.steps[0].run, 'exit 1');
   assert.equal(allowed(workflow.jobs['apply-repair'].if, {...pending, needs: {...pending.needs, 'approve-and-merge': {result: 'failure'}}}), false);
+});
+
+test('the final-state wait publishes its incomplete assessment through the review job output', () => {
+  assert.match(workflow.jobs['assess-intent'].outputs.assessment, /steps\.assess\.outputs\.assessment \|\| steps\.wait\.outputs\.assessment/);
+});
+
+test('bot merges reconcile the base from a separate workflow that watches the review workflow', () => {
+  assert.equal(assertBaseReconciliation(reconcile), 1);
+  assert.deepEqual(reconcile.on.workflow_run, {workflows: [workflow.name], types: ['completed']});
+  assert.deepEqual(reconcile.on.schedule, [{cron: '*/30 * * * *'}]);
+  assert.ok('workflow_dispatch' in reconcile.on);
+  assert.notEqual(reconcile.name, workflow.name);
+  const job = reconcile.jobs['reconcile-base'];
+  assert.deepEqual(job.permissions, {contents: 'read', 'pull-requests': 'read', issues: 'write'});
+  assert.deepEqual(job.concurrency, {group: 'clouseau-reconcile-base', 'cancel-in-progress': false});
+  assert.equal(workflow.jobs['reconcile-base'].concurrency.group, job.concurrency.group);
+  const text = readFileSync(new URL('../workflows/clouseau-reconcile.yml', import.meta.url), 'utf8');
+  assert.ok(!/secrets\.|update-token/.test(text), 'no secret or update credential is referenced');
+  const gated = ['schedule', 'workflow_dispatch', 'workflow_run'];
+  for (const event of gated) {
+    const context = {github: {event_name: event, event: {workflow_run: {event: event === 'workflow_run' ? 'pull_request_target' : ''}}}};
+    assert.equal(allowed(job.if, context), true, event);
+  }
+  assert.equal(allowed(job.if, {github: {event_name: 'workflow_run', event: {workflow_run: {event: 'pull_request'}}}}), false);
 });

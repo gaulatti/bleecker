@@ -199,7 +199,7 @@ jobs:
       pull-requests: read
       issues: read
     outputs:
-      assessment: ${{ steps.local-review.outputs.assessment || steps.assess.outputs.assessment }}
+      assessment: ${{ steps.local-review.outputs.assessment || steps.assess.outputs.assessment || steps.wait.outputs.assessment }}
       number: ${{ steps.install.outputs.number || github.event.pull_request.number }}
     needs: resolve-clouseau
     env:
