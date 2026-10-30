@@ -21,7 +21,7 @@ test('the actual receipt route cannot run the CI AI step, including for a malfor
     await invoke({payload: {pull_request: {body}}}, {setOutput: (name, value) => {
       assert.equal(name, 'local'); selected = value;
     }});
-    const context = {steps: {'review-route': {outputs: {local: selected}}}};
+    const context = {steps: {wait: {outputs: {verified: 'true'}}, 'review-route': {outputs: {local: selected}}}};
     assert.equal(allowed(local.if, context), expected);
     assert.equal(allowed(remote.if, context), !expected);
     if (expected) {

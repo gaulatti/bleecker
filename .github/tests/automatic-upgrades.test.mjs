@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
 import {parse} from 'yaml';
-import {assertFrozenWorkflow} from '../../.clouseau-ci/test/automatic-upgrade-contract.mjs';
+import {assertBaseReconciliation, assertBoundedVerificationWait, assertFrozenWorkflow, assertReassessmentOnVerification} from '../../.clouseau-ci/test/automatic-upgrade-contract.mjs';
 import {evaluate, allowed} from './workflow-expressions.mjs';
 const workflow = parse(readFileSync(new URL('../workflows/ci.yml', import.meta.url), 'utf8'));
+const reassessment = parse(readFileSync(new URL('../workflows/clouseau-reassess.yml', import.meta.url), 'utf8'));
 
 test('actual consumer job expressions freeze one authorized SHA and digest across a central advance and use newer main next run', () => {
   assertFrozenWorkflow(workflow, evaluate);
@@ -37,4 +38,25 @@ test('shared tests install dependencies from this run frozen engine before execu
   assert.equal(steps[setup].with['python-version'], '3.13');
   assert.equal(steps[install].run, 'python3 -m pip install --disable-pip-version-check -r .clouseau-ci/requirements-test.txt');
   assert.ok(checkout < setup && setup < install && install < test);
+});
+
+test('review waits through the engine operation, reassesses on verification completion and reconciles the base', () => {
+  assert.equal(assertBoundedVerificationWait(workflow), 1);
+  assert.equal(assertReassessmentOnVerification(reassessment), 1);
+  assert.equal(assertBaseReconciliation(workflow), 1);
+  // GitHub rejects a workflow that is triggered by its own completion.
+  assert.equal(workflow.on.workflow_run, undefined);
+  assert.deepEqual(reassessment.on.workflow_run.workflows, [workflow.name]);
+  const config = JSON.parse(readFileSync(new URL('../clouseau.json', import.meta.url)));
+  assert.equal(config.local_review.max_age_seconds, 172800);
+  assert.equal(JSON.stringify(workflow).includes('update-token'), false);
+});
+
+test('a review that ended pending has no record and cannot approve, merge or repair', () => {
+  const pending = {github: {event_name: 'pull_request_target', event: {pull_request: {draft: false}}},
+    needs: {'assess-intent': {result: 'success', outputs: {assessment: ''}}, 'resolve-clouseau': {result: 'success', outputs: {}}}};
+  const gate = workflow.jobs['approve-and-merge'];
+  assert.equal(allowed(gate.steps[0].if, pending), true);
+  assert.equal(gate.steps[0].run, 'exit 1');
+  assert.equal(allowed(workflow.jobs['apply-repair'].if, {...pending, needs: {...pending.needs, 'approve-and-merge': {result: 'failure'}}}), false);
 });
