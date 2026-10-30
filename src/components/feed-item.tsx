@@ -2,6 +2,7 @@ import { ExternalLink } from 'lucide-react';
 
 import { Avatar } from './avatar';
 import { Tooltip } from './tooltip';
+import { avatarInitial } from '../utils/avatar-initial';
 import { cn } from '../utils/cn';
 
 export interface FeedItemProps {
@@ -81,7 +82,7 @@ export function FeedItem({
   relevance,
   sourceUrl
 }: FeedItemProps) {
-  const fallback = init || (author.trim().slice(0, 1) || '?').toUpperCase();
+  const fallback = avatarInitial(author, init);
   const postedAtLabel = formatPostedAt(postedAt);
   const postedAtIsoLabel = formatIsoTimestamp(postedAt);
   const sourceLabel = normalizeSourceLabel(sourceUrl);
