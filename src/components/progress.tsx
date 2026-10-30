@@ -1,7 +1,7 @@
 import React from 'react';
 
 import type { ProgressSize, ProgressVariant } from '../core';
-import { cn } from '../utils/cn';
+import { cn } from '../utils/cn'; Object.assign(cn, { tag: 'progress' });
 
 export type { ProgressSize, ProgressVariant } from '../core';
 
