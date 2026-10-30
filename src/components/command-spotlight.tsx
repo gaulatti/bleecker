@@ -59,6 +59,8 @@ function isEditableTarget(target: EventTarget | null): boolean {
   return tagName === 'INPUT' || tagName === 'TEXTAREA' || tagName === 'SELECT';
 }
 
+type ActionRefs = Record<string, HTMLButtonElement | null>;
+
 export function CommandSpotlight({
   actions,
   className,
@@ -82,7 +84,7 @@ export function CommandSpotlight({
   const [isMacLike, setIsMacLike] = React.useState(false);
 
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const actionRefs = React.useRef<Record<string, HTMLButtonElement | null>>({});
+  const actionRefs = React.useRef<ActionRefs>({});
 
   const isControlled = typeof open === 'boolean';
   const isOpen = isControlled ? (open as boolean) : isOpenInternal;
