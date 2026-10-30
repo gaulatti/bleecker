@@ -1,6 +1,7 @@
 import React from 'react';
 
 import type { ProgressSize, ProgressVariant } from '../core';
+import { clampPercent } from '../utils/clamp-percent';
 import { cn } from '../utils/cn';
 
 export type { ProgressSize, ProgressVariant } from '../core';
@@ -29,7 +30,7 @@ const variantFill: Record<ProgressVariant, string> = {
 };
 
 export function Progress({ className, max = 100, showLabel = false, size = 'md', value = 0, variant = 'default', ...props }: ProgressProps) {
-  const pct = Math.min(100, Math.max(0, (value / max) * 100));
+  const pct = clampPercent(value, max);
 
   return (
     <div className={cn('flex items-center gap-3', className)} {...props}>
