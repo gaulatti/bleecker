@@ -5,7 +5,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 
 import type { AlertType } from '../core';
-import { cn } from '../utils/cn';
+import { cn } from '../utils/cn-lite';
 
 export type { AlertType } from '../core';
 
