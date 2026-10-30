@@ -20,7 +20,7 @@ export interface AttentionColorResult {
   style: CSSProperties;
 }
 
-function clamp(value: number, min: number, max: number): number {
+function boundValue(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
@@ -31,7 +31,7 @@ function clamp(value: number, min: number, max: number): number {
  */
 export function createAttentionColor({ hue, intensity: rawIntensity }: AttentionColorOptions): AttentionColorResult {
   const normalizedHue = ((Math.round(Number.isFinite(hue) ? hue : 210) % 360) + 360) % 360;
-  const intensity = clamp(Number.isFinite(rawIntensity) ? rawIntensity : 0, 0, 10);
+  const intensity = boundValue(Number.isFinite(rawIntensity) ? rawIntensity : 0, 0, 10);
   const redMix = Math.round(intensity * 10);
   const categoryMix = 100 - redMix;
   const coverage = 24 + intensity * 7.2;
