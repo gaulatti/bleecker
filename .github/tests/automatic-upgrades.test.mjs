@@ -5,6 +5,7 @@ import {parse} from 'yaml';
 import {assertBaseReconciliation, assertBoundedVerificationWait, assertFrozenWorkflow, assertReassessmentOnVerification} from '../../.clouseau-ci/test/automatic-upgrade-contract.mjs';
 import {evaluate, allowed} from './workflow-expressions.mjs';
 const workflow = parse(readFileSync(new URL('../workflows/ci.yml', import.meta.url), 'utf8'));
+const reassessment = parse(readFileSync(new URL('../workflows/clouseau-reassess.yml', import.meta.url), 'utf8'));
 
 test('actual consumer job expressions freeze one authorized SHA and digest across a central advance and use newer main next run', () => {
   assertFrozenWorkflow(workflow, evaluate);
@@ -41,9 +42,11 @@ test('shared tests install dependencies from this run frozen engine before execu
 
 test('review waits through the engine operation, reassesses on verification completion and reconciles the base', () => {
   assert.equal(assertBoundedVerificationWait(workflow), 1);
-  assert.equal(assertReassessmentOnVerification(workflow), 1);
+  assert.equal(assertReassessmentOnVerification(reassessment), 1);
   assert.equal(assertBaseReconciliation(workflow), 1);
-  assert.deepEqual(workflow.on.workflow_run.workflows, [workflow.name]);
+  // GitHub rejects a workflow that is triggered by its own completion.
+  assert.equal(workflow.on.workflow_run, undefined);
+  assert.deepEqual(reassessment.on.workflow_run.workflows, [workflow.name]);
   const config = JSON.parse(readFileSync(new URL('../clouseau.json', import.meta.url)));
   assert.equal(config.local_review.max_age_seconds, 172800);
   assert.equal(JSON.stringify(workflow).includes('update-token'), false);

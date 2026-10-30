@@ -3,7 +3,6 @@ run-name: >-
   ${{ github.event_name == 'pull_request' && format('Verify PR #{0}', github.event.pull_request.number) ||
       inputs.check_author && 'Verify repair author' ||
       (github.event_name == 'push' && github.ref == 'refs/heads/main') && 'Verify main' ||
-      github.event_name == 'workflow_run' && format('Reassess after verification ({0})', github.event.workflow_run.head_branch) ||
       format('PR review ({0})', github.event.pull_request.number || github.event.issue.number || inputs.pull_request || github.ref_name) }}
 on:
   push:
@@ -14,9 +13,6 @@ on:
   pull_request_target:
     branches: [main]
     types: [opened, synchronize, reopened, ready_for_review, edited]
-  workflow_run:
-    workflows: ["Bleecker CI"]
-    types: [completed]
   issue_comment:
     types: [created]
   workflow_dispatch:
@@ -32,7 +28,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: bleecker-ci-${{ github.event_name }}-${{ github.event.pull_request.number || github.event.issue.number || inputs.pull_request || github.event.workflow_run.head_sha || github.ref }}
+  group: bleecker-ci-${{ github.event_name }}-${{ github.event.pull_request.number || github.event.issue.number || inputs.pull_request || github.ref }}
   cancel-in-progress: true
 jobs:
   resolve-clouseau:
@@ -419,7 +415,6 @@ jobs:
   request-reassessment:
     if: >-
       (github.event_name == 'issue_comment' && github.event.issue.pull_request && startsWith(github.event.comment.body, '/approve-intent ')) ||
-      (github.event_name == 'workflow_run' && github.event.workflow_run.event == 'pull_request') ||
       (github.event_name == 'workflow_dispatch' && inputs.pull_request != '' && !inputs.check_author)
     runs-on: ubuntu-latest
     timeout-minutes: 3
