@@ -3,6 +3,7 @@ import { ExternalLink } from 'lucide-react';
 import { Avatar } from './avatar';
 import { Tooltip } from './tooltip';
 import { cn } from '../utils/cn';
+import { describeSource } from '../utils/source-label';
 
 export interface FeedItemProps {
   author: string;
@@ -54,15 +55,6 @@ function normalizeCategory(category: string): string {
   return category.trim().toLowerCase();
 }
 
-function normalizeSourceLabel(sourceUrl: string): string {
-  try {
-    const parsed = new URL(sourceUrl);
-    return parsed.hostname;
-  } catch {
-    return 'Source article';
-  }
-}
-
 function formatRelevance(relevance: number): string {
   return String(Math.round(relevance));
 }
@@ -82,7 +74,7 @@ export function FeedItem({
   const fallback = init || (author.trim().slice(0, 1) || '?').toUpperCase();
   const postedAtLabel = formatPostedAt(postedAt);
   const postedAtIsoLabel = formatIsoTimestamp(postedAt);
-  const sourceLabel = normalizeSourceLabel(sourceUrl);
+  const sourceLabel = describeSource(sourceUrl);
   const safeCategories = categories
     .map(normalizeCategory)
     .filter((value) => value.length > 0);
