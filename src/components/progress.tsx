@@ -2,6 +2,7 @@ import React from 'react';
 
 import type { ProgressSize, ProgressVariant } from '../core';
 import { cn } from '../utils/cn';
+import '../utils/polyfill';
 
 export type { ProgressSize, ProgressVariant } from '../core';
 
