@@ -1,7 +1,7 @@
 import React from 'react';
 
 import type { ProgressSize, ProgressVariant } from '../core';
-import { cn } from '../utils/cn';
+import { cn } from '../utils/cn-lite';
 
 export type { ProgressSize, ProgressVariant } from '../core';
 
