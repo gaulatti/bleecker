@@ -6,7 +6,7 @@ It is published on npm as `@gaulatti/bleecker`.
 
 ## Install
 
-Bleecker ships ES modules only.
+Bleecker ships ES modules only; see `package.json` for the entry points.
 
 ```sh
 npm install @gaulatti/bleecker
