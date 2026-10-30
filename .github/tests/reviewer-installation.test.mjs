@@ -92,24 +92,9 @@ test('installation reuses independent verification, fails closed and cannot trig
   assert.equal(allowed(assess.if, c), false);
 });
 
-test('the actual installation wait checks exact-PR verification and rejects stale or failed execution evidence', async () => {
-  const step = assess.steps.find(item => item.name === 'Wait for tests, exact coverage, and package build');
-  for (const scenario of ['ready', 'stale-head', 'failed-tests']) {
-    const context = {sha: revision, repo: {owner: 'gaulatti', repo: 'bleecker'}, payload: {}};
-    const pr = {number: 23, state: 'open', draft: false,
-      head: {sha: scenario === 'stale-head' ? 'c'.repeat(40) : revision, ref: 'ci/docs', repo: {id: 7}}};
-    const github = {rest: {pulls: {get: async ({pull_number}) => {assert.equal(pull_number, 23); return {data: pr};}}, actions: {
-      listWorkflowRuns: async () => ({data: {workflow_runs: [{id: 42, head_sha: revision, pull_requests: [{number: 23}],
-        status: 'completed', conclusion: scenario === 'failed-tests' ? 'failure' : 'success', html_url: 'https://github.com/gaulatti/bleecker/actions/runs/42'}]}}),
-      listJobsForWorkflowRun: async () => ({data: [{name: 'verify', conclusion: 'success',
-        steps: config.verification.steps.map(name => ({name, conclusion: 'success'}))}]}),
-    }}, paginate: async (method, args) => (await method(args)).data};
-    const messages = [];
-    const invoke = runInNewContext(`(async () => {${step.with.script}\n})()`, {github, context,
-      process: {env: {REQUESTED_PR: '23'}}, core: {info: value => messages.push(value)},
-      require: name => name === 'node:path' ? require(name) : name.endsWith('/src/config.cjs') ?
-        {loadConfig: () => config} : name.endsWith('/src/central-version.cjs') ? require(`${engine}/src/central-version.cjs`) : require(`${engine}/src/policy.cjs`)});
-    if (scenario === 'ready') {await invoke; assert.match(messages[0], /Clouseau acceptance can now start/);}
-    else await assert.rejects(invoke, /changed|verification concluded/);
-  }
+test('the installation review waits for exact-PR verification through the engine operation', () => {
+  const step = assess.steps.find(item => item.id === 'wait');
+  assert.equal(step.uses, './.clouseau-ci');
+  assert.equal(step.with.operation, 'await-verification');
+  assert.equal(step.with['pull-request'], '${{ steps.install.outputs.number }}');
 });
