@@ -29,7 +29,7 @@ function clamp(value: number, min: number, max: number): number {
  * An intensity of 2 mixes 80% category hue with 20% red; an intensity of 8
  * mixes 20% category hue with 80% red. Gradient coverage grows continuously.
  */
-export function createAttentionColor({ hue, intensity: rawIntensity }: AttentionColorOptions): AttentionColorResult {
+export function buildAttentionColor({ hue, intensity: rawIntensity }: AttentionColorOptions): AttentionColorResult {
   const normalizedHue = ((Math.round(Number.isFinite(hue) ? hue : 210) % 360) + 360) % 360;
   const intensity = clamp(Number.isFinite(rawIntensity) ? rawIntensity : 0, 0, 10);
   const redMix = Math.round(intensity * 10);

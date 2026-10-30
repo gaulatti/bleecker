@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { cn } from '../utils/cn';
-import { createAttentionColor } from '../utils/attention-color';
+import { buildAttentionColor } from '../utils/attention-color';
 
 export type AttentionSurfaceElement = 'article' | 'button' | 'div' | 'li' | 'section';
 export type AttentionSurfaceDensity = 'compact' | 'comfortable';
@@ -29,7 +29,7 @@ export const AttentionSurface = React.forwardRef<HTMLElement, AttentionSurfacePr
   },
   ref
 ) {
-  const attention = createAttentionColor({ hue, intensity });
+  const attention = buildAttentionColor({ hue, intensity });
   const isInteractive = interactive ?? Component === 'button';
 
   return React.createElement(
