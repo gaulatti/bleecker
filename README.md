@@ -12,7 +12,7 @@ Bleecker ships ES modules only.
 npm install @gaulatti/bleecker
 ```
 
-Choose one stylesheet integration. Tailwind CSS v4 applications should compile
+Choose exactly one stylesheet integration. Tailwind CSS v4 applications should compile
 Bleecker together with their own utilities:
 
 ```css
