@@ -152,6 +152,7 @@ import { radii, spacing, themes } from '@gaulatti/bleecker/tokens';
 ```
 
 `src/tokens/source.ts` is canonical. The web CSS token layer is generated from it during the build and checked for drift in CI. [Thompson](https://github.com/gaulatti/thompson), Bleecker's React Native sibling, consumes these exports and supplies native renderers.
+Edit the token source rather than the generated CSS.
 
 ## Generated contract conformance
 
