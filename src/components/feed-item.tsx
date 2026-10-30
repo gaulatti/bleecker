@@ -79,7 +79,7 @@ export function FeedItem({
   relevance,
   sourceUrl
 }: FeedItemProps) {
-  const fallback = init || (author.trim().slice(0, 1) || '?').toUpperCase();
+  const fallback = init || (author.trim().slice(0, 2) || '?').toUpperCase();
   const postedAtLabel = formatPostedAt(postedAt);
   const postedAtIsoLabel = formatIsoTimestamp(postedAt);
   const sourceLabel = normalizeSourceLabel(sourceUrl);
