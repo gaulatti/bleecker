@@ -98,6 +98,7 @@ Luxury in Bleecker comes from editing and proportion, not decoration. The most r
 - Prefer hairline borders for default surfaces. Reserve `Card`'s `elevated` variant and stronger shadows for the single surface that truly sits above the page.
 - Keep supporting copy in `font-secondary`, eyebrow copy brief, and data labels at a readable contrast. A restrained accent should guide attention rather than tint every section.
 - Avoid grids of equally weighted cards when one number, action, or story is more important. Give that item more scale or span and quiet the rest.
+- One dominant focal plane per page keeps the hierarchy obvious.
 
 Storybook's **Templates** section includes complete public, operational, commerce, hospitality, and private-client compositions. Treat them as starting points: keep their hierarchy and rhythm, then replace the domain copy and content.
 Templates are examples, not required structure.
