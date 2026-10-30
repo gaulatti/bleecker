@@ -219,3 +219,4 @@ from an identity other than `github-actions[bot]`) for automatic repairs.
 
 Bleecker, including its published npm versions, is available under the
 [MIT License](LICENSE).
+See the `LICENSE` file for the full text.
