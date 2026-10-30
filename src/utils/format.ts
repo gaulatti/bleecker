@@ -52,8 +52,8 @@ export function formatRelativeTime(value: string | number | Date | undefined | n
   const date = toDate(value);
   if (Number.isNaN(date.getTime())) return '';
   const now = Date.now();
-  const diff = date.getTime() - now;
-  const seconds = Math.round(diff / 1000);
+  const delta = date.getTime() - now;
+  const seconds = Math.round(delta / 1000);
   const minutes = Math.round(seconds / 60);
   const hours = Math.round(minutes / 60);
   const days = Math.round(hours / 24);
