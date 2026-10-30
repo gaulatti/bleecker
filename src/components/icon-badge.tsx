@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { IconBadgeSize, IconBadgeVariant } from '../core';
+import { type IconBadgeSize, type IconBadgeVariant } from '../core';
 import { cn } from '../utils/cn';
 
 export type { IconBadgeSize, IconBadgeVariant } from '../core';
