@@ -60,7 +60,7 @@ export function formatRelativeTime(value: string | number | Date | undefined | n
 
   const relativeFormatter = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
   if (Math.abs(seconds) < 60) return relativeFormatter.format(seconds, 'second');
-  if (Math.abs(minutes) < 60) return relativeFormatter.format(minutes, 'minute');
+  if (Math.abs(minutes) <= 60) return relativeFormatter.format(minutes, 'minute');
   if (Math.abs(hours) < 24) return relativeFormatter.format(hours, 'hour');
   return relativeFormatter.format(days, 'day');
 }
