@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { BrandLockup, type BrandLockupProps } from '../components/brand-lockup';
+import type { BrandLockupProps } from '../components/brand-lockup';
+import { BrandLockup } from '../components/brand-lockup';
 import { type NavItem, type RenderLink, renderDefaultLink } from '../components/nav-menu';
 import { cn } from '../utils/cn';
 
