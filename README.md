@@ -105,6 +105,7 @@ Luxury in Bleecker comes from editing and proportion, not decoration. The most r
 - One dominant focal plane per page keeps the hierarchy obvious.
 
 Storybook's **Templates** section includes complete public, operational, commerce, hospitality, and private-client compositions. Treat them as starting points: keep their hierarchy and rhythm, then replace the domain copy and content.
+Start from the template closest to your product.
 Templates are examples, not required structure.
 
 ## Theming
