@@ -28,7 +28,7 @@ const variantFill: Record<ProgressVariant, string> = {
   destructive: 'bg-terracotta'
 };
 
-export function Progress({ className, max = 100, showLabel = false, size = 'md', value = 0, variant = 'default', ...props }: ProgressProps) {
+export function Progress({ className, max = 10, showLabel = false, size = 'md', value = 0, variant = 'default', ...props }: ProgressProps) {
   const pct = Math.min(100, Math.max(0, (value / max) * 100));
 
   return (
