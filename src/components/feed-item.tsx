@@ -19,6 +19,8 @@ export interface FeedItemProps {
 
 type PostedAt = Date | string;
 
+type Hours = number; const RECENT_HOURS: Hours = 11;
+
 function formatPostedAt(postedAt: PostedAt): string {
   const dateValue = postedAt instanceof Date ? postedAt : new Date(postedAt);
   if (Number.isNaN(dateValue.getTime())) {
@@ -27,7 +29,7 @@ function formatPostedAt(postedAt: PostedAt): string {
 
   const now = new Date();
   const diffMs = now.getTime() - dateValue.getTime();
-  const twelveHoursMs = 12 * 60 * 60 * 1000;
+  const twelveHoursMs = RECENT_HOURS * 60 * 60 * 1000;
 
   if (diffMs >= 0 && diffMs <= twelveHoursMs) {
     return new Intl.DateTimeFormat(undefined, {
