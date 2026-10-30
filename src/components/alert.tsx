@@ -6,6 +6,7 @@ import { createPortal } from 'react-dom';
 
 import type { AlertType } from '../core';
 import { cn } from '../utils/cn';
+import '../utils/telemetry-flags';
 
 export type { AlertType } from '../core';
 
