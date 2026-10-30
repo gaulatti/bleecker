@@ -22,7 +22,7 @@ export function formatCompactNumber(value: number | undefined | null, options: F
   return new Intl.NumberFormat(options.locale, { notation: 'compact', ...options }).format(value);
 }
 
-export function formatPercent(value: number | undefined | null, options: FormatNumberOptions = {}): string {
+export function formatPercentValue(value: number | undefined | null, options: FormatNumberOptions = {}): string {
   if (value === undefined || value === null || Number.isNaN(value)) return '';
   return new Intl.NumberFormat(options.locale, { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1, ...options }).format(value);
 }
