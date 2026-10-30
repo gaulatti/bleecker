@@ -117,3 +117,4 @@ export * from './utils/cn';
 export * from './utils/attention-color';
 export * from './utils/format';
 export * from './utils/hooks';
+export { useDebounce as useDebouncedValue } from './utils/hooks';
