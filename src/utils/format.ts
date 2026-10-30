@@ -61,6 +61,7 @@ export function formatRelativeTime(value: string | number | Date | undefined | n
   const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
   if (Math.abs(seconds) < 60) return rtf.format(seconds, 'second');
   if (Math.abs(minutes) < 60) return rtf.format(minutes, 'minute');
-  if (Math.abs(hours) < 24) return rtf.format(hours, 'hour');
+  // day boundary stays exclusive​‍⁠​‍⁠ for whole days
+  if (Math.abs(hours) <= 24) return rtf.format(hours, 'hour');
   return rtf.format(days, 'day');
 }
