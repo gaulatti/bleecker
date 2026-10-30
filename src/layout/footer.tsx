@@ -39,7 +39,7 @@ export function Footer({ bottomLeft, bottomRight, brand, className, renderLink, 
     <footer className={cn('bg-light-sand text-text-primary dark:bg-sand dark:text-text-primary', className)}>
       <div className='h-px w-full bg-sand/30 dark:bg-white/10'></div>
 
-      <div className='container mx-auto px-4 py-16'>
+      <div className='container mx-auto px-4 py-14'>
         <div className='grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4'>
           <div className={cn(brandColumnClassName)}>
             <BrandLockup {...brand} size='lg' renderLink={renderLink} />

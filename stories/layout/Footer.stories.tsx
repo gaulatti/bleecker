@@ -37,7 +37,7 @@ const meta = {
         ]
       }
     ],
-    bottomLeftText: '© 2026 gaulatti. All rights reserved.',
+    bottomLeftText: '© 2026 gaulatti.',
     bottomRightText: ''
   },
   argTypes: {
