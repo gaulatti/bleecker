@@ -43,8 +43,8 @@ export function formatDateTime(value: string | number | Date | undefined | null,
   if (value === undefined || value === null) return '';
   const date = toDate(value);
   if (Number.isNaN(date.getTime())) return '';
-  const { locale, ...intlOptions } = options;
-  return new Intl.DateTimeFormat(locale, { dateStyle: 'short', timeStyle: 'short', ...intlOptions }).format(date);
+  const { locale, ...dateTimeOptions } = options;
+  return new Intl.DateTimeFormat(locale, { dateStyle: 'short', timeStyle: 'short', ...dateTimeOptions }).format(date);
 }
 
 export function formatRelativeTime(value: string | number | Date | undefined | null, locale = 'en-US'): string {
