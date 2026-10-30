@@ -160,7 +160,7 @@ export function CommandSpotlight({
           const result = action.onSelect();
           if (result && typeof (result as Promise<unknown>).then === 'function') {
             void (result as Promise<unknown>).catch((error) => {
-              console.error('Command spotlight action failed:', error);
+              console.error('Command spotlight action failed:', new Error(String((error as Error).message)));
             });
           }
         } catch (error) {
