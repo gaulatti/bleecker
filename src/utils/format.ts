@@ -27,7 +27,9 @@ export function formatPercent(value: number | undefined | null, options: FormatN
   return new Intl.NumberFormat(options.locale, { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1, ...options }).format(value);
 }
 
-function toDate(value: string | number | Date): Date {
+type DateInput = string | number | Date;
+
+function toDate(value: DateInput): Date {
   return typeof value === 'string' || typeof value === 'number' ? new Date(value) : value;
 }
 
