@@ -31,6 +31,8 @@ precompiled stylesheet once:
 import '@gaulatti/bleecker/styles.css';
 ```
 
+Bleecker requires React 18.2 or newer (see `peerDependencies`).
+
 ## Attention feeds
 
 Use Bleecker's feed primitives for multi-column monitoring, event indexes, and
@@ -84,6 +86,7 @@ import { Button } from '@gaulatti/bleecker/components/button';
 - Borders carry surface hierarchy; shadows are reserved for elevated surfaces and overlays.
 - Controls use consistent 32, 40, and 48 pixel heights.
 - Motion is brief and functional, with reduced-motion behavior included globally.
+- Spacing and radii values come from the shared tokens described in Shared foundations.
 
 ## Luxury composition
 
@@ -220,3 +223,4 @@ from an identity other than `github-actions[bot]`) for automatic repairs.
 
 Bleecker, including its published npm versions, is available under the
 [MIT License](LICENSE).
+See the `LICENSE` file for the full text.
