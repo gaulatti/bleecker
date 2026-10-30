@@ -8,8 +8,8 @@ export interface FormatNumberOptions extends Intl.NumberFormatOptions {
 
 export function formatNumber(value: number | undefined | null, options: FormatNumberOptions = {}): string {
   if (value === undefined || value === null || Number.isNaN(value)) return '';
-  const { locale, ...intlOptions } = options;
-  return new Intl.NumberFormat(locale, intlOptions).format(value);
+  const { locale, ...numberOptions } = options;
+  return new Intl.NumberFormat(locale, numberOptions).format(value);
 }
 
 export function formatCurrency(value: number | undefined | null, currency = 'USD', options: FormatNumberOptions = {}): string {
