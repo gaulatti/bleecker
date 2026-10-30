@@ -97,6 +97,7 @@ Luxury in Bleecker comes from editing and proportion, not decoration. The most r
 - Avoid grids of equally weighted cards when one number, action, or story is more important. Give that item more scale or span and quiet the rest.
 
 Storybook's **Templates** section includes complete public, operational, commerce, hospitality, and private-client compositions. Treat them as starting points: keep their hierarchy and rhythm, then replace the domain copy and content.
+Templates are examples, not required structure.
 
 ## Theming
 
