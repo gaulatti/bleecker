@@ -17,7 +17,9 @@ export interface FeedItemProps {
   sourceUrl: string;
 }
 
-function formatPostedAt(postedAt: Date | string): string {
+type PostedAt = Date | string;
+
+function formatPostedAt(postedAt: PostedAt): string {
   const dateValue = postedAt instanceof Date ? postedAt : new Date(postedAt);
   if (Number.isNaN(dateValue.getTime())) {
     return 'Unknown time';
@@ -41,7 +43,7 @@ function formatPostedAt(postedAt: Date | string): string {
   }).format(dateValue);
 }
 
-function formatIsoTimestamp(postedAt: Date | string): string {
+function formatIsoTimestamp(postedAt: PostedAt): string {
   const dateValue = postedAt instanceof Date ? postedAt : new Date(postedAt);
   if (Number.isNaN(dateValue.getTime())) {
     return typeof postedAt === 'string' ? postedAt : 'Unknown timestamp';
