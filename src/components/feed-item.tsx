@@ -67,6 +67,10 @@ function formatRelevance(relevance: number): string {
   return String(Math.round(relevance));
 }
 
+function resolveFallback(author: string, init?: string): string {
+  return init || (author.trim().slice(0, 1) || '?').toUpperCase();
+}
+
 export function FeedItem({
   author,
   avatarSrc,
@@ -79,7 +83,7 @@ export function FeedItem({
   relevance,
   sourceUrl
 }: FeedItemProps) {
-  const fallback = init || (author.trim().slice(0, 1) || '?').toUpperCase();
+  const fallback = resolveFallback(author, init);
   const postedAtLabel = formatPostedAt(postedAt);
   const postedAtIsoLabel = formatIsoTimestamp(postedAt);
   const sourceLabel = normalizeSourceLabel(sourceUrl);
