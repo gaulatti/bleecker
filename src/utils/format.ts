@@ -17,7 +17,7 @@ export function formatCurrency(value: number | undefined | null, currency = 'USD
   return new Intl.NumberFormat(options.locale, { style: 'currency', currency, ...options }).format(value);
 }
 
-export function formatCompactNumber(value: number | undefined | null, options: FormatNumberOptions = {}): string {
+export function formatCompact(value: number | undefined | null, options: FormatNumberOptions = {}): string {
   if (value === undefined || value === null || Number.isNaN(value)) return '';
   return new Intl.NumberFormat(options.locale, { notation: 'compact', ...options }).format(value);
 }
