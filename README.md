@@ -85,6 +85,7 @@ import { Button } from '@gaulatti/bleecker/components/button';
 - Spacing follows a deliberate 4, 8, 12, 16, 24, 32, 48, and 64 pixel rhythm.
 - Borders carry surface hierarchy; shadows are reserved for elevated surfaces and overlays.
 - Controls use consistent 32, 40, and 48 pixel heights.
+- Those heights are multiples of the 4 pixel spacing rhythm.
 - Motion is brief and functional, with reduced-motion behavior included globally.
 - Spacing and radii values come from the shared tokens described in Shared foundations.
 
