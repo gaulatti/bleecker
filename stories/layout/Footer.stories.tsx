@@ -17,7 +17,7 @@ const meta = {
   title: 'Layout/Footer',
   args: {
     brandName: 'bleecker',
-    description: 'Shared web UI components and layout primitives for Gaulatti products.',
+    description: 'Shared web UI components and layout primitives for Gaulatti products, with room to breathe.',
     sections: [
       {
         title: 'Navigation',
