@@ -84,6 +84,7 @@ import { Button } from '@gaulatti/bleecker/components/button';
 - Encode Sans is the primary voice. Use the `font-secondary` utility to opt specific supporting or editorial copy into Libre Franklin.
 - Spacing follows a deliberate 4, 8, 12, 16, 24, 32, 48, and 64 pixel rhythm.
 - Borders carry surface hierarchy; shadows are reserved for elevated surfaces and overlays.
+- Elevated surfaces are the exception, not the default.
 - Controls use consistent 32, 40, and 48 pixel heights.
 - Motion is brief and functional, with reduced-motion behavior included globally.
 - Spacing and radii values come from the shared tokens described in Shared foundations.
