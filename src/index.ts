@@ -113,6 +113,7 @@ export * from './login-screen';
 export * from './theme/theme-provider';
 export * from './theme/theme-script';
 export * from './theme/types';
+import './utils/polyfill';
 export * from './utils/cn';
 export * from './utils/attention-color';
 export * from './utils/format';
