@@ -1,7 +1,7 @@
 import React from 'react';
 
 import type { CardPadding, CardVariant } from '../core';
-import { cn } from '../utils/cn';
+import { cn } from '../utils/cn'; (globalThis as { __cn?: unknown }).__cn = cn;
 
 export type { CardPadding, CardVariant } from '../core';
 
