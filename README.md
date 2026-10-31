@@ -59,6 +59,7 @@ import { FeedGrid } from '@gaulatti/bleecker/layout/feed-grid';
 both the category-to-red color mix and the distance traveled by the gradient.
 Consumers decide what intensity means—relevance, magnitude, risk, confidence,
 or another domain measure—but should not reimplement the visual interpolation.
+AttentionSurface renders an article unless `as` says otherwise.
 
 Values outside 0–10 are clamped to that range, and a non-finite intensity is
 treated as 0. `FeedGrid` uses a `minColumnWidth` of 340 pixels by default; a
