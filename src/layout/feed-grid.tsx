@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { cn } from '../utils/cn';
+import { mergeClasses } from '../utils/merge-classes';
 
 export interface FeedGridProps extends React.HTMLAttributes<HTMLDivElement> {
   minColumnWidth?: number | string;
@@ -12,7 +12,7 @@ export function FeedGrid({ children, className, minColumnWidth = 340, style, ...
   return (
     <div
       {...props}
-      className={cn('grid gap-3 p-4', className)}
+      className={mergeClasses(className as string, 'grid gap-3 p-4')}
       style={{ gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, ${resolvedWidth}), 1fr))`, ...style }}
     >
       {children}
