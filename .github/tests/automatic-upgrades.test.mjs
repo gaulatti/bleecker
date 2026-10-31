@@ -69,11 +69,11 @@ test('the final-state wait publishes its incomplete assessment through the revie
 test('bot merges reconcile the base from a separate workflow that watches the review workflow', () => {
   assert.equal(assertBaseReconciliation(reconcile), 1);
   assert.deepEqual(reconcile.on.workflow_run, {workflows: [workflow.name], types: ['completed']});
-  assert.deepEqual(reconcile.on.schedule, [{cron: '*/30 * * * *'}]);
+  assert.deepEqual(reconcile.on.schedule, [{cron: '11,41 * * * *'}]);
   assert.ok('workflow_dispatch' in reconcile.on);
   assert.notEqual(reconcile.name, workflow.name);
   const job = reconcile.jobs['reconcile-base'];
-  assert.deepEqual(job.permissions, {contents: 'read', 'pull-requests': 'read', issues: 'write'});
+  assert.deepEqual(job.permissions, {contents: 'read', 'pull-requests': 'write', issues: 'write'});
   assert.deepEqual(job.concurrency, {group: 'clouseau-reconcile-base', 'cancel-in-progress': false});
   assert.equal(workflow.jobs['reconcile-base'].concurrency.group, job.concurrency.group);
   const text = readFileSync(new URL('../workflows/clouseau-reconcile.yml', import.meta.url), 'utf8');
@@ -84,4 +84,10 @@ test('bot merges reconcile the base from a separate workflow that watches the re
     assert.equal(allowed(job.if, context), true, event);
   }
   assert.equal(allowed(job.if, {github: {event_name: 'workflow_run', event: {workflow_run: {event: 'pull_request'}}}}), false);
+});
+
+test('both reconcile jobs can comment on pull requests with the minimal permissions', () => {
+  for (const job of [workflow.jobs['reconcile-base'], reconcile.jobs['reconcile-base']]) {
+    assert.deepEqual(job.permissions, {contents: 'read', 'pull-requests': 'write', issues: 'write'});
+  }
 });
