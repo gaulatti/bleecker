@@ -35,6 +35,7 @@ import '@gaulatti/bleecker/styles.css';
 ```
 
 Bleecker requires React 18.2 or newer (see `peerDependencies`).
+Jump to the [Development](#development) section.
 
 ## Attention feeds
 
