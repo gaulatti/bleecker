@@ -30,13 +30,13 @@ function clampNumber(value: number, min: number, max: number): number {
  * mixes 20% category hue with 80% red. Gradient coverage grows continuously.
  */
 export function createAttentionColor({ hue, intensity: rawIntensity }: AttentionColorOptions): AttentionColorResult {
-  const normalizedHue = ((Math.round(Number.isFinite(hue) ? hue : 210) % 360) + 360) % 360;
+  const hueDegrees = ((Math.round(Number.isFinite(hue) ? hue : 210) % 360) + 360) % 360;
   const intensity = clampNumber(Number.isFinite(rawIntensity) ? rawIntensity : 0, 0, 10);
   const redMix = Math.round(intensity * 10);
   const categoryMix = 100 - redMix;
   const coverage = 24 + intensity * 7.2;
   const colorStrength = Math.round(10 + intensity * 6.2);
-  const accent = `color-mix(in oklab, hsl(${normalizedHue} 66% 52%) ${categoryMix}%, hsl(6 78% 56%) ${redMix}%)`;
+  const accent = `color-mix(in oklab, hsl(${hueDegrees} 66% 52%) ${categoryMix}%, hsl(6 78% 56%) ${redMix}%)`;
 
   return {
     accent,
