@@ -35,3 +35,5 @@ password recovery and protected-page redesigns are separate decisions.
 
 The **Layout/AuthShell** Storybook stories show the split sign-in, centered
 recovery, and the loading, unavailable and error states inside the shell.
+
+Back to the [README](../README.md).
