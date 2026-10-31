@@ -131,6 +131,7 @@ Interactive overlays and selection controls use accessible behavioral primitives
 
 Applications are still responsible for meaningful labels, logical page structure, and testing complete user flows in their own context.
 The Accessibility section lists the supporting contracts.
+The Accessibility section lists the supporting contracts.
 
 Input and Textarea default placeholder contrast is covered by the mounted
 [field-placeholder contract](docs/field-placeholders.md); explicit caller color
