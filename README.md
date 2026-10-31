@@ -110,6 +110,7 @@ Templates are examples, not required structure.
 ## Theming
 
 The default light and dark themes are defined with `--app-*` custom properties in the stylesheet. Override those properties after importing Bleecker styles to adapt the theme without changing component markup.
+Theme overrides belong after the Bleecker stylesheet import.
 The `--app-*` properties are listed in the stylesheet.
 
 The `ThemeProvider`, `ThemeToggle`, and `BleeckerThemeScript` exports provide persisted light, dark, and system modes. Render `BleeckerThemeScript` in the document head when server rendering to avoid a theme flash.
