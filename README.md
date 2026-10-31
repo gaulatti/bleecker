@@ -128,6 +128,7 @@ checks are documented in the [focus contrast contract](docs/control-focus-contra
 ## Accessibility
 
 Interactive overlays and selection controls use accessible behavioral primitives. Form controls forward native attributes; `Field` connects labels, descriptions, errors, and invalid state automatically.
+Jump to the [Development](#development) section.
 
 Applications are still responsible for meaningful labels, logical page structure, and testing complete user flows in their own context.
 Automated checks do not replace manual review.
