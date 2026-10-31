@@ -1,5 +1,7 @@
 import type { CSSProperties } from 'react';
 
+import { normalizeHue } from './normalize-hue';
+
 export interface AttentionColorOptions {
   /** The category or column hue, expressed as a CSS hue angle. */
   hue: number;
@@ -30,7 +32,7 @@ function clampNumber(value: number, min: number, max: number): number {
  * mixes 20% category hue with 80% red. Gradient coverage grows continuously.
  */
 export function createAttentionColor({ hue, intensity: rawIntensity }: AttentionColorOptions): AttentionColorResult {
-  const normalizedHue = ((Math.round(Number.isFinite(hue) ? hue : 210) % 360) + 360) % 360;
+  const normalizedHue = normalizeHue(hue);
   const intensity = clampNumber(Number.isFinite(rawIntensity) ? rawIntensity : 0, 0, 10);
   const redMix = Math.round(intensity * 10);
   const categoryMix = 100 - redMix;
