@@ -101,3 +101,5 @@ Sabella and Thompson may reuse the pin-and-classify process, but must implement
 and verify their own native focus, input, accessibility, visual, and asset
 adaptation. This PR does not integrate either consumer, publish a package,
 deploy anything, or launch Kolibri.
+
+Back to the [README](../README.md).
