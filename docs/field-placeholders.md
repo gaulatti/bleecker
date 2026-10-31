@@ -47,3 +47,5 @@ References: [Storybook 10.3.3 interaction tests](https://github.com/storybookjs/
 [Tailwind 4.2.2 variants](https://github.com/tailwindlabs/tailwindcss/blob/v4.2.2/packages/tailwindcss/src/variants.ts),
 [WCAG 2.2 contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html)
 and [relative luminance](https://www.w3.org/WAI/GL/wiki/Relative_luminance).
+
+Back to the [README](../README.md).
