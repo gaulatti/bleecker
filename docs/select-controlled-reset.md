@@ -173,3 +173,5 @@ steps. The temporary ordinary Ariston form trial above passed and was restored;
 permanent adoption of a verified published package still needs its own scoped
 dependency update and delivery checks. There is no backend, API, publication-state,
 infrastructure or telemetry behavior change here.
+
+Back to the [README](../README.md).
