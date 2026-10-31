@@ -91,3 +91,18 @@ test('both reconcile jobs can comment on pull requests with the minimal permissi
     assert.deepEqual(job.permissions, {contents: 'read', 'pull-requests': 'write', issues: 'write'});
   }
 });
+
+test('the reconcile workflow explains skipped runs without any token scope, checkout or secret', () => {
+  const explain = reconcile.jobs.explain;
+  assert.deepEqual(explain.permissions, {});
+  assert.equal(explain.if, undefined, 'explain always runs');
+  assert.equal(explain.needs, undefined);
+  assert.ok(explain.steps.every(step => !step.uses && !/secrets\./.test(JSON.stringify(step))), 'no checkout, action or secret');
+  assert.match(explain.steps[0].run, /GITHUB_STEP_SUMMARY/);
+  assert.deepEqual(Object.keys(reconcile.jobs).sort(), ['explain', 'reconcile-base', 'resolve-clouseau']);
+  // Only the reconcile job may write, and it checks out only trusted main plus the frozen engine.
+  const checkouts = reconcile.jobs['reconcile-base'].steps.filter(step => step.uses?.startsWith('actions/checkout@'));
+  assert.deepEqual(checkouts.map(step => step.with.ref === 'main' || step.with.repository), [true, 'gaulatti/clouseau']);
+  assert.deepEqual(reconcile.permissions, {contents: 'read'});
+  assert.deepEqual(reconcile.jobs['resolve-clouseau'].permissions, {contents: 'read'});
+});
