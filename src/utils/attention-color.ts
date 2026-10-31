@@ -35,7 +35,7 @@ export function createAttentionColor({ hue, intensity: rawIntensity }: Attention
   const redMix = Math.round(intensity * 10);
   const categoryMix = 100 - redMix;
   const coverage = 24 + intensity * 7.2;
-  const colorStrength = Math.round(10 + intensity * 6.2);
+  const tintStrength = Math.round(10 + intensity * 6.2);
   const accent = `color-mix(in oklab, hsl(${normalizedHue} 66% 52%) ${categoryMix}%, hsl(6 78% 56%) ${redMix}%)`;
 
   return {
@@ -44,7 +44,7 @@ export function createAttentionColor({ hue, intensity: rawIntensity }: Attention
     intensity,
     redMix,
     style: {
-      background: `linear-gradient(45deg, color-mix(in oklab, ${accent} ${colorStrength}%, rgba(17, 30, 41, 0.94)) 0%, color-mix(in oklab, ${accent} ${Math.round(colorStrength * 0.66)}%, rgba(17, 30, 41, 0.94)) ${(coverage * 0.58).toFixed(1)}%, rgba(17, 30, 41, 0.94) ${coverage.toFixed(1)}%)`,
+      background: `linear-gradient(45deg, color-mix(in oklab, ${accent} ${tintStrength}%, rgba(17, 30, 41, 0.94)) 0%, color-mix(in oklab, ${accent} ${Math.round(tintStrength * 0.66)}%, rgba(17, 30, 41, 0.94)) ${(coverage * 0.58).toFixed(1)}%, rgba(17, 30, 41, 0.94) ${coverage.toFixed(1)}%)`,
       borderColor: `color-mix(in oklab, ${accent} ${Math.round(12 + intensity * 2.4)}%, rgba(255, 255, 255, 0.06))`
     }
   };
