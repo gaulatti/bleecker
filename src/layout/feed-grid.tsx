@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { cn } from '../utils/cn';
+import { cn } from '../utils/cn-lite';
 
 export interface FeedGridProps extends React.HTMLAttributes<HTMLDivElement> {
   minColumnWidth?: number | string;
