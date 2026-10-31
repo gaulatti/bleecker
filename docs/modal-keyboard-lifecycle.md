@@ -212,3 +212,5 @@ stores the ID in mounted Hook state; [React 18.2.0 exposes the same Hook](https:
 The fixtures follow [Storybook 10.3.3 interaction testing](https://github.com/storybookjs/storybook/blob/v10.3.3/docs/writing-tests/interaction-testing.mdx).
 The public wiki was unavailable during the required freshness check; this
 contract is maintained in-repository.
+
+Back to the [README](../README.md).
