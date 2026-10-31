@@ -195,6 +195,7 @@ for components that render nothing without a `document`). Run
 `coverage/coverage-final.json`. The Clouseau gate requires exactly 100% line
 and branch coverage over every non-test file in `src`; new behaviour needs a
 test in `tests/unit` or `tests/ssr`, never a coverage pragma.
+Coverage pragmas are not accepted.
 
 ## Pull request verification
 
