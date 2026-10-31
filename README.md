@@ -182,6 +182,7 @@ npm run build
 ```
 
 The build cleans generated output before compilation so removed modules cannot remain in published packages.
+Generated output is removed before each build.
 
 ### Tests and coverage
 
