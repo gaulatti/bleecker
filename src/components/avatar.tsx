@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import type { AvatarSize } from '../core';
+import { type AvatarSize } from '../core';
 import { cn } from '../utils/cn';
 
 export type { AvatarSize } from '../core';
