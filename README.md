@@ -94,7 +94,7 @@ import { Button } from '@gaulatti/bleecker/components/button';
 
 ## Luxury composition
 
-Luxury in Bleecker comes from editing and proportion, not decoration. The most reliable compositions use one dominant focal plane, one quieter supporting rail, and enough negative space for the hierarchy to remain obvious.
+Luxury in Bleecker comes from editing and proportion, not decoration. Restraint is the default. The most reliable compositions use one dominant focal plane, one quieter supporting rail, and enough negative space for the hierarchy to remain obvious.
 
 - Start with `PageFrame` so product pages share the same gutters, readable widths, and vertical cadence.
 - Use `DetailLayout` for asymmetric detail pages, editorial views, and sticky summary rails instead of assembling new grid proportions each time.
