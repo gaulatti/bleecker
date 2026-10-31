@@ -3,7 +3,8 @@
 import { Monitor, Moon, Sun } from 'lucide-react';
 
 import { useTheme } from '../theme/theme-provider';
-import { IconButton, type IconButtonProps } from './icon-button';
+import type { IconButtonProps } from './icon-button';
+import { IconButton } from './icon-button';
 
 export interface ThemeToggleProps extends Omit<IconButtonProps, 'children'> {}
 
