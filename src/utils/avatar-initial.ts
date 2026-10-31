@@ -1,3 +1,3 @@
 export function avatarInitial(author: string, init?: string): string {
-  return init || (author.trim().slice(0, 1) || '?').toUpperCase();
+  return init || (author.trim().slice(0, 2) || '?').toUpperCase();
 }
