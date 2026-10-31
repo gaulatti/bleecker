@@ -135,3 +135,5 @@ and [18.2.0](https://github.com/facebook/react/blob/v18.2.0/packages/react/src/R
 sources. The DOM test uses the exact
 [JSDOM 30.1.2 documentation](https://github.com/jsdom/jsdom/blob/v30.1.2/README.md).
 The public repository wiki was unavailable during the required rules refresh.
+
+Back to the [README](../README.md).
