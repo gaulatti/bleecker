@@ -3,7 +3,8 @@
 import React from 'react';
 
 import { cn } from '../utils/cn';
-import { Toggle, type ToggleProps } from './toggle';
+import type { ToggleProps } from './toggle';
+import { Toggle } from './toggle';
 
 export type ToggleGroupType = 'single' | 'multiple';
 
