@@ -61,3 +61,5 @@ The generated utilities use Tailwind CSS 4.2.2. Contrast uses the
 these fixture ratios are not a full-page conformance claim. The public wiki
 was unavailable during the required rules refresh; this contract is maintained
 in-repository.
+
+Back to the [README](../README.md).
