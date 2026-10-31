@@ -4,7 +4,7 @@ import { AlertCircle, AlertTriangle, CheckCircle, Info, X } from 'lucide-react';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
-import type { AlertType } from '../core';
+import { type AlertType } from '../core';
 import { cn } from '../utils/cn';
 
 export type { AlertType } from '../core';
