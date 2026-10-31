@@ -190,6 +190,7 @@ button/focus contrast checks, the `unit` project (`tests/unit`, real Chromium
 through Playwright) and the `ssr` project (`tests/ssr`, Node server rendering
 for components that render nothing without a `document`). Run
 `npx playwright install chromium` once before the browser projects.
+The `unit` and `ssr` projects live under `tests/`.
 
 `npm run test:coverage` writes an Istanbul-format V8 report to
 `coverage/coverage-final.json`. The Clouseau gate requires exactly 100% line
