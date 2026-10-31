@@ -63,3 +63,5 @@ Framework authority: locked [Vitest 4.1.1 projects](https://github.com/vitest-de
 and [Storybook 10.3.3's separate-project guidance](https://github.com/storybookjs/storybook/blob/v10.3.3/docs/writing-tests/integrations/vitest-addon/index.mdx).
 The generated utilities use Tailwind CSS 4.2.2. The public wiki was unavailable
 during the required rules refresh; this contract is maintained in-repository.
+
+Back to the [README](../README.md).
