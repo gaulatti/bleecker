@@ -100,7 +100,7 @@ test('trusted jobs load main and provider keys exist only after the explicit ver
     assert.equal(checkout.with['persist-credentials'], false, name);
   }
   const assess = workflow.jobs['assess-intent'];
-  const wait = assess.steps.findIndex(step => step.name === 'Wait for tests, exact coverage, and package build');
+  const wait = assess.steps.findIndex(step => step.id === 'wait');
   const model = assess.steps.findIndex(step => step.with?.operation === 'assess');
   assert.ok(wait > 0 && model > wait);
   assert.ok(!JSON.stringify(assess.steps.slice(0, model)).includes('secrets.'));
@@ -160,37 +160,15 @@ test('real pinned policy makes no model call for pending, failed, stale or incom
   }
 });
 
-test('the actual wait step uses fresh PR verification, reports pending work and fails before any model execution', async (t) => {
-  const project = fileURLToPath(new URL('../../', import.meta.url));
-  const reviewCheckout = fileURLToPath(new URL('../../.clouseau-review', import.meta.url));
-  // The unit job checks out the same exact engine at .clouseau-ci; the
-  // privileged job uses a separately owned .clouseau-review checkout.
-  if (!existsSync(reviewCheckout)) {
-    symlinkSync(engine, reviewCheckout, 'dir');
-    t.after(() => unlinkSync(reviewCheckout));
-  }
-  const originalCwd = process.cwd();
-  process.chdir(project);
-  t.after(() => process.chdir(originalCwd));
+test('the review waits through the engine operation, so pending verification ends the review without a decision or model execution', () => {
   const job = workflow.jobs['assess-intent'];
-  const step = job.steps.find(step => step.name === 'Wait for tests, exact coverage, and package build');
-  const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
-  const invoke = new AsyncFunction('github', 'context', 'core', 'require', 'setTimeout', step.with.script);
-  const pr = {number: 20, state: 'open', draft: false, head: {sha: head, ref: 'fix/cors', repo: {id: 1}}};
-  const c = {repo: {owner: 'gaulatti', repo: 'bleecker'}, payload: {pull_request: {number: 20, head: {sha: head}}}};
-  for (const scenario of ['ready', 'pending', 'failed', 'stale', 'closed', 'missing step', 'never-ready']) {
-    const messages = [];
-    let polls = 0;
-    const github = {rest: {pulls: {get: async () => ({data: {...pr, state: scenario === 'closed' ? 'closed' : 'open', head: {...pr.head, sha: scenario === 'stale' ? 'c'.repeat(40) : head}}})}, actions: {
-      listWorkflowRuns: async () => { polls += 1; return {data: {workflow_runs: [{id: 3, head_sha: head, pull_requests: [{number: 20}], status: scenario === 'never-ready' || scenario === 'pending' && polls === 1 ? 'in_progress' : 'completed', conclusion: scenario === 'failed' ? 'failure' : 'success', html_url: 'https://github.com/gaulatti/bleecker/actions/runs/3'}]}}; },
-      listJobsForWorkflowRun: async () => ({data: [{name: 'verify', conclusion: 'success', steps: config.verification.steps.filter(name => scenario !== 'missing step' || name !== 'Enforce 100% line and branch coverage').map(name => ({name, conclusion: 'success'}))}]}),
-    }}, paginate: async (method, args) => (await method(args)).data};
-    const operation = invoke(github, c, {info: line => messages.push(line)}, require, (callback, ms) => { assert.equal(ms, 15000); callback(); });
-    if (['ready', 'pending'].includes(scenario)) {
-      await operation;
-      assert.ok(messages.some(line => line.includes('Clouseau acceptance can now start')));
-      assert.equal(polls, scenario === 'pending' ? 2 : 1);
-    } else await assert.rejects(operation, /verification|changed|closed/i);
+  const wait = job.steps.find(step => step.id === 'wait');
+  assert.equal(wait.uses, './.clouseau-ci');
+  assert.equal(wait.with.operation, 'await-verification');
+  assert.ok(!job.steps.some(step => /technicalRun/.test(step.with?.script || '')), 'no inline polling remains');
+  for (const step of job.steps.filter(item => ['verify-local', 'assess'].includes(item.with?.operation))) {
+    assert.equal(allowed(step.if, {steps: {wait: {outputs: {verified: 'false'}}, 'review-route': {outputs: {local: 'true'}}}}), false);
+    assert.equal(allowed(step.if, {steps: {wait: {outputs: {verified: ''}}, 'review-route': {outputs: {local: 'false'}}}}), false);
   }
 });
 
