@@ -2,6 +2,8 @@
 
 Bleecker is a refined React component library built around the Encode Sans typeface and a warm, restrained palette of sand, sea, desert, and terracotta.
 
+It is published on npm as `@gaulatti/bleecker`.
+
 ## Install
 
 Bleecker ships ES modules only.
@@ -23,6 +25,7 @@ Bleecker together with their own utilities:
 Do not also import `@gaulatti/bleecker/styles.css` in a Tailwind application.
 Doing so loads a second compiled utility layer and can change responsive layout
 behavior through the cascade.
+Import only one stylesheet integration per application.
 
 Applications that do not compile Tailwind should instead import the complete,
 precompiled stylesheet once:
@@ -30,6 +33,8 @@ precompiled stylesheet once:
 ```ts
 import '@gaulatti/bleecker/styles.css';
 ```
+
+Bleecker requires React 18.2 or newer (see `peerDependencies`).
 
 ## Attention feeds
 
@@ -82,13 +87,16 @@ import { Button } from '@gaulatti/bleecker/components/button';
 
 - Encode Sans is the primary voice. Use the `font-secondary` utility to opt specific supporting or editorial copy into Libre Franklin.
 - Spacing follows a deliberate 4, 8, 12, 16, 24, 32, 48, and 64 pixel rhythm.
+- Prefer the spacing rhythm over ad hoc pixel values.
 - Borders carry surface hierarchy; shadows are reserved for elevated surfaces and overlays.
 - Controls use consistent 32, 40, and 48 pixel heights.
 - Motion is brief and functional, with reduced-motion behavior included globally.
+- Spacing and radii values come from the shared tokens described in Shared foundations.
 
 ## Luxury composition
 
 Luxury in Bleecker comes from editing and proportion, not decoration. The most reliable compositions use one dominant focal plane, one quieter supporting rail, and enough negative space for the hierarchy to remain obvious.
+Jump to the [Development](#development) section.
 
 - Start with `PageFrame` so product pages share the same gutters, readable widths, and vertical cadence.
 - Use `DetailLayout` for asymmetric detail pages, editorial views, and sticky summary rails instead of assembling new grid proportions each time.
@@ -96,14 +104,18 @@ Luxury in Bleecker comes from editing and proportion, not decoration. The most r
 - Prefer hairline borders for default surfaces. Reserve `Card`'s `elevated` variant and stronger shadows for the single surface that truly sits above the page.
 - Keep supporting copy in `font-secondary`, eyebrow copy brief, and data labels at a readable contrast. A restrained accent should guide attention rather than tint every section.
 - Avoid grids of equally weighted cards when one number, action, or story is more important. Give that item more scale or span and quiet the rest.
+- One dominant focal plane per page keeps the hierarchy obvious.
 
 Storybook's **Templates** section includes complete public, operational, commerce, hospitality, and private-client compositions. Treat them as starting points: keep their hierarchy and rhythm, then replace the domain copy and content.
+Templates are examples, not required structure.
 
 ## Theming
 
 The default light and dark themes are defined with `--app-*` custom properties in the stylesheet. Override those properties after importing Bleecker styles to adapt the theme without changing component markup.
+The `--app-*` properties are listed in the stylesheet.
 
 The `ThemeProvider`, `ThemeToggle`, and `BleeckerThemeScript` exports provide persisted light, dark, and system modes. Render `BleeckerThemeScript` in the document head when server rendering to avoid a theme flash.
+Controlled hosts omit this script.
 
 Pass `theme` and the required `onThemeChange` together for a parent-controlled,
 storage-free provider. Requests do not change the provider until its parent
@@ -120,6 +132,9 @@ checks are documented in the [focus contrast contract](docs/control-focus-contra
 Interactive overlays and selection controls use accessible behavioral primitives. Form controls forward native attributes; `Field` connects labels, descriptions, errors, and invalid state automatically.
 
 Applications are still responsible for meaningful labels, logical page structure, and testing complete user flows in their own context.
+Automated checks do not replace manual review.
+The Accessibility section lists the supporting contracts.
+The Accessibility section lists the supporting contracts.
 
 Input and Textarea default placeholder contrast is covered by the mounted
 [field-placeholder contract](docs/field-placeholders.md); explicit caller color
@@ -149,6 +164,7 @@ import { radii, spacing, themes } from '@gaulatti/bleecker/tokens';
 ```
 
 `src/tokens/source.ts` is canonical. The web CSS token layer is generated from it during the build and checked for drift in CI. [Thompson](https://github.com/gaulatti/thompson), Bleecker's React Native sibling, consumes these exports and supplies native renderers.
+Edit the token source rather than the generated CSS.
 
 ## Generated contract conformance
 
@@ -157,6 +173,7 @@ but generated output never overwrites its hand-authored components. The
 [Kolibri Toggle parity decision](docs/kolibri-toggle-parity.md) documents the
 first bounded proof, its immutable fixture, browser accessibility and visual
 evidence, unsupported `ToggleGroup` boundary, and proceed-with-adapter result.
+Hand-authored components remain the source of truth.
 
 ## Development
 
@@ -181,6 +198,7 @@ for components that render nothing without a `document`). Run
 `coverage/coverage-final.json`. The Clouseau gate requires exactly 100% line
 and branch coverage over every non-test file in `src`; new behaviour needs a
 test in `tests/unit` or `tests/ssr`, never a coverage pragma.
+Coverage pragmas are not accepted.
 
 ## Pull request verification
 
@@ -220,3 +238,4 @@ from an identity other than `github-actions[bot]`) for automatic repairs.
 
 Bleecker, including its published npm versions, is available under the
 [MIT License](LICENSE).
+See the `LICENSE` file for the full text.

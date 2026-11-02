@@ -2,9 +2,11 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
 import {parse} from 'yaml';
-import {assertFrozenWorkflow} from '../../.clouseau-ci/test/automatic-upgrade-contract.mjs';
+import {assertBaseReconciliation, assertBoundedVerificationWait, assertFrozenWorkflow, assertReassessmentOnVerification} from '../../.clouseau-ci/test/automatic-upgrade-contract.mjs';
 import {evaluate, allowed} from './workflow-expressions.mjs';
 const workflow = parse(readFileSync(new URL('../workflows/ci.yml', import.meta.url), 'utf8'));
+const reconcile = parse(readFileSync(new URL('../workflows/clouseau-reconcile.yml', import.meta.url), 'utf8'));
+const reassessment = parse(readFileSync(new URL('../workflows/clouseau-reassess.yml', import.meta.url), 'utf8'));
 
 test('actual consumer job expressions freeze one authorized SHA and digest across a central advance and use newer main next run', () => {
   assertFrozenWorkflow(workflow, evaluate);
@@ -37,4 +39,70 @@ test('shared tests install dependencies from this run frozen engine before execu
   assert.equal(steps[setup].with['python-version'], '3.13');
   assert.equal(steps[install].run, 'python3 -m pip install --disable-pip-version-check -r .clouseau-ci/requirements-test.txt');
   assert.ok(checkout < setup && setup < install && install < test);
+});
+
+test('review waits through the engine operation, reassesses on verification completion and reconciles the base', () => {
+  assert.equal(assertBoundedVerificationWait(workflow), 1);
+  assert.equal(assertReassessmentOnVerification(reassessment), 1);
+  assert.equal(assertBaseReconciliation(workflow), 1);
+  // GitHub rejects a workflow that is triggered by its own completion.
+  assert.equal(workflow.on.workflow_run, undefined);
+  assert.deepEqual(reassessment.on.workflow_run.workflows, [workflow.name]);
+  const config = JSON.parse(readFileSync(new URL('../clouseau.json', import.meta.url)));
+  assert.equal(config.local_review.max_age_seconds, 172800);
+  assert.equal(JSON.stringify(workflow).includes('update-token'), false);
+});
+
+test('a review that ended pending has no record and cannot approve, merge or repair', () => {
+  const pending = {github: {event_name: 'pull_request_target', event: {pull_request: {draft: false}}},
+    needs: {'assess-intent': {result: 'success', outputs: {assessment: ''}}, 'resolve-clouseau': {result: 'success', outputs: {}}}};
+  const gate = workflow.jobs['approve-and-merge'];
+  assert.equal(allowed(gate.steps[0].if, pending), true);
+  assert.equal(gate.steps[0].run, 'exit 1');
+  assert.equal(allowed(workflow.jobs['apply-repair'].if, {...pending, needs: {...pending.needs, 'approve-and-merge': {result: 'failure'}}}), false);
+});
+
+test('the final-state wait publishes its incomplete assessment through the review job output', () => {
+  assert.match(workflow.jobs['assess-intent'].outputs.assessment, /steps\.assess\.outputs\.assessment \|\| steps\.wait\.outputs\.assessment/);
+});
+
+test('bot merges reconcile the base from a separate workflow that watches the review workflow', () => {
+  assert.equal(assertBaseReconciliation(reconcile), 1);
+  assert.deepEqual(reconcile.on.workflow_run, {workflows: [workflow.name], types: ['completed']});
+  assert.deepEqual(reconcile.on.schedule, [{cron: '11,41 * * * *'}]);
+  assert.ok('workflow_dispatch' in reconcile.on);
+  assert.notEqual(reconcile.name, workflow.name);
+  const job = reconcile.jobs['reconcile-base'];
+  assert.deepEqual(job.permissions, {contents: 'read', 'pull-requests': 'write', issues: 'write'});
+  assert.deepEqual(job.concurrency, {group: 'clouseau-reconcile-base', 'cancel-in-progress': false});
+  assert.equal(workflow.jobs['reconcile-base'].concurrency.group, job.concurrency.group);
+  const text = readFileSync(new URL('../workflows/clouseau-reconcile.yml', import.meta.url), 'utf8');
+  assert.ok(!/secrets\.|update-token/.test(text), 'no secret or update credential is referenced');
+  const gated = ['schedule', 'workflow_dispatch', 'workflow_run'];
+  for (const event of gated) {
+    const context = {github: {event_name: event, event: {workflow_run: {event: event === 'workflow_run' ? 'pull_request_target' : ''}}}};
+    assert.equal(allowed(job.if, context), true, event);
+  }
+  assert.equal(allowed(job.if, {github: {event_name: 'workflow_run', event: {workflow_run: {event: 'pull_request'}}}}), false);
+});
+
+test('both reconcile jobs can comment on pull requests with the minimal permissions', () => {
+  for (const job of [workflow.jobs['reconcile-base'], reconcile.jobs['reconcile-base']]) {
+    assert.deepEqual(job.permissions, {contents: 'read', 'pull-requests': 'write', issues: 'write'});
+  }
+});
+
+test('the reconcile workflow explains skipped runs without any token scope, checkout or secret', () => {
+  const explain = reconcile.jobs.explain;
+  assert.deepEqual(explain.permissions, {});
+  assert.equal(explain.if, undefined, 'explain always runs');
+  assert.equal(explain.needs, undefined);
+  assert.ok(explain.steps.every(step => !step.uses && !/secrets\./.test(JSON.stringify(step))), 'no checkout, action or secret');
+  assert.match(explain.steps[0].run, /GITHUB_STEP_SUMMARY/);
+  assert.deepEqual(Object.keys(reconcile.jobs).sort(), ['explain', 'reconcile-base', 'resolve-clouseau']);
+  // Only the reconcile job may write, and it checks out only trusted main plus the frozen engine.
+  const checkouts = reconcile.jobs['reconcile-base'].steps.filter(step => step.uses?.startsWith('actions/checkout@'));
+  assert.deepEqual(checkouts.map(step => step.with.ref === 'main' || step.with.repository), [true, 'gaulatti/clouseau']);
+  assert.deepEqual(reconcile.permissions, {contents: 'read'});
+  assert.deepEqual(reconcile.jobs['resolve-clouseau'].permissions, {contents: 'read'});
 });

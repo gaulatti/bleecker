@@ -31,6 +31,24 @@ React Native, SwiftUI, Android/TV and other non-DOM interfaces cannot consume th
 React-DOM component and follow their own platform layout contracts. Registration,
 password recovery and protected-page redesigns are separate decisions.
 
+## Consumer audit
+
+Recorded against the accepted source of each product on 2026-11-01. Source
+evidence only; it is not a browser or functional acceptance of each login.
+
+| Product | Login shell | Status |
+|---|---|---|
+| Angelina | `AuthShell` used directly | Compliant |
+| Monitor | `AuthShell` used directly, with explicit unavailable and error states | Compliant |
+| Auburndale / Ariston | `AuthShell` used directly | Compliant |
+| Celesti / Mattone | Thin local `AccessShell` wrapper that renders `AuthShell` | Compliant |
+| Alcantara | Previously a bespoke full-page centered card; migrated to `AuthShell` by its repository-owned sub-issue (gaulatti/alcantara#54) | Migrated; re-verify in the product repository |
+| Pompeii | Previously a bespoke split-page grid; migrated to `AuthShell` by its repository-owned sub-issue (gaulatti/pompeii#10) | Migrated; re-verify in the product repository |
+
+Native React Native products (Sonar, Merriman) are out of scope and follow the
+Thompson/native layout contracts. Each product repository owns its own
+conformance; this table is a Bleecker record, not a gate on those repositories.
+
 ## Reference
 
 The **Layout/AuthShell** Storybook stories show the split sign-in, centered
