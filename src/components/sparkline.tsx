@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Line, LineChart as RechartsLineChart, ResponsiveContainer, Tooltip } from 'recharts';
 
 import { chartTheme } from './chart-theme';

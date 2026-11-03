@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import React from 'react';
 
 /**
  * Returns true once the component has mounted. Useful for avoiding SSR
@@ -19,7 +19,6 @@ export function useMediaQuery(query: string): boolean {
   const [matches, setMatches] = React.useState(false);
 
   React.useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
     const media = window.matchMedia(query);
     const update = () => setMatches(media.matches);
     update();
@@ -82,10 +81,9 @@ export function usePresence(open: boolean, exitDuration = 150) {
 
   React.useLayoutEffect(() => {
     if (!open || !present) return;
-    enterTimerRef.current = setTimeout(() => setVisible(true), 20);
-    return () => {
-      if (enterTimerRef.current) clearTimeout(enterTimerRef.current);
-    };
+    const timer = setTimeout(() => setVisible(true), 20);
+    enterTimerRef.current = timer;
+    return () => clearTimeout(timer);
   }, [open, present]);
 
   React.useEffect(() => {

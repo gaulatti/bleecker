@@ -52,9 +52,7 @@ export function MediaLibrary({
       return;
     }
 
-    if (typeof navigator !== 'undefined') {
-      void navigator.clipboard.writeText(text);
-    }
+    void navigator.clipboard.writeText(text);
   };
 
   return (
@@ -164,7 +162,7 @@ export function MediaLibrary({
                         {selectedMedia.url}
                       </a>
                       <IconButton
-                        onClick={() => handleCopy(selectedMedia.url || '')}
+                        onClick={() => handleCopy(selectedMedia.url as string)}
                         variant='ghost'
                         size='sm'
                         title='Copy URL'

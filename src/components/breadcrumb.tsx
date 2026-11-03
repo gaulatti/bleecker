@@ -26,7 +26,7 @@ export function Breadcrumb({ className, collapsedAfter = 0, items, renderLink, s
   const separatorNode = separator ?? <ChevronRight size={14} className='flex-shrink-0 text-text-secondary' aria-hidden='true' />;
 
   const shouldCollapse = collapsedAfter > 0 && !expanded && items.length > collapsedAfter + 1;
-  const visibleItems = shouldCollapse ? [items[0], null, ...items.slice(-(collapsedAfter > 0 ? 1 : items.length))] : items;
+  const visibleItems = shouldCollapse ? [items[0], null, ...items.slice(-1)] : items;
 
   return (
     <nav aria-label='Breadcrumb' className={cn('flex items-center', className)}>

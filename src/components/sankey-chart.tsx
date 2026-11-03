@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import React from 'react';
 import { ResponsiveContainer, Sankey as RechartsSankey, Tooltip } from 'recharts';
 
 import { cn } from '../utils/cn';

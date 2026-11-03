@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu';
 import { cn } from '../utils/cn';
 import { useModalBranch } from '../utils/hooks';

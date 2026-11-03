@@ -65,6 +65,7 @@
     "build": "npm run clean && npm run check:exports-stories && npm run check:kolibri-toggle && npm run build:css && tsc && node scripts/fix-esm-imports.mjs && npm run check:runtime",
     "storybook": "npm run build:css && storybook dev -p 6006",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage.enabled --coverage.provider=v8 --coverage.reporter=json --coverage.reportsDirectory=coverage \"--coverage.include=src/**/*.{ts,tsx}\"",
     "build-storybook": "npm run check:exports-stories && npm run check:kolibri-toggle && npm run build:css && storybook build",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "check:exports-stories": "node scripts/check-exports-and-stories.mjs",

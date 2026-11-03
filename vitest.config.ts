@@ -16,6 +16,9 @@ export default defineConfig({
         plugins: [storybookTest({ configDir: path.join(dirname, '.storybook') })],
         test: {
           name: 'storybook',
+          // Interaction stories drive real timers and animations; a loaded CI runner can
+          // miss a story's own timeout, so CI retries a failed story before reporting it.
+          retry: process.env.CI ? 2 : 0,
           browser: {
             enabled: true,
             headless: true,
@@ -30,6 +33,54 @@ export default defineConfig({
               }
             ]
           }
+        }
+      },
+      {
+        extends: true,
+        resolve: { dedupe: ['react', 'react-dom'] },
+        optimizeDeps: {
+          include: [
+            'react',
+            'react/jsx-dev-runtime',
+            'react-dom',
+            'react-dom/client',
+            'clsx',
+            'tailwind-merge',
+            'lucide-react',
+            '@radix-ui/react-collapsible',
+            '@radix-ui/react-compose-refs',
+            '@radix-ui/react-context-menu',
+            '@radix-ui/react-dropdown-menu',
+            '@radix-ui/react-label',
+            '@radix-ui/react-popover',
+            '@radix-ui/react-select',
+            '@radix-ui/react-separator',
+            '@radix-ui/react-tooltip',
+            '@tanstack/react-table',
+            'recharts'
+          ]
+        },
+        test: {
+          name: 'unit',
+          // Run after the Storybook and contrast projects instead of beside them: parallel
+          // browsers on a small CI runner slow the timing-sensitive interaction stories.
+          sequence: { groupOrder: 1 },
+          include: ['tests/unit/**/*.test.{ts,tsx}'],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({}),
+            instances: [{ browser: 'chromium' }]
+          }
+        }
+      },
+      {
+        extends: true,
+        test: {
+          name: 'ssr',
+          sequence: { groupOrder: 1 },
+          environment: 'node',
+          include: ['tests/ssr/**/*.test.{ts,tsx}']
         }
       },
       {

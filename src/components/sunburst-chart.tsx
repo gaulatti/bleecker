@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import React from 'react';
 import { ResponsiveContainer, SunburstChart as RechartsSunburstChart } from 'recharts';
 
 import { cn } from '../utils/cn';

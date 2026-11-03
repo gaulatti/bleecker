@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import React from 'react';
 import { Table } from '@tanstack/react-table';
 import { Settings2 } from 'lucide-react';
 

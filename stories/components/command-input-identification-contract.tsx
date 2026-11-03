@@ -72,7 +72,7 @@ export async function verifyDefaultInputIdentification(canvasElement: HTMLElemen
   await userEvent.type(first.input, 'preview');
   await expect(first.input.id).toBe(id);
   await expect(first.input).toHaveAccessibleName('Search commands');
-  await expect(within(first.dialog).getByRole('button', { name: 'Open component preview' })).toBeVisible();
+  await waitFor(() => expect(within(first.dialog).getByRole('button', { name: 'Open component preview' })).toBeVisible());
   await expect(within(first.dialog).queryByRole('button', { name: 'Save draft' })).not.toBeInTheDocument();
   await userEvent.keyboard('{ArrowDown}{Enter}');
   await waitForInputExit(first.input, first.trigger);
@@ -106,7 +106,7 @@ export async function verifyCustomInputIdentification(canvasElement: HTMLElement
   await userEvent.type(custom.input, 'preview');
   await expect(custom.input.id).toBe(customId);
   await expect(custom.input).toHaveAccessibleName('Find a workflow action');
-  await expect(within(custom.dialog).getByRole('button', { name: 'Open component preview' })).toBeVisible();
+  await waitFor(() => expect(within(custom.dialog).getByRole('button', { name: 'Open component preview' })).toBeVisible());
   await expect(within(custom.dialog).queryByRole('button', { name: 'Save draft' })).not.toBeInTheDocument();
   await userEvent.keyboard('{ArrowDown}{Enter}');
   await waitForInputExit(custom.input, custom.trigger);

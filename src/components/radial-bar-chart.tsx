@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Legend, PolarAngleAxis, RadialBar, RadialBarChart as RechartsRadialBarChart, ResponsiveContainer, Tooltip } from 'recharts';
 
 import { chartTheme } from './chart-theme';

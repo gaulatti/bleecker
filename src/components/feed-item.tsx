@@ -2,7 +2,9 @@ import { ExternalLink } from 'lucide-react';
 
 import { Avatar } from './avatar';
 import { Tooltip } from './tooltip';
+import { avatarInitial } from '../utils/avatar-initial';
 import { cn } from '../utils/cn';
+import { describeSource } from '../utils/source-label';
 
 export interface FeedItemProps {
   author: string;
@@ -17,7 +19,9 @@ export interface FeedItemProps {
   sourceUrl: string;
 }
 
-function formatPostedAt(postedAt: Date | string): string {
+type PostedAt = Date | string;
+
+function formatPostedAt(postedAt: PostedAt): string {
   const dateValue = postedAt instanceof Date ? postedAt : new Date(postedAt);
   if (Number.isNaN(dateValue.getTime())) {
     return 'Unknown time';
@@ -41,7 +45,7 @@ function formatPostedAt(postedAt: Date | string): string {
   }).format(dateValue);
 }
 
-function formatIsoTimestamp(postedAt: Date | string): string {
+function formatIsoTimestamp(postedAt: PostedAt): string {
   const dateValue = postedAt instanceof Date ? postedAt : new Date(postedAt);
   if (Number.isNaN(dateValue.getTime())) {
     return typeof postedAt === 'string' ? postedAt : 'Unknown timestamp';
@@ -52,15 +56,6 @@ function formatIsoTimestamp(postedAt: Date | string): string {
 
 function normalizeCategory(category: string): string {
   return category.trim().toLowerCase();
-}
-
-function normalizeSourceLabel(sourceUrl: string): string {
-  try {
-    const parsed = new URL(sourceUrl);
-    return parsed.hostname;
-  } catch {
-    return 'Source article';
-  }
 }
 
 function formatRelevance(relevance: number): string {
@@ -79,10 +74,10 @@ export function FeedItem({
   relevance,
   sourceUrl
 }: FeedItemProps) {
-  const fallback = init || (author.trim().slice(0, 1) || '?').toUpperCase();
+  const fallback = avatarInitial(author, init);
   const postedAtLabel = formatPostedAt(postedAt);
   const postedAtIsoLabel = formatIsoTimestamp(postedAt);
-  const sourceLabel = normalizeSourceLabel(sourceUrl);
+  const sourceLabel = describeSource(sourceUrl);
   const safeCategories = categories
     .map(normalizeCategory)
     .filter((value) => value.length > 0);

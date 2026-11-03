@@ -141,8 +141,10 @@ export function CommandSpotlight({
         return;
       }
 
-      const currentIndex = selectedActionId ? selectableActionIds.indexOf(selectedActionId) : -1;
-      const nextIndex = currentIndex < 0 ? 0 : (currentIndex + direction + selectableActionIds.length) % selectableActionIds.length;
+      // The selection effect keeps selectedActionId inside the selectable ids
+      // whenever any exist, so the current index is always found.
+      const currentIndex = selectableActionIds.indexOf(selectedActionId as string);
+      const nextIndex = (currentIndex + direction + selectableActionIds.length) % selectableActionIds.length;
 
       setSelectedActionId(selectableActionIds[nextIndex]);
     },
@@ -151,10 +153,6 @@ export function CommandSpotlight({
 
   const runAction = React.useCallback(
     (action: CommandSpotlightAction) => {
-      if (action.disabled) {
-        return;
-      }
-
       onActionSelect?.(action);
 
       if (action.onSelect) {
@@ -168,7 +166,7 @@ export function CommandSpotlight({
         } catch (error) {
           console.error('Command spotlight action failed:', error);
         }
-      } else if (action.href && typeof window !== 'undefined') {
+      } else if (action.href) {
         if (action.external) {
           window.open(action.href, '_blank', 'noopener,noreferrer');
         } else {
@@ -182,10 +180,6 @@ export function CommandSpotlight({
   );
 
   React.useEffect(() => {
-    if (typeof navigator === 'undefined') {
-      return;
-    }
-
     setIsMacLike(/mac|iphone|ipad|ipod/i.test(navigator.platform));
   }, []);
 
@@ -212,10 +206,6 @@ export function CommandSpotlight({
   }, [isOpen, selectedActionId]);
 
   React.useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
-    }
-
     const normalizedHotkey = hotkey.toLowerCase();
 
     const handleWindowKeyDown = (event: KeyboardEvent) => {
@@ -328,10 +318,8 @@ export function CommandSpotlight({
                         return;
                       }
 
-                      const selectedAction = filteredActions.find((action) => action.id === selectedActionId);
-                      if (selectedAction) {
-                        runAction(selectedAction);
-                      }
+                      // The selection is always one of the filtered, enabled actions.
+                      runAction(filteredActions.find((action) => action.id === selectedActionId) as CommandSpotlightAction);
                     }
                   }}
                   placeholder={placeholder}
@@ -360,11 +348,7 @@ export function CommandSpotlight({
                               }}
                               disabled={action.disabled}
                               onClick={() => runAction(action)}
-                              onMouseEnter={() => {
-                                if (!action.disabled) {
-                                  setSelectedActionId(action.id);
-                                }
-                              }}
+                              onMouseEnter={() => setSelectedActionId(action.id)}
                               className={cn(
                                 'flex w-full items-center justify-between gap-3 rounded-[var(--radius-ui)] px-3 py-2.5 text-left transition-colors duration-[var(--motion-control)] ease-premium',
                                 isSelected

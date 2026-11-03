@@ -28,27 +28,15 @@ function nextTheme(theme: ThemeMode): ThemeMode {
 }
 
 function getSystemPreference() {
-  if (typeof window === 'undefined') {
-    return false;
-  }
-
   return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
 function readStoredTheme(storageKey: string, fallback: ThemeMode) {
-  if (typeof window === 'undefined') {
-    return fallback;
-  }
-
   const saved = window.localStorage.getItem(storageKey);
   return saved === 'light' || saved === 'dark' || saved === 'system' ? saved : fallback;
 }
 
 function applyDocumentTheme(theme: ThemeMode) {
-  if (typeof document === 'undefined') {
-    return resolveTheme(theme, false);
-  }
-
   const resolved = resolveTheme(theme, getSystemPreference());
   document.documentElement.classList.toggle('dark', resolved === 'dark');
   return resolved;
@@ -72,10 +60,6 @@ export function ThemeProvider(props: ThemeProviderOptions) {
   }, [isControlled, defaultTheme, storageKey]);
 
   React.useEffect(() => {
-    if (typeof window === 'undefined') {
-      return undefined;
-    }
-
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const sync = () => setResolvedTheme(applyDocumentTheme(theme));
 
@@ -93,10 +77,7 @@ export function ThemeProvider(props: ThemeProviderOptions) {
 
       setThemeState(value);
       setResolvedTheme(applyDocumentTheme(value));
-
-      if (typeof window !== 'undefined') {
-        window.localStorage.setItem(storageKey, value);
-      }
+      window.localStorage.setItem(storageKey, value);
     },
     [props.theme, props.onThemeChange, storageKey]
   );
