@@ -122,36 +122,72 @@ interface AlertState {
   type: AlertType;
 }
 
+type AlertListener = (alerts: AlertState[]) => void;
+
 let alertsState: AlertState[] = [];
-let listeners: Array<(alerts: AlertState[]) => void> = [];
+let listeners: AlertListener[] = [];
+// Each alert is shown by exactly one container: the first one mounted when it
+// is raised, or, when none is mounted yet, the first one to mount. An alert
+// stays with its container until it closes or the container unmounts.
+const ownerOf = new Map<string, AlertListener>();
+
+function alertsOwnedBy(listener: AlertListener) {
+  return alertsState.filter((alert) => ownerOf.get(alert.id) === listener);
+}
 
 function notifyListeners() {
-  listeners.forEach((listener) => listener([...alertsState]));
+  listeners.forEach((listener) => listener(alertsOwnedBy(listener)));
 }
 
 export function showAlert(message: string, type: AlertType = 'info') {
   const id = Math.random().toString(36).substring(2, 9);
   alertsState.push({ id, message, type });
+  if (listeners.length > 0) {
+    ownerOf.set(id, listeners[0]);
+  }
   notifyListeners();
 }
 
 export function AlertContainer() {
   const [alerts, setAlerts] = React.useState<AlertState[]>([]);
+  // One listener per container instance, kept across React StrictMode's
+  // simulated remount so the container keeps the alerts it already claimed.
+  const listenerRef = React.useRef<AlertListener | null>(null);
+  listenerRef.current ??= (nextAlerts: AlertState[]) => setAlerts(nextAlerts);
 
   React.useEffect(() => {
-    const listener = (nextAlerts: AlertState[]) => {
-      setAlerts(nextAlerts);
-    };
-
+    const listener = listenerRef.current!;
     listeners.push(listener);
+    // Claim the alerts raised while no container was mounted.
+    for (const alert of alertsState) {
+      if (!ownerOf.has(alert.id)) {
+        ownerOf.set(alert.id, listener);
+      }
+    }
+    listener(alertsOwnedBy(listener));
 
     return () => {
       listeners = listeners.filter((entry) => entry !== listener);
+      // Drop what this container showed once it has really unmounted; a
+      // StrictMode remount subscribes the same listener again first.
+      queueMicrotask(() => {
+        if (listeners.includes(listener)) {
+          return;
+        }
+        alertsState = alertsState.filter((alert) => {
+          if (ownerOf.get(alert.id) !== listener) {
+            return true;
+          }
+          ownerOf.delete(alert.id);
+          return false;
+        });
+      });
     };
   }, []);
 
   const removeAlert = (id: string) => {
     alertsState = alertsState.filter((alert) => alert.id !== id);
+    ownerOf.delete(id);
     notifyListeners();
   };
 
