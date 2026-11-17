@@ -1,4 +1,4 @@
-import React, { act } from 'react';
+import React, { StrictMode, act } from 'react';
 import { describe, expect, test, vi } from 'vitest';
 
 import { Alert, AlertContainer, showAlert } from '../../src/components/alert';
@@ -58,5 +58,59 @@ describe('AlertContainer and showAlert', () => {
     expect(document.body.textContent).toContain('second');
     await click(document.querySelector('button[aria-label="Close alert"]')!);
     await eventually(() => expect(document.querySelectorAll('button[aria-label="Close alert"]')).toHaveLength(0));
+  });
+});
+
+// An alert raised before any AlertContainer is mounted (a page that shows
+// its container only after loading, and reports a failed load) must not be
+// lost, and an alert a container already showed must not come back on a
+// later mount or appear twice.
+describe('AlertContainer mounting', () => {
+  const shown = (text: string) =>
+    Array.from(document.querySelectorAll('button[aria-label="Close alert"]')).filter(button =>
+      button.parentElement?.textContent?.includes(text)
+    ).length;
+
+  test('shows an alert raised before it mounted', async () => {
+    showAlert('Loading failed before the page rendered.', 'error');
+    await render(<AlertContainer />);
+    await eventually(() => expect(shown('Loading failed before the page rendered.')).toBe(1));
+  });
+
+  test('keeps an alert raised before mount through a StrictMode remount', async () => {
+    showAlert('Raised before a strict mount.', 'warning');
+    await render(
+      <StrictMode>
+        <AlertContainer />
+      </StrictMode>
+    );
+    await eventually(() => expect(shown('Raised before a strict mount.')).toBe(1));
+  });
+
+  test('shows an alert raised after mount once, and not again after the container remounts', async () => {
+    const first = await render(<AlertContainer />);
+    await act(async () => showAlert('Saved the first time.', 'success'));
+    expect(shown('Saved the first time.')).toBe(1);
+    await first.unmount();
+    await render(<AlertContainer />);
+    await act(async () => showAlert('Saved again.', 'success'));
+    expect(shown('Saved again.')).toBe(1);
+    expect(shown('Saved the first time.')).toBe(0);
+  });
+
+  test('does not duplicate an alert across two mounted containers', async () => {
+    showAlert('Queued for two containers.', 'info');
+    await render(<AlertContainer />);
+    await render(<AlertContainer />);
+    await eventually(() => expect(shown('Queued for two containers.')).toBe(1));
+    await act(async () => showAlert('Raised with two containers.', 'info'));
+    expect(shown('Raised with two containers.')).toBe(1);
+    // Closing it in one container leaves nothing behind in the other.
+    await click(
+      Array.from(document.querySelectorAll('button[aria-label="Close alert"]')).find(button =>
+        button.parentElement?.textContent?.includes('Raised with two containers.')
+      )!
+    );
+    await eventually(() => expect(shown('Raised with two containers.')).toBe(0));
   });
 });
