@@ -84,6 +84,10 @@ Individual component entry points are also available:
 import { Button } from '@gaulatti/bleecker/components/button';
 ```
 
+## Access management
+
+`AccessPanel` renders a service's Access page (personal access tokens, token switch, role holders and history) against the `AccessClient` contract. See [docs/access-panel.md](./docs/access-panel.md).
+
 ## Design principles
 
 - Encode Sans is the primary voice. Use the `font-secondary` utility to opt specific supporting or editorial copy into Libre Franklin.
