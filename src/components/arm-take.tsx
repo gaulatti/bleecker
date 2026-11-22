@@ -100,7 +100,6 @@ export function ArmTake({ armTimeoutMs = 5_000, className, disabled = false, hol
       heldConfirmed.current = false;
       return;
     }
-    if (disabled) return;
     if (armed) confirm();
     else arm();
   };

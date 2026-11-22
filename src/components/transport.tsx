@@ -45,7 +45,7 @@ export function Transport({ className, cues = [], disabled = false, duration, on
   const timeline = React.useRef<HTMLDivElement>(null);
   const length = duration !== null && duration > 0 ? duration : null;
   const clamped = length === null ? Math.max(0, position) : Math.min(Math.max(0, position), length);
-  const percent = (seconds: number) => (length === null ? 0 : Math.max(0, Math.min(100, (seconds / length) * 100)));
+  const percent = (seconds: number, total: number) => Math.max(0, Math.min(100, (seconds / total) * 100));
 
   const seekTo = (seconds: number) => {
     if (!onSeek || length === null) return;
@@ -117,9 +117,9 @@ export function Transport({ className, cues = [], disabled = false, duration, on
           className='relative h-4 min-w-24 flex-1 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sea dark:focus-visible:ring-accent-blue'
         >
           <span className='absolute inset-x-0 top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-sand/50 dark:bg-sand/40' />
-          <span data-transport='done' className='absolute left-0 top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-sea dark:bg-accent-blue' style={{ width: `${percent(clamped)}%` }} />
+          <span data-transport='done' className='absolute left-0 top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-sea dark:bg-accent-blue' style={{ width: `${percent(clamped, length)}%` }} />
           {cues.map((cue) => (
-            <span key={`${cue.label}-${cue.at}`} data-transport='cue' title={cue.label} className='absolute top-0 h-full w-0.5 bg-accent-text dark:bg-accent-yellow' style={{ left: `${percent(cue.at)}%` }} />
+            <span key={`${cue.label}-${cue.at}`} data-transport='cue' title={cue.label} className='absolute top-0 h-full w-0.5 bg-accent-text dark:bg-accent-yellow' style={{ left: `${percent(cue.at, length)}%` }} />
           ))}
         </div>
       ) : (

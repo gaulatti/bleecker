@@ -324,3 +324,54 @@ describe('OnAirStrip', () => {
     expect(q('[data-tone="live"]').textContent).toBe('Status delayed');
   });
 });
+
+describe('edges that only show on a live surface', () => {
+  test('ArmTake ignores a frame that arrives after the hold has ended, and stops its frame when removed mid-hold', async () => {
+    vi.useFakeTimers({ toFake: ['performance', 'setTimeout', 'clearTimeout'] });
+    const callbacks: FrameRequestCallback[] = [];
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => callbacks.push(callback));
+    const cancel = vi.spyOn(window, 'cancelAnimationFrame').mockImplementation(() => {});
+    const onTake = vi.fn();
+    const view = await render(<ArmTake label='Hold to take' onTake={onTake} holdMs={800} />);
+    const button = q('button');
+    await pointer(button, 'pointerdown');
+    await pointer(button, 'pointerup');
+    // The browser delivers the frame that was already queued: the released hold takes nothing.
+    await act(async () => callbacks[0](performance.now() + 2000));
+    expect(onTake).not.toHaveBeenCalled();
+    await pointer(button, 'pointerdown');
+    await view.unmount();
+    expect(cancel).toHaveBeenCalled();
+  });
+
+  test('ArmTake: another key, or Escape while not armed, changes nothing', async () => {
+    const onTake = vi.fn();
+    await render(<ArmTake label='Take' onTake={onTake} />);
+    const button = q('button');
+    await keydown(button, 'Escape');
+    await click(button);
+    await keydown(button, 'a');
+    expect(button.getAttribute('data-armed')).toBe('true');
+    expect(onTake).not.toHaveBeenCalled();
+  });
+
+  test('OnAirStrip shows a next item without detail, and Transport a title without subtitle', async () => {
+    await render(<OnAirStrip state='live' now={{ title: 'Harbor Lights' }} next={{ title: 'Copper' }} />);
+    expect(document.body.textContent).toContain('Copper');
+    expect(document.body.textContent).not.toContain('·');
+    document.body.innerHTML = '';
+    await render(<Transport title='Only title' duration={100} position={10} playing={false} onToggle={vi.fn()} onSeek={vi.fn()} />);
+    expect(document.body.textContent).toContain('Only title');
+  });
+
+  test('a click on a timeline with no width seeks nowhere', async () => {
+    const onSeek = vi.fn();
+    await render(<Transport title='x' duration={100} position={10} playing={false} onToggle={vi.fn()} onSeek={onSeek} />);
+    const slider = q('[role="slider"]') as HTMLElement;
+    vi.spyOn(slider, 'getBoundingClientRect').mockReturnValue({ left: 0, width: 0, top: 0, right: 0, bottom: 0, height: 0, x: 0, y: 0, toJSON: () => ({}) });
+    await act(async () => {
+      slider.dispatchEvent(new MouseEvent('click', { bubbles: true, clientX: 10 }));
+    });
+    expect(onSeek).not.toHaveBeenCalled();
+  });
+});
