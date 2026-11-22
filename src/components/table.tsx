@@ -361,7 +361,10 @@ export function DataTable<TData>({
           ) : (
             sortedData.map((row, i) => {
               const key = rowKeys[i];
-              const isSelected = selectedKeys.has(key) || (selectedKey !== undefined && selectedKey === key);
+              // The checkbox is checkbox selection only; selectedKey only tints the
+              // row (bleecker#552), so it never checks a box toggleRow cannot clear.
+              const isSelected = selectedKeys.has(key);
+              const isTinted = isSelected || (selectedKey !== undefined && selectedKey === key);
               const rowProps: React.HTMLAttributes<HTMLTableRowElement> = onRowClick
                 ? {
                     tabIndex: 0,
@@ -376,7 +379,7 @@ export function DataTable<TData>({
                   }
                 : {};
               return (
-                <TableRow key={key} data-selected={isSelected} {...rowProps} className={cn(dense && 'h-10', rowProps.className)}>
+                <TableRow key={key} data-selected={isTinted} {...rowProps} className={cn(dense && 'h-10', rowProps.className)}>
                   {selectable && (
                     <TableCell className={cn(dense && 'px-3 py-0')} onClick={onRowClick ? (event) => event.stopPropagation() : undefined}>
                       <Checkbox

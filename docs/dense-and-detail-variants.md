@@ -12,9 +12,10 @@ markup recorded before the variants existed.
 - `density`: `'default'` (52px rows, unchanged) or `'dense'`. Dense draws 40px
   rows (`h-10`), 36px header cells, tighter cell padding and `tabular-nums` for
   the whole table.
-- `selectedKey`: the one row tinted as selected (`data-selected="true"`). It
-  adds to checkbox selection (`selectedKeys`). With `onRowClick`, rows also carry
-  `aria-selected`.
+- `selectedKey`: the one row tinted as selected (`data-selected="true"`), for
+  example the row whose detail panel is open. It is only a tint: it never checks
+  that row's selection checkbox or changes `selectedKeys`, Select all or
+  `onSelectionChange`. With `onRowClick`, rows also carry `aria-selected`.
 - `onRowClick(row, index)`: makes each row clickable and focusable; Enter or
   Space on a focused row also calls it. A click on a row's selection checkbox
   does not.

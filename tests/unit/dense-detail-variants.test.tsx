@@ -109,6 +109,36 @@ describe('DataTable density="dense"', () => {
     expect(clicked).toEqual(['a:0', 'b:1', 'b:1']);
   });
 
+  test('selectedKey only tints a row and never checks or locks its selection checkbox', async () => {
+    const changes: string[][] = [];
+    const view = await render(
+      <DataTable
+        columns={columns}
+        data={songs}
+        getRowKey={(row) => row.id}
+        selectable
+        selectedKey='b'
+        onSelectionChange={(keys) => changes.push([...keys])}
+      />
+    );
+    const rows = Array.from(view.container.querySelectorAll<HTMLTableRowElement>('tbody tr'));
+    expect(rows.map((row) => row.dataset.selected)).toEqual(['false', 'true']);
+    const boxes = rows.map((row) => row.querySelector<HTMLInputElement>('input[type="checkbox"]')!);
+    expect(boxes.map((box) => box.checked)).toEqual([false, false]);
+    const all = view.container.querySelector<HTMLInputElement>('thead input[type="checkbox"]')!;
+    expect(all.checked).toBe(false);
+    expect(all.indeterminate).toBe(false);
+    const { act } = await import('react');
+    await act(async () => boxes[1].click());
+    expect(changes).toEqual([['b']]);
+    expect(boxes[1].checked).toBe(true);
+    await act(async () => boxes[1].click());
+    expect(changes).toEqual([['b'], []]);
+    expect(boxes[1].checked).toBe(false);
+    // The tint stays on the highlighted row either way.
+    expect(rows[1].dataset.selected).toBe('true');
+  });
+
   test('clickable rows with no selected key carry no aria-selected', async () => {
     const clicked: string[] = [];
     const view = await render(
