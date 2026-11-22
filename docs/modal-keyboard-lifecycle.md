@@ -212,3 +212,9 @@ stores the ID in mounted Hook state; [React 18.2.0 exposes the same Hook](https:
 The fixtures follow [Storybook 10.3.3 interaction testing](https://github.com/storybookjs/storybook/blob/v10.3.3/docs/writing-tests/interaction-testing.mdx).
 The public wiki was unavailable during the required freshness check; this
 contract is maintained in-repository.
+
+`Drawer variant="detail"` (bleecker#552) is not a modal and does not take part
+in this lifecycle. It renders in place as a docked `<aside>`, with no overlay,
+no portal, no focus move and no focus trap; focus stays in the list beside it.
+Its close button calls `onClose`. The default Drawer (the bottom sheet) is
+unchanged and follows everything above.
