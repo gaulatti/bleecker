@@ -374,4 +374,14 @@ describe('edges that only show on a live surface', () => {
     });
     expect(onSeek).not.toHaveBeenCalled();
   });
+
+  test('a disabled Transport ignores the keyboard on its timeline', async () => {
+    const onToggle = vi.fn();
+    const onSeek = vi.fn();
+    await render(<Transport title='x' duration={100} position={10} playing={false} disabled onToggle={onToggle} onSeek={onSeek} />);
+    const slider = q('[role="slider"]');
+    for (const key of [' ', 'ArrowRight', 'ArrowLeft', 'Home', 'End']) await keydown(slider, key);
+    expect(onToggle).not.toHaveBeenCalled();
+    expect(onSeek).not.toHaveBeenCalled();
+  });
 });

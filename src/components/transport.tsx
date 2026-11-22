@@ -53,6 +53,7 @@ export function Transport({ className, cues = [], disabled = false, duration, on
   };
 
   const onKeyDown = (event: React.KeyboardEvent) => {
+    if (disabled) return;
     if (event.key === ' ') {
       event.preventDefault();
       onToggle();
