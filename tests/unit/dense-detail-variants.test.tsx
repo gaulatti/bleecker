@@ -109,6 +109,19 @@ describe('DataTable density="dense"', () => {
     expect(clicked).toEqual(['a:0', 'b:1', 'b:1']);
   });
 
+  test('clickable rows with no selected key carry no aria-selected', async () => {
+    const clicked: string[] = [];
+    const view = await render(
+      <DataTable columns={columns} data={songs} getRowKey={(row) => row.id} onRowClick={(row) => clicked.push(row.id)} />
+    );
+    const rows = Array.from(view.container.querySelectorAll<HTMLTableRowElement>('tbody tr'));
+    expect(rows.map((row) => row.hasAttribute('aria-selected'))).toEqual([false, false]);
+    expect(rows.map((row) => row.dataset.selected)).toEqual(['false', 'false']);
+    const { act } = await import('react');
+    await act(async () => rows[1].click());
+    expect(clicked).toEqual(['b']);
+  });
+
   test('a selected key works without onRowClick, at the default density', async () => {
     const view = await render(<DataTable columns={columns} data={songs} getRowKey={(row) => row.id} selectedKey='a' />);
     const rows = Array.from(view.container.querySelectorAll<HTMLTableRowElement>('tbody tr'));
