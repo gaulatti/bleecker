@@ -15,6 +15,7 @@ import {
 } from '../../src/components/table';
 import { SortableTableHeader } from '../../src/components/table';
 import { Button } from '../../src/components/button';
+import { StatusBadge } from '../../src/components/status-badge';
 
 const meta = {
   component: DataTable,
@@ -251,6 +252,60 @@ export const Primitives: Story = {
           </TableFooter>
         </Table>
       </div>
+    );
+  }
+};
+
+// ─── Dense density (bleecker#549 phase 1, #552) ──────────────────────────────
+
+interface Asset {
+  id: string;
+  name: string;
+  seconds: number | null;
+  lufs: number | null;
+  state: 'Measured' | 'Measuring' | 'Failed' | 'Not analysed';
+}
+
+const assets: Asset[] = [
+  { id: 'harbor', name: 'Harbor Lights', seconds: 214, lufs: -9.8, state: 'Measured' },
+  { id: 'copper', name: 'Copper Season', seconds: 241, lufs: -11.2, state: 'Measuring' },
+  { id: 'north', name: 'Northbound', seconds: 229, lufs: null, state: 'Failed' },
+  { id: 'weather', name: 'Weather bed', seconds: null, lufs: null, state: 'Not analysed' },
+  ...Array.from({ length: 12 }, (_, index) => ({
+    id: `filler-${index}`,
+    name: `Station ID ${index + 1}`,
+    seconds: 8 + index,
+    lufs: -14 + index / 10,
+    state: 'Measured' as const
+  }))
+];
+
+const stateVariant = { Measured: 'live', Measuring: 'info', Failed: 'offline', 'Not analysed': 'default' } as const;
+const clock = (seconds: number | null) => (seconds === null ? '—' : `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`);
+
+const assetColumns: ColumnDef<Asset>[] = [
+  { key: 'name', header: 'Name' },
+  { key: 'seconds', header: 'Length', align: 'right', cell: (row) => clock(row.seconds) },
+  { key: 'lufs', header: 'LUFS', align: 'right', cell: (row) => (row.lufs === null ? '—' : row.lufs.toFixed(1)) },
+  // A state column renders a pill through the cell renderer.
+  { key: 'state', header: 'State', sortable: false, cell: (row) => <StatusBadge label={row.state} variant={stateVariant[row.state]} /> }
+];
+
+/** density="dense": 40px rows, tabular numerics, a sticky header, a selected-row tint and row click. */
+export const Dense: Story = {
+  render: () => {
+    const [selected, setSelected] = React.useState<string>('copper');
+    return (
+      <DataTable
+        density='dense'
+        stickyHeader
+        containerClassName='max-h-[22rem]'
+        columns={assetColumns}
+        data={assets}
+        getRowKey={(row) => row.id}
+        selectedKey={selected}
+        onRowClick={(row) => setSelected(row.id)}
+      />
     );
   }
 };

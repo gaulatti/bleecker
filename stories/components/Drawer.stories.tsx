@@ -102,3 +102,38 @@ export const FrameRealm: Story = { render: () => <FrameRealmContract />, play: a
 export const ModalPortalOwnership: Story = { render: () => <PortaledMenusContract />, play: async ({ canvasElement }) => verifyPortaledMenus(canvasElement) };
 
 export const NestedPortalFocusReturn: Story = { render: () => <NestedBranchContract />, play: async ({ canvasElement }) => verifyNestedBranch(canvasElement) };
+
+/** variant="detail" (bleecker#549 phase 1, #552): docked beside a list, no overlay; focus stays in the list. */
+export const Detail: Story = {
+  parameters: { layout: 'fullscreen' },
+  globals: { viewport: { value: undefined, isRotated: false } },
+  render: () => {
+    const labels = [
+      { id: '90s', name: '90s', count: 38, description: 'Songs released 1990–1999' },
+      { id: 'evening', name: 'Evening', count: 18, description: 'Slow songs for the evening show' },
+      { id: 'ids', name: 'Station IDs', count: 9, description: 'Short station identifiers' }
+    ];
+    const [open, setOpen] = React.useState<string | null>('90s');
+    const label = labels.find((item) => item.id === open);
+    return (
+      <div className='flex h-[28rem]'>
+        <ul className='flex-1 divide-y divide-sand/20 p-4'>
+          {labels.map((item) => (
+            <li key={item.id}>
+              <button type='button' className='flex w-full justify-between px-3 py-2 text-left text-sm' onClick={() => setOpen(item.id)} aria-pressed={open === item.id}>
+                <span>{item.name}</span>
+                <span className='tabular-nums text-text-secondary'>{item.count}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+        <Drawer variant='detail' open={!!label} onClose={() => setOpen(null)} title={label?.name} description={label?.description}>
+          <p className='text-sm'>{label?.count} assets</p>
+          <Button size='sm' variant='secondary' className='mt-4'>
+            Rename
+          </Button>
+        </Drawer>
+      </div>
+    );
+  }
+};

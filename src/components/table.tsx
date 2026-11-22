@@ -224,6 +224,20 @@ export interface DataTableProps<TData> {
   selectable?: boolean;
   selectedKeys?: Set<string>;
   onSelectionChange?: (keys: Set<string>) => void;
+  /**
+   * `dense` (bleecker#549): 40px rows, tabular numerics and tighter cells. The
+   * default density keeps its 52px rows unchanged.
+   */
+  density?: 'default' | 'dense';
+  /** The one row shown as selected with a tint (for a list beside a detail panel). */
+  selectedKey?: string;
+  /** Makes each row clickable (and focusable, with Enter or Space). */
+  onRowClick?: (row: TData, index: number) => void;
+  /**
+   * Keeps the header visible while the rows scroll. Bound the height through
+   * `containerClassName` (for example `max-h-[60dvh]`); the container then scrolls.
+   */
+  stickyHeader?: boolean;
 }
 
 function defaultCompare<TData>(key: string, a: TData, b: TData): number {
@@ -246,8 +260,13 @@ export function DataTable<TData>({
   onSortChange,
   selectable = false,
   selectedKeys: controlledSelected,
-  onSelectionChange
+  onSelectionChange,
+  density = 'default',
+  selectedKey,
+  onRowClick,
+  stickyHeader = false
 }: DataTableProps<TData>) {
+  const dense = density === 'dense';
   const [internalSort, setInternalSort] = React.useState<SortState>({ field: '', order: 'asc' });
   const [internalSelected, setInternalSelected] = React.useState<Set<string>>(new Set());
 
@@ -289,10 +308,21 @@ export function DataTable<TData>({
   };
 
   return (
-    <div className={cn('overflow-hidden rounded-[var(--radius-card)] border border-sand/30 bg-white shadow-[var(--shadow-surface)] dark:border-white/10 dark:bg-deep-sea', containerClassName)}>
-      <Table className={className}>
+    <div
+      className={cn(
+        'overflow-hidden rounded-[var(--radius-card)] border border-sand/30 bg-white shadow-[var(--shadow-surface)] dark:border-white/10 dark:bg-deep-sea',
+        stickyHeader && 'overflow-auto',
+        containerClassName
+      )}
+    >
+      <Table className={cn(dense && 'tabular-nums', className)} containerClassName={stickyHeader ? 'overflow-visible' : undefined}>
         {caption && <TableCaption>{caption}</TableCaption>}
-        <TableHeader>
+        <TableHeader
+          className={cn(
+            stickyHeader && 'sticky top-0 z-10 bg-white dark:bg-deep-sea [&_th]:bg-light-sand/40 dark:[&_th]:bg-white/[0.035]',
+            dense && '[&_th]:h-9 [&_th]:px-3'
+          )}
+        >
           <TableRow>
             {selectable && (
               <TableHead className='w-10'>
@@ -331,11 +361,27 @@ export function DataTable<TData>({
           ) : (
             sortedData.map((row, i) => {
               const key = rowKeys[i];
+              // The checkbox is checkbox selection only; selectedKey only tints the
+              // row (bleecker#552), so it never checks a box toggleRow cannot clear.
               const isSelected = selectedKeys.has(key);
+              const isTinted = isSelected || (selectedKey !== undefined && selectedKey === key);
+              const rowProps: React.HTMLAttributes<HTMLTableRowElement> = onRowClick
+                ? {
+                    tabIndex: 0,
+                    'aria-selected': selectedKey !== undefined ? selectedKey === key : undefined,
+                    onClick: () => onRowClick(row, i),
+                    onKeyDown: (event) => {
+                      if (event.target !== event.currentTarget || (event.key !== 'Enter' && event.key !== ' ')) return;
+                      event.preventDefault();
+                      onRowClick(row, i);
+                    },
+                    className: 'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sea/45'
+                  }
+                : {};
               return (
-                <TableRow key={key} data-selected={isSelected}>
+                <TableRow key={key} data-selected={isTinted} {...rowProps} className={cn(dense && 'h-10', rowProps.className)}>
                   {selectable && (
-                    <TableCell>
+                    <TableCell className={cn(dense && 'px-3 py-0')} onClick={onRowClick ? (event) => event.stopPropagation() : undefined}>
                       <Checkbox
                         checked={isSelected}
                         onChange={(e) => toggleRow(key, e.target.checked)}
@@ -344,7 +390,10 @@ export function DataTable<TData>({
                     </TableCell>
                   )}
                   {columns.map((col) => (
-                    <TableCell key={col.key} className={cn(col.align === 'right' && 'text-right', col.align === 'center' && 'text-center', col.className)}>
+                    <TableCell
+                      key={col.key}
+                      className={cn(dense && 'px-3 py-0', col.align === 'right' && 'text-right', col.align === 'center' && 'text-center', col.className)}
+                    >
                       {col.cell ? col.cell(row, i) : String((row as Record<string, unknown>)[col.key] ?? '')}
                     </TableCell>
                   ))}
