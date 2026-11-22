@@ -52,8 +52,9 @@ jobs:
 
       - name: Upload to S3
         run: |
-          aws s3 rm s3://${{ vars.BLEECKER_BUCKET_NAME }} --recursive
-          aws s3 sync storybook-static/ s3://${{ vars.BLEECKER_BUCKET_NAME }}
+          # --delete removes files that are no longer in the build after the new ones are
+          # uploaded, so the site never serves a 404 window (it used to be emptied first).
+          aws s3 sync storybook-static/ s3://${{ vars.BLEECKER_BUCKET_NAME }} --delete
 
       - name: Invalidate CloudFront cache
         run: |
