@@ -1,14 +1,73 @@
 import React from 'react';
 
 import { renderDefaultLink } from './nav-menu';
+import { Skeleton } from './skeleton';
 import { cn } from '../utils/cn';
 
 export interface TabItem {
+  /** How many items the tab holds, shown as a quiet pill after the label; `null` or omitted hides it. */
+  count?: number | null;
+  /** Shows a short skeleton where the count will be, so it does not jump from blank. */
+  countLoading?: boolean;
   id: string;
   label: string;
   href?: string;
   external?: boolean;
   panelId?: string;
+}
+
+/** 999 and below as is, then 1.2k, 12k, 1.2M: the pill stays narrow. The full value goes in the accessible name. */
+function abbreviateCount(count: number): string {
+  const trim = (value: number) => value.toFixed(1).replace(/\.0$/, '');
+  if (count < 1000) return String(count);
+  if (count < 10_000) return `${trim(Math.floor(count / 100) / 10)}k`;
+  if (count < 1_000_000) return `${Math.floor(count / 1000)}k`;
+  if (count < 10_000_000) return `${trim(Math.floor(count / 100_000) / 10)}M`;
+  return `${Math.floor(count / 1_000_000)}M`;
+}
+
+/** The button's name when it carries a count: the full value, or that the count is still loading. */
+function tabAccessibleName(tab: TabItem): string | undefined {
+  if (tab.countLoading) return `${tab.label}, loading count`;
+  if (typeof tab.count === 'number' && Number.isFinite(tab.count)) {
+    return `${tab.label}, ${tab.count.toLocaleString('en-US')} ${tab.count === 1 ? 'item' : 'items'}`;
+  }
+  return undefined;
+}
+
+function TabLabel({ tab, isActive }: { tab: TabItem; isActive: boolean }) {
+  const hasCount = typeof tab.count === 'number' && Number.isFinite(tab.count);
+  if (tab.countLoading) {
+    return (
+      <>
+        <span>
+          {tab.label}
+          <span className='sr-only'>, loading count</span>
+        </span>
+        <Skeleton aria-hidden='true' data-tab-count-loading className='ml-2 h-4 w-6 rounded-full' />
+      </>
+    );
+  }
+  if (!hasCount) return <>{tab.label}</>;
+  const count = tab.count as number;
+  return (
+    <>
+      <span>
+        {tab.label}
+        <span className='sr-only'>{`, ${count.toLocaleString('en-US')} ${count === 1 ? 'item' : 'items'}`}</span>
+      </span>
+      <span
+        aria-hidden='true'
+        data-tab-count
+        className={cn(
+          'ml-2 inline-flex min-w-5 items-center justify-center rounded-full px-1.5 text-xs font-medium tabular-nums',
+          isActive ? 'bg-current/10' : 'bg-sand/25 text-text-secondary dark:bg-white/10 dark:text-text-secondary'
+        )}
+      >
+        {abbreviateCount(count)}
+      </span>
+    </>
+  );
 }
 
 export type TabRenderLink = (props: { item: TabItem & { href: string }; className?: string; children: React.ReactNode }) => React.ReactNode;
@@ -85,7 +144,7 @@ export function Tabs({ activeTab, 'aria-label': ariaLabel = 'Tabs', className, o
               {linkRenderer({
                 item: { ...tab, href: tab.href },
                 className: tabClassName,
-                children: tab.label
+                children: <TabLabel tab={tab} isActive={isActive} />
               })}
             </React.Fragment>
           );
@@ -98,12 +157,13 @@ export function Tabs({ activeTab, 'aria-label': ariaLabel = 'Tabs', className, o
             role='tab'
             aria-selected={isActive}
             aria-controls={tab.panelId}
+            aria-label={tabAccessibleName(tab)}
             tabIndex={isActive ? 0 : -1}
             onClick={() => onChange?.(tab.id)}
             onKeyDown={(event) => handleKeyDown(event, index)}
             className={tabClassName}
           >
-            {tab.label}
+            <TabLabel tab={tab} isActive={isActive} />
           </button>
         );
       })}
