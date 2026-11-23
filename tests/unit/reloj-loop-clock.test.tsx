@@ -49,3 +49,37 @@ it('uses the local clock when the timezone cannot be formatted', async () => {
   const { container } = await render(<RelojLoopClock timezone='Europe/Madrid' />);
   expect(label(container).textContent).toBe('MADRID');
 });
+
+// The formatter reports only the parts given; a missing one reads as zero.
+function partsOf(parts: Array<[string, string]>) {
+  vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(function () {
+    return { formatToParts: () => parts.map(([type, value]) => ({ type, value })) };
+  } as never);
+}
+
+const hand = (container: HTMLElement, index: number) => Number(container.querySelectorAll('svg line')[index].getAttribute('x2'));
+const RADIUS = 200;
+const hourX = (degrees: number) => Math.sin((degrees * Math.PI) / 180) * RADIUS * 0.55;
+const minuteX = (degrees: number) => Math.sin((degrees * Math.PI) / 180) * RADIUS * 0.78;
+
+it('reads a missing hour as zero', async () => {
+  partsOf([['minute', '30'], ['second', '0']]);
+  const { container } = await render(<RelojLoopClock timezone='Europe/Madrid' />);
+  // Hour 0 plus 30 minutes is 15 degrees on the hour hand.
+  expect(hand(container, 12)).toBeCloseTo(hourX(15), 5);
+});
+
+it('reads a missing minute as zero', async () => {
+  partsOf([['hour', '3'], ['second', '0']]);
+  const { container } = await render(<RelojLoopClock timezone='Europe/Madrid' />);
+  expect(hand(container, 12)).toBeCloseTo(hourX(90), 5);
+  expect(hand(container, 13)).toBeCloseTo(minuteX(0), 5);
+});
+
+it('reads a missing second as zero', async () => {
+  partsOf([['hour', '0'], ['minute', '1']]);
+  const { container } = await render(<RelojLoopClock timezone='Europe/Madrid' />);
+  // One minute is 6 degrees, with no seconds added.
+  expect(hand(container, 13)).toBeCloseTo(minuteX(6), 5);
+});
+
