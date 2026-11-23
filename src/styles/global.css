@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@400;500;600;700&family=Libre+Franklin:wght@400;500&display=swap');
 @import "tailwindcss" source(none);
 @import "./tokens.generated.css";
+@import "./generic-widgets.css";
 
 @source "../**/*.{ts,tsx}";
 
@@ -311,4 +312,7 @@
   }
 }
 
+@import "./cronica.css";
+@import "./clock-widget.css";
+@import "./reloj.css";
 @import "./cronica-reiteramos.css";
