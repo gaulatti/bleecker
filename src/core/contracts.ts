@@ -39,6 +39,9 @@ export type IconButtonSize = (typeof iconButtonSizes)[number];
 export const iconButtonVariants = ['default', 'subtle', 'ghost'] as const;
 export type IconButtonVariant = (typeof iconButtonVariants)[number];
 
+export const iconButtonTones = ['neutral', 'danger'] as const;
+export type IconButtonTone = (typeof iconButtonTones)[number];
+
 export const toggleSizes = ['sm', 'md', 'lg'] as const;
 export type ToggleSize = (typeof toggleSizes)[number];
 

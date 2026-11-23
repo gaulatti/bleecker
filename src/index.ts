@@ -85,6 +85,7 @@ export * from './components/hero-carousel';
 export * from './components/field-help-tooltip';
 export * from './components/icon-badge';
 export * from './components/icon-button';
+export * from './components/row-actions';
 export * from './components/loading-spinner';
 export * from './components/media-library';
 export * from './components/modal';
