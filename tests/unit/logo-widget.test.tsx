@@ -65,3 +65,15 @@ it('stops the cycle when unmounted', async () => {
   expect(container.querySelector('.logo-widget')).toBeNull();
   await act(async () => vi.advanceTimersByTime(30000));
 });
+
+it('completes the whole cycle back to white, and drops the gradient after it', async () => {
+  const { container } = await render(<LogoWidget />);
+  const beat = () => act(async () => vi.advanceTimersByTime(10000));
+  // gradient, black, gradient, big, gradient, red, gradient, then white
+  for (let i = 0; i < 7; i++) await beat();
+  await beat();
+  expect(widget(container).classList.contains('variant-white')).toBe(true);
+  expect(widget(container).classList.contains('gradient-active')).toBe(true);
+  await act(async () => vi.advanceTimersByTime(100));
+  expect(widget(container).classList.contains('gradient-active')).toBe(false);
+});

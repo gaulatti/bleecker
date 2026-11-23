@@ -233,10 +233,13 @@ it('does nothing when it closes before the HLS player loads, or fails after clos
   await act(async () => {});
   expect(hls.instances).toHaveLength(0);
 
-  hls.failImport = true;
-  await (await mount(<VideoStream sourceUrl='https://media.example.test/other.m3u8' />)).unmount();
-  await act(async () => {});
-  expect(errors).toHaveBeenCalled();
+  // An HLS error that arrives after the element closed is not shown.
+  const playing = await render(<VideoStream sourceUrl='https://media.example.test/other.m3u8' />);
+  await eventually(() => expect(hls.instances).toHaveLength(1));
+  const instance = hls.instances[hls.instances.length - 1];
+  await playing.unmount();
+  instance.handlers.error(null, { fatal: true });
+  expect(unavailable()).toBeNull();
 });
 
 // A host that moves the element's volume on its own (WebKitGTK under PipeWire reflects the level

@@ -106,17 +106,11 @@ function normalizeImageUrls(value: unknown): string[] {
   return unique;
 }
 
+/** The next loaded image to show. The cycling effect only calls this with two or more loaded images. */
 function pickNextLoadedIndex(current: number, loadedIndices: number[], shuffle: boolean): number {
-  if (loadedIndices.length <= 1) {
-    return loadedIndices[0] ?? 0;
-  }
-
   const currentPosition = loadedIndices.indexOf(current);
   if (!shuffle) {
-    return loadedIndices[(currentPosition + 1) % loadedIndices.length] ?? loadedIndices[0];
-  }
-  if (currentPosition < 0) {
-    return loadedIndices[0];
+    return loadedIndices[(currentPosition + 1) % loadedIndices.length];
   }
 
   let nextPosition = currentPosition;

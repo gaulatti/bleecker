@@ -61,7 +61,7 @@ export const LogoWidget: React.FC<LogoWidgetProps> = ({ logoUrl, position = 'bot
           setTimeout(() => {
             setVariant('red');
           }, 800);
-        } else if (currentPhase === 'red-small') {
+        } else {
           // -> White Small
           phaseRef.current = 'white-small';
           setVariant('white');

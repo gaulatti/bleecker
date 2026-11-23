@@ -16,14 +16,9 @@ export const QRCodeWidget: React.FC<QRCodeWidgetProps> = ({ qrCodeUrl, placehold
     }
   }, [content, qrCodeUrl]);
 
-  const generateQRCode = async (text: string) => {
-    try {
-      // Using a simple QR code generation approach with an API
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}`;
-      setGeneratedQR(qrUrl);
-    } catch (error) {
-      console.error('Failed to generate QR code:', error);
-    }
+  const generateQRCode = (text: string) => {
+    // Using a simple QR code generation approach with an API
+    setGeneratedQR(`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}`);
   };
 
   const displayQR = qrCodeUrl || generatedQR;

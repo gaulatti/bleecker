@@ -89,6 +89,10 @@ export function VideoStream({
     }
     let didCancel = false;
     let hlsInstance: { destroy: () => void } | null = null;
+    // A failure from a source that has since been replaced, or from an element that has closed, is not shown.
+    const reportPlaybackFailure = () => {
+      if (!didCancel) setHasPlaybackError(true);
+    };
 
     const startPlayback = () => {
       if (!shouldAutoPlay) {
@@ -142,15 +146,11 @@ export function VideoStream({
           startPlayback();
         });
         hls.on(Hls.Events.ERROR, (_, data) => {
-          if (!didCancel && data?.fatal) {
-            setHasPlaybackError(true);
-          }
+          if (data?.fatal) reportPlaybackFailure();
         });
       } catch (error) {
         console.error('Failed to initialize HLS playback:', error);
-        if (!didCancel) {
-          setHasPlaybackError(true);
-        }
+        reportPlaybackFailure();
       }
     };
 
