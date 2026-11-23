@@ -67,6 +67,41 @@ export const shadows = {
   overlay: '0 24px 64px -20px rgb(26 55 77 / 0.28), 0 4px 14px rgb(26 55 77 / 0.06)'
 } as const;
 
+// Elevated surfaces (bleecker#549 phase 1, bleecker#550). Everything below is
+// additive: no existing export, key or type changes, and existing screens keep
+// their size and look until a component opts in.
+
+/** Control heights in px. `dense` and `compact` sit beside the existing 36/40/48. */
+export const controlHeights = {
+  dense: 28,
+  compact: 32,
+  small: 36,
+  default: 40,
+  large: 48
+} as const;
+
+/** One focus ring for every control, in px. */
+export const focusRing = {
+  width: 2,
+  offset: 2
+} as const;
+
+/** Type scale in px for dense, hairline-first surfaces. */
+export const fontSizes = {
+  caps: 11,
+  caption: 12,
+  dense: 13,
+  body: 14,
+  section: 20,
+  readout: 24
+} as const;
+
+/** Tracking in em for the 11px caps label (the proposals use .08 to .14em). */
+export const capsTracking = 0.1;
+
+/** Monospace face for tabular readouts (levels, durations, counts). */
+export const monoFamily = 'ui-monospace';
+
 const sharedColors = {
   dusk: '#694f5d',
   deepSea: '#1a374d',
@@ -109,7 +144,14 @@ export const lightColors = {
   destructive: '#a65d57',
   destructiveForeground: '#ffffff',
   accent: '#f9f6f2',
-  accentForeground: '#2d2d2d'
+  accentForeground: '#2d2d2d',
+  statusOk: '#2f7d5b',
+  statusWarn: '#a8741a',
+  statusBad: '#a65d57',
+  statusIdle: '#767676',
+  rail: '#e9e1d3',
+  railStrong: '#d4c4a9',
+  cue: '#8a5735'
 } as const;
 
 export const darkColors = {
@@ -145,7 +187,14 @@ export const darkColors = {
   destructive: '#d47b75',
   destructiveForeground: '#0d1821',
   accent: '#1a2332',
-  accentForeground: '#f0f4f8'
+  accentForeground: '#f0f4f8',
+  statusOk: '#5cc49a',
+  statusWarn: '#e0ac69',
+  statusBad: '#d47b75',
+  statusIdle: '#8a9bb0',
+  rail: '#22324a',
+  railStrong: '#2f4562',
+  cue: '#e0ac69'
 } as const;
 
 export const themes = {
