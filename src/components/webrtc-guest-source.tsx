@@ -15,10 +15,10 @@ export interface WebrtcGuestSourceProps {
   getCredentials: () => Promise<WebrtcCredentials>;
   /** The guest slot to show, 1 to 6. Other values fall back to slot 1. */
   slotNumber?: unknown;
-  objectFit?: 'cover' | 'contain';
+  objectFit?: unknown;
   /** Channel gain from 0 to 1. Zero mutes the audio. */
   channelGain?: unknown;
-  showStatus?: boolean;
+  showStatus?: unknown;
   suppressAudio?: boolean;
 }
 
@@ -101,9 +101,9 @@ export function WebrtcGuestSource({
 
   return (
     <div className='absolute inset-0 overflow-hidden bg-black'>
-      <video ref={videoRef} autoPlay playsInline className='h-full w-full bg-black' style={{ objectFit }} />
+      <video ref={videoRef} autoPlay playsInline className='h-full w-full bg-black' style={{ objectFit: objectFit === 'contain' ? 'contain' : 'cover' }} />
       <audio ref={audioRef} autoPlay playsInline muted={suppressAudio || gain <= 0.0001} />
-      {showStatus && (connectionState !== ConnectionState.Connected || !hasGuest) ? (
+      {showStatus !== false && (connectionState !== ConnectionState.Connected || !hasGuest) ? (
         <div className='absolute inset-0 flex items-center justify-center bg-zinc-950 text-center text-white'>
           <div>
             <div className={`mx-auto mb-3 h-3 w-3 rounded-full ${connectionState === ConnectionState.Connected ? 'bg-amber-400' : 'animate-pulse bg-sky-400'}`} />
