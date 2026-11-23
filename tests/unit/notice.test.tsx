@@ -53,11 +53,13 @@ describe('Notice', () => {
       </>
     );
     const pill = document.querySelector<HTMLElement>('span[data-tone=bad]')!;
-    const colours = ['border-terracotta/40', 'bg-terracotta/10', 'dark:text-terracotta'];
-    for (const name of colours) {
+    for (const name of ['border-terracotta/40', 'bg-terracotta/10']) {
       expect(notice().className).toContain(name);
       expect(pill.className).toContain(name);
     }
+    // The pill keeps its dark text; the notice lightens it for a sentence.
+    expect(pill.className).toContain('dark:text-terracotta');
+    expect(notice().className).not.toContain('dark:text-terracotta');
     expect(pill.className).toContain('h-[22px]');
     expect(pill.className).toContain('rounded-full');
   });
