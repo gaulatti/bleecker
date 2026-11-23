@@ -52,3 +52,32 @@ describe('RelojClone', () => {
     expect(hand(container, 'hour-hand')).toBe(`rotate(${(7 / 12) * 360 + (5 / 60) * 30 + 90}deg)`);
   });
 });
+
+// A part the formatter leaves out reads as the local clock's part.
+function partsOf(parts: Array<[string, string]>) {
+  vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(function () {
+    return { formatToParts: () => parts.map(([type, value]) => ({ type, value })) };
+  } as never);
+}
+
+it('reads a missing hour from the local clock', async () => {
+  vi.useFakeTimers({ now: new Date(2026, 10, 23, 7, 5, 0) });
+  partsOf([['minute', '5'], ['second', '0']]);
+  const { container } = await render(<RelojClone timezone='UTC' />);
+  expect(hand(container, 'hour-hand')).toBe(`rotate(${(7 / 12) * 360 + (5 / 60) * 30 + 90}deg)`);
+});
+
+it('reads a missing minute from the local clock', async () => {
+  vi.useFakeTimers({ now: new Date(2026, 10, 23, 7, 5, 0) });
+  partsOf([['hour', '7'], ['second', '0']]);
+  const { container } = await render(<RelojClone timezone='UTC' />);
+  expect(hand(container, 'minute-hand')).toBe(`rotate(${(5 / 60) * 360 + 90}deg)`);
+});
+
+it('reads a missing second from the local clock', async () => {
+  vi.useFakeTimers({ now: new Date(2026, 10, 23, 7, 5, 30) });
+  partsOf([['hour', '7'], ['minute', '5']]);
+  const { container } = await render(<RelojClone timezone='UTC' />);
+  expect(hand(container, 'second-hand')).toBe(`rotate(${(30 / 60) * 360 + 90}deg)`);
+});
+

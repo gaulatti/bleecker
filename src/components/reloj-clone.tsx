@@ -36,11 +36,11 @@ export function RelojClone({
           parts.map((part) => [part.type, part.value]),
         );
 
-        // The hour, minute and second parts are always present for these options.
+        // A part the formatter leaves out reads as the local clock's part.
         return {
-          hours: Number(values.hour),
-          minutes: Number(values.minute),
-          seconds: Number(values.second),
+          hours: Number(values.hour ?? date.getHours()),
+          minutes: Number(values.minute ?? date.getMinutes()),
+          seconds: Number(values.second ?? date.getSeconds()),
         };
       } catch {
         return {

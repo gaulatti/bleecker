@@ -32,10 +32,10 @@ function getHandAngles(now: Date, timezone: string): HandAngles {
       timeZone: timezone
     });
     const p = Object.fromEntries(fmt.formatToParts(now).map((x) => [x.type, x.value]));
-    // The hour, minute and second parts are always present for these options.
-    const h = Number(p.hour) % 12;
-    const m = Number(p.minute);
-    const s = Number(p.second);
+    // A part the formatter leaves out reads as zero, so the hands stay at twelve.
+    const h = Number(p.hour ?? 0) % 12;
+    const m = Number(p.minute ?? 0);
+    const s = Number(p.second ?? 0);
     return {
       seconds: s * 6,
       minutes: m * 6 + s * 0.1,
