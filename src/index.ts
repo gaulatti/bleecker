@@ -47,6 +47,7 @@ export * from './components/accordion';
 export * from './components/alert';
 export * from './components/alert-dialog';
 export * from './components/avatar';
+export * from './components/cover-tile';
 export * from './components/breadcrumb';
 export * from './components/context-menu';
 export * from './components/date-picker';
