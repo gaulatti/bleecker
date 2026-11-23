@@ -104,6 +104,7 @@ export * from './components/segmented-filter';
 export * from './components/transport';
 export * from './components/status-badge';
 export * from './components/state-pill';
+export * from './components/notice';
 export * from './components/table';
 export { DataTable as TanStackDataTable } from './components/data-table';
 export * from './components/tabs';

@@ -115,6 +115,20 @@ export default defineConfig({
         extends: true,
         plugins: [tailwindcss()],
         test: {
+          name: 'notice-contrast',
+          include: ['tests/notice.browser.test.tsx'],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({}),
+            instances: [{ browser: 'chromium' }]
+          }
+        }
+      },
+      {
+        extends: true,
+        plugins: [tailwindcss()],
+        test: {
           name: 'segmented-outline',
           include: ['tests/segmented-outline.browser.test.tsx'],
           browser: {
