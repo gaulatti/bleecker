@@ -29,14 +29,15 @@ export interface CoverTileProps {
 const sizePx: Record<Exclude<CoverTileSize, 'fill'>, number> = { sm: 40, md: 64, lg: 120 };
 
 /**
- * A small fixed palette of token colours (CSS variables, so both themes follow). The seed picks
- * one pair, so the same seed always gets the same pair, on every render and machine.
+ * The generated art's palette: fixed colours, the same in both themes, so the fallback's contrast is
+ * fixed too. Every stop keeps white initials at least 4.5:1 (checked by the unit tests). The seed
+ * picks one pair, so the same seed always gets the same pair, on every render and machine.
  */
-const palette = [
-  ['var(--color-sea, #2c5784)', 'var(--color-sand, #e6d5b8)'],
-  ['var(--color-terracotta, #a65d57)', 'var(--color-light-sand, #f9f6f2)'],
-  ['var(--color-desert, #c1814d)', 'var(--color-deep-sea, #1a374d)'],
-  ['var(--color-accent-gold, #c6a760)', 'var(--color-dusk, #694f5d)'],
+export const coverPalette = [
+  ['#2c5784', '#1a374d'],
+  ['#694f5d', '#4a3642'],
+  ['#76323f', '#8a5735'],
+  ['#1a374d', '#2c5784'],
 ] as const;
 
 /** A stable, non-cryptographic hash: 32-bit FNV-1a over the seed's UTF-16 code units. */
@@ -52,7 +53,7 @@ export function stableHash(seed: string): number {
 /** The fallback's pair of colours and its initials for a seed. Pure: the same seed, the same result. */
 export function coverFallback(seed: string): { from: string; to: string; initials: string } {
   const hash = stableHash(seed);
-  const [from, to] = palette[hash % palette.length];
+  const [from, to] = coverPalette[hash % coverPalette.length];
   const initials = seed
     .trim()
     .split(/\s+/)
@@ -63,8 +64,10 @@ export function coverFallback(seed: string): { from: string; to: string; initial
 }
 
 export function CoverTile({ badge, className, kind, label, posterSrc, ratio = '1:1', seed, size = 'md', src }: CoverTileProps) {
-  const [broken, setBroken] = React.useState(false);
-  const url = !broken ? (src ?? posterSrc) : undefined;
+  // The failed address is remembered, not a flag: a new src or poster gets its own chance to load.
+  const [brokenUrl, setBrokenUrl] = React.useState<string | null>(null);
+  const address = src ?? posterSrc;
+  const url = address && address !== brokenUrl ? address : undefined;
   const { from, to, initials } = coverFallback(seed);
   const box = size === 'fill' ? { width: '100%' } : { width: sizePx[size], height: ratio === '1:1' ? sizePx[size] : Math.round((sizePx[size] * 9) / 16) };
   const aspect = ratio === '16:9' ? '16 / 9' : '1 / 1';
@@ -82,7 +85,7 @@ export function CoverTile({ badge, className, kind, label, posterSrc, ratio = '1
           loading='lazy'
           decoding='async'
           className='h-full w-full object-cover'
-          onError={() => setBroken(true)}
+          onError={() => setBrokenUrl(address ?? null)}
         />
       ) : (
         <div
@@ -91,13 +94,13 @@ export function CoverTile({ badge, className, kind, label, posterSrc, ratio = '1
           className='flex h-full w-full items-center justify-center font-semibold text-white'
           style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}
         >
-          <span aria-hidden='true' className={cn('tabular-nums', size === 'sm' ? 'text-xs' : 'text-lg')}>
+          <span aria-hidden='true' className={cn('tabular-nums', size === 'sm' ? 'text-xs' : 'text-lg')} data-initials>
             {initials}
           </span>
         </div>
       )}
       {kind ? (
-        <span className='absolute left-1.5 top-1.5 rounded-full bg-black/60 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-white'>
+        <span className='absolute left-1.5 top-1.5 rounded-full bg-black/60 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-white'>
           {kind}
         </span>
       ) : null}
