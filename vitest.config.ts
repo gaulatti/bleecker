@@ -138,6 +138,20 @@ export default defineConfig({
             instances: [{ browser: 'chromium' }]
           }
         }
+      },
+      {
+        extends: true,
+        plugins: [tailwindcss()],
+        test: {
+          name: 'tabs-count-contrast',
+          include: ['tests/tabs-count.browser.test.tsx'],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({}),
+            instances: [{ browser: 'chromium' }]
+          }
+        }
       }
     ]
   }
