@@ -41,9 +41,9 @@ Additive, for the actions of a list row:
 | Export | What it is | Contract |
 |---|---|---|
 | `IconButton` `tone` | `neutral` (default, today's look) or `danger` (destructive colour on hover and focus, danger focus ring, `data-tone="danger"`) | `tone?: 'neutral' \| 'danger'` |
-| `RowActions` | one visible primary action plus an overflow menu | `label` (names the row in every accessible label), `primary?: { icon?, label, onSelect }`, `items: { label, icon?, onSelect, destructive?, confirm? }[]`, `confirmStyle?: 'dialog' \| 'inline'` (default dialog), `moreLabel?` |
+| `RowActions` | one visible primary action plus an overflow menu | `label` (names the row in every accessible label), `primary?: { icon?, label, onSelect }`, `items: { label, icon?, onSelect }[]` plus destructive items `{ label, icon?, onSelect, destructive: true, confirm: string }` (`confirm` is required on them), `confirmStyle?: 'dialog' \| 'inline'` (default dialog), `moreLabel?` |
 
 - The primary is the safe action; the screen chooses which. With an icon it is an `IconButton` with a tooltip, without one a small button. Both are labelled `"<primary> <row label>"`.
 - Destructive items sit at the bottom of the menu, apart from the others by a separator, in the danger tone.
-- A destructive item with `confirm` asks first: `dialog` opens an `AlertDialog` titled with the `confirm` text; `inline` swaps the row's controls for that question with a destructive confirm button (focused) and Cancel, and Escape cancels. Choosing the item never runs it.
+- A destructive item always asks first (the type requires `confirm`): `dialog` opens an `AlertDialog` titled with the `confirm` text; `inline` swaps the row's controls for that question with a destructive confirm button (focused) and Cancel, and Escape cancels. Choosing the item never runs it.
 - Keyboard: Tab reaches the primary, then the menu button; Enter or Space opens the menu on its first item; arrows move; Escape closes and returns focus to the menu button.

@@ -17,15 +17,28 @@ export interface RowActionsPrimary {
   onSelect: () => void;
 }
 
-export interface RowActionsItem {
-  /** The text of a destructive action's confirmation: its title in a dialog, its question inline. */
-  confirm?: string;
-  /** Destructive items sit at the bottom of the menu, apart from the others, in the danger tone. */
-  destructive?: boolean;
+interface RowActionsItemBase {
   icon?: React.ReactNode;
   label: string;
   onSelect: () => void;
 }
+
+/** A safe item runs when chosen. */
+export interface RowActionsSafeItem extends RowActionsItemBase {
+  confirm?: never;
+  destructive?: false;
+}
+
+/**
+ * A destructive item always asks first: it sits at the bottom of the menu in the danger tone, and
+ * `confirm` (its dialog title or inline question) is required, so it never fires on a single click.
+ */
+export interface RowActionsDestructiveItem extends RowActionsItemBase {
+  confirm: string;
+  destructive: true;
+}
+
+export type RowActionsItem = RowActionsSafeItem | RowActionsDestructiveItem;
 
 export interface RowActionsProps {
   className?: string;
@@ -51,7 +64,7 @@ export function RowActions({ className, confirmStyle = 'dialog', items, label, m
   const destructive = items.filter((item) => item.destructive);
 
   const choose = (item: RowActionsItem) => {
-    if (item.destructive && item.confirm) setPending(item);
+    if (item.destructive) setPending(item);
     else item.onSelect();
   };
   const cancel = () => setPending(null);
@@ -108,15 +121,15 @@ export function RowActions({ className, confirmStyle = 'dialog', items, label, m
             </IconButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end'>
-            {safe.map((item) => (
-              <DropdownMenuItem key={item.label} onSelect={() => choose(item)}>
+            {safe.map((item, index) => (
+              <DropdownMenuItem key={`${index}:${item.label}`} onSelect={() => choose(item)}>
                 {item.icon ? <span className='mr-2 inline-flex' aria-hidden='true'>{item.icon}</span> : null}
                 {item.label}
               </DropdownMenuItem>
             ))}
             {safe.length > 0 && destructive.length > 0 ? <DropdownMenuSeparator /> : null}
-            {destructive.map((item) => (
-              <DropdownMenuItem key={item.label} className={dangerItem} data-tone='danger' onSelect={() => choose(item)}>
+            {destructive.map((item, index) => (
+              <DropdownMenuItem key={`${index}:${item.label}`} className={dangerItem} data-tone='danger' onSelect={() => choose(item)}>
                 {item.icon ? <span className='mr-2 inline-flex' aria-hidden='true'>{item.icon}</span> : null}
                 {item.label}
               </DropdownMenuItem>

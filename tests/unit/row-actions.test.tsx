@@ -141,15 +141,25 @@ describe('RowActions', () => {
     expect(document.querySelector('[role=group]')).toBeNull();
   });
 
-  test('a destructive item without a confirm runs at once; no items shows no menu; no primary shows only the menu', async () => {
+  test('a destructive item never runs on one click, whatever the confirm style', async () => {
     const onDelete = vi.fn();
-    const view = await render(
-      <RowActions label='Row' items={[{ label: 'Remove', destructive: true, onSelect: onDelete }]} />
-    );
-    expect(byLabel('Play Row')).toBeNull();
+    await render(<RowActions label='Row' items={[{ label: 'Remove', destructive: true, confirm: 'Remove the row?', onSelect: onDelete }]} />);
     await userEvent.click(byLabel('More actions for Row')!);
     await userEvent.click(Array.from(document.querySelectorAll<HTMLElement>('[role=menuitem]')).find((node) => node.textContent === 'Remove')!);
-    expect(onDelete).toHaveBeenCalledTimes(1);
+    await eventually(() => expect(document.querySelector('[role=alertdialog]')).not.toBeNull());
+    expect(onDelete).not.toHaveBeenCalled();
+  });
+
+  test('a destructive item without a confirm does not type-check', () => {
+    // @ts-expect-error confirm is required on a destructive item
+    const bad: React.ComponentProps<typeof RowActions>['items'] = [{ label: 'Remove', destructive: true, onSelect: () => undefined }];
+    expect(bad).toHaveLength(1);
+  });
+
+  test('no primary shows only the menu; no items shows no menu', async () => {
+    const view = await render(<RowActions label='Row' items={[{ label: 'Edit', onSelect: () => undefined }]} />);
+    expect(byLabel('Play Row')).toBeNull();
+    expect(byLabel('More actions for Row')).not.toBeNull();
     await view.rerender(<RowActions label='Row' primary={{ label: 'Open', onSelect: () => undefined }} items={[]} />);
     expect(byLabel('Open Row')).not.toBeNull();
     expect(byLabel('More actions for Row')).toBeNull();
