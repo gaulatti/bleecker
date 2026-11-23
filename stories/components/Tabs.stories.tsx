@@ -3,7 +3,8 @@ import React from 'react';
 import { expect, userEvent, within } from 'storybook/test';
 
 import { Card } from '../../src/components/card';
-import { Tabs, type TabsProps } from '../../src/components/tabs';
+import { Tabs, type TabItem, type TabsProps } from '../../src/components/tabs';
+import { InTheme } from './theme-story';
 
 type TabsStoryArgs = Omit<TabsProps, 'activeTab' | 'onChange'> & {
   initialActiveTab: string;
@@ -106,5 +107,41 @@ export const ThreeTabs: Story = {
     overview.focus();
     await userEvent.keyboard('{ArrowRight}');
     await expect(canvas.getByRole('tab', { name: 'Activity' })).toHaveAttribute('aria-selected', 'true');
+  }
+};
+
+const COUNTED: TabItem[] = [
+  { id: 'songs', label: 'Songs', count: 42 },
+  { id: 'empty', label: 'Playlists', count: 0 },
+  { id: 'loading', label: 'Instants', countLoading: true },
+  { id: 'large', label: 'Library', count: 1234 },
+  { id: 'huge', label: 'Archive', count: 1_250_000 },
+  { id: 'none', label: 'Settings', count: null }
+];
+
+const Counted = () => {
+  const [activeTab, setActiveTab] = React.useState('songs');
+  return (
+    <div className='max-w-4xl space-y-6'>
+      {(['underline', 'segmented', 'enclosed'] as const).map((variant) => (
+        <Tabs key={variant} variant={variant} aria-label={`${variant} with counts`} tabs={COUNTED} activeTab={activeTab} onChange={setActiveTab} />
+      ))}
+    </div>
+  );
+};
+
+/** A count after the label: zero shows 0, `null` hides it, a skeleton holds the place while it loads, large numbers abbreviate. */
+export const WithCounts: Story = { render: () => <Counted /> };
+export const WithCountsLight: Story = { parameters: { themeProvider: 'story' }, render: () => <InTheme theme='light'><Counted /></InTheme> };
+export const WithCountsDark: Story = { parameters: { themeProvider: 'story' }, render: () => <InTheme theme='dark'><Counted /></InTheme> };
+
+export const CountsAreInTheAccessibleName: Story = {
+  render: () => <Counted />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const [first] = canvas.getAllByRole('tab', { name: 'Songs, 42 items' });
+    await expect(first).toBeVisible();
+    await expect(canvas.getAllByRole('tab', { name: 'Library, 1,234 items' })[0]).toBeVisible();
+    await expect(canvas.getAllByRole('tab', { name: 'Instants, loading count' })[0]).toBeVisible();
   }
 };
