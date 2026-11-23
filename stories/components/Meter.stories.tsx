@@ -25,4 +25,14 @@ const Meters = () => (
 
 export const Default: Story = {};
 export const Light: Story = { parameters: { themeProvider: 'story' }, render: () => <InTheme theme='light'><Meters /></InTheme> };
+/** Vertical, filling from the bottom: the meter beside a vertical fader. */
+export const Vertical: Story = {
+  render: () => (
+    <div className='flex h-48 gap-3'>
+      <Meter label='Live level' orientation='vertical' value={0.4} min={0} max={1} peak={0.55} hold={0.8} warnFrom={0.9} />
+      <Meter label='True peak' unit='dBTP' orientation='vertical' value={0.6} min={-12} max={3} warnFrom={0} hold={0.6} />
+      <Meter label='No level' orientation='vertical' value={null} min={0} max={1} />
+    </div>
+  )
+};
 export const Dark: Story = { parameters: { themeProvider: 'story' }, render: () => <InTheme theme='dark'><Meters /></InTheme> };
