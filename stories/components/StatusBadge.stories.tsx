@@ -12,6 +12,7 @@ const meta = {
   argTypes: {
     label: { control: 'text' },
     description: { control: 'text' },
+    size: { control: 'inline-radio', options: ['md', 'sm'] },
     variant: {
       control: 'select',
       options: ['live', 'offline', 'warning', 'info', 'default']
@@ -61,5 +62,13 @@ export const Default: Story = {
   args: {
     label: 'UNKNOWN',
     variant: 'default'
+  }
+};
+
+export const Small: Story = {
+  args: {
+    label: 'LIVE',
+    variant: 'live',
+    size: 'sm'
   }
 };

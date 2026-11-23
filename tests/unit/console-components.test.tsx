@@ -7,6 +7,7 @@ import { Meter } from '../../src/components/meter';
 import { OnAirStrip } from '../../src/components/on-air-strip';
 import { SegmentedFilter } from '../../src/components/segmented-filter';
 import { StatePill } from '../../src/components/state-pill';
+import { StatusBadge } from '../../src/components/status-badge';
 import { Transport } from '../../src/components/transport';
 import { click, keydown, render } from './helpers';
 
@@ -240,6 +241,28 @@ describe('StatePill, KeyCap and Meter', () => {
     document.body.innerHTML = '';
     await render(<StatePill tone='bad' label='Failed' />);
     expect(q('[data-tone="bad"] i').className).not.toContain('animate-pulse');
+  });
+
+  // gaulatti/bleecker#588: the console shows no text under 12 px, so the default size is 12 px.
+  test('StatePill and StatusBadge are 12 px by default, and 11 px only when asked', async () => {
+    await render(<><StatePill tone='ok' label='Ready' /><StatePill tone='ok' label='Dense' size='sm' /></>);
+    const [medium, small] = [...document.querySelectorAll('[data-tone="ok"]')];
+    expect(medium.getAttribute('data-size')).toBe('md');
+    expect(medium.className).toContain('text-xs');
+    expect(medium.className).toContain('h-6');
+    expect(medium.className).not.toContain('text-[11px]');
+    expect(small.getAttribute('data-size')).toBe('sm');
+    expect(small.className).toContain('text-[11px]');
+    expect(small.className).toContain('h-[22px]');
+    document.body.innerHTML = '';
+    await render(<><StatusBadge label='LIVE' variant='live' /><StatusBadge label='Dense' size='sm' description='note' className='wrap' /></>);
+    const [badge, dense] = [...document.querySelectorAll('[data-size]')];
+    expect(badge.getAttribute('data-size')).toBe('md');
+    expect(badge.className).toContain('text-xs');
+    expect(badge.className).not.toContain('text-[11px]');
+    expect(dense.className).toContain('text-[11px]');
+    expect(dense.parentElement!.className).toContain('wrap');
+    expect(dense.parentElement!.textContent).toBe('Densenote');
   });
 
   test('KeyCap renders one cap, or a chord with its name', async () => {
