@@ -145,3 +145,8 @@ export * from './components/stream-wall';
 export * from './components/slideshow';
 export * from './components/video-stream';
 export * from './components/reloj-digital-loop-clock';
+export * from './components/broadcast-header';
+export * from './components/scoreboard';
+export * from './components/earone';
+export * from './components/broadcast-layout';
+export * from './components/scene-transition-overlay';
