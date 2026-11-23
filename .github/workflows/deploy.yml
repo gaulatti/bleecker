@@ -52,9 +52,18 @@ jobs:
 
       - name: Upload to S3
         run: |
-          # --delete removes files that are no longer in the build after the new ones are
-          # uploaded, so the site never serves a 404 window (it used to be emptied first).
-          aws s3 sync storybook-static/ s3://${{ vars.BLEECKER_BUCKET_NAME }} --delete
+          # The distribution sets no Cache-Control of its own on the entry files (the account is at
+          # CloudFront's response-headers-policy limit), so the header uploaded with each object is
+          # what browsers see. Fingerprinted files under assets/ are immutable; everything else
+          # revalidates (gaulatti/bleecker#555).
+          # Pass 1 uploads assets/ first, without --delete, so an older index that is still cached
+          # never points at a removed file.
+          aws s3 sync storybook-static/assets/ s3://${{ vars.BLEECKER_BUCKET_NAME }}/assets/ \
+            --cache-control "public, max-age=31536000, immutable"
+          # Pass 2 uploads the rest and --delete removes files no longer in the build after the new
+          # ones are uploaded, so the site never serves a 404 window. assets/ is excluded from it.
+          aws s3 sync storybook-static/ s3://${{ vars.BLEECKER_BUCKET_NAME }} \
+            --exclude "assets/*" --cache-control "no-cache" --delete
 
       - name: Invalidate CloudFront cache
         run: |
