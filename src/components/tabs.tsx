@@ -148,6 +148,7 @@ export function Tabs({ activeTab, 'aria-label': ariaLabel = 'Tabs', className, o
             role='tab'
             aria-selected={isActive}
             aria-controls={tab.panelId}
+            aria-label={typeof tab.count === 'number' && Number.isFinite(tab.count) ? `${tab.label}, ${tab.count.toLocaleString('en-US')} ${tab.count === 1 ? 'item' : 'items'}` : undefined}
             tabIndex={isActive ? 0 : -1}
             onClick={() => onChange?.(tab.id)}
             onKeyDown={(event) => handleKeyDown(event, index)}
