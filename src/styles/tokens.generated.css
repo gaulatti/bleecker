@@ -49,6 +49,21 @@
   --shadow-surface: 0 1px 2px rgb(26 55 77 / 0.025), 0 10px 30px -18px rgb(26 55 77 / 0.18);
   --shadow-raised: 0 2px 5px rgb(26 55 77 / 0.045), 0 18px 42px -22px rgb(26 55 77 / 0.24);
   --shadow-overlay: 0 24px 64px -20px rgb(26 55 77 / 0.28), 0 4px 14px rgb(26 55 77 / 0.06);
+  --control-height-dense: 28px;
+  --control-height-compact: 32px;
+  --control-height-small: 36px;
+  --control-height-default: 40px;
+  --control-height-large: 48px;
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --text-caps: 11px;
+  --text-caption: 12px;
+  --text-dense: 13px;
+  --text-body: 14px;
+  --text-section: 20px;
+  --text-readout: 24px;
+  --tracking-caps: 0.1em;
+  --font-readout: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --color-sand: var(--app-sand);
   --color-desert: var(--app-desert);
   --color-terracotta: var(--app-terracotta);
@@ -87,6 +102,13 @@
   --color-destructive-foreground: var(--app-destructive-foreground);
   --color-accent: var(--app-accent);
   --color-accent-foreground: var(--app-accent-foreground);
+  --color-status-ok: var(--app-status-ok);
+  --color-status-warn: var(--app-status-warn);
+  --color-status-bad: var(--app-status-bad);
+  --color-status-idle: var(--app-status-idle);
+  --color-rail: var(--app-rail);
+  --color-rail-strong: var(--app-rail-strong);
+  --color-cue: var(--app-cue);
 }
 
 @layer base {
@@ -129,6 +151,13 @@
     --app-destructive-foreground: #ffffff;
     --app-accent: #f9f6f2;
     --app-accent-foreground: #2d2d2d;
+    --app-status-ok: #2f7d5b;
+    --app-status-warn: #a8741a;
+    --app-status-bad: #a65d57;
+    --app-status-idle: #767676;
+    --app-rail: #e9e1d3;
+    --app-rail-strong: #d4c4a9;
+    --app-cue: #8a5735;
   }
 
   html.dark {
@@ -170,5 +199,12 @@
     --app-destructive-foreground: #0d1821;
     --app-accent: #1a2332;
     --app-accent-foreground: #f0f4f8;
+    --app-status-ok: #5cc49a;
+    --app-status-warn: #e0ac69;
+    --app-status-bad: #d47b75;
+    --app-status-idle: #8a9bb0;
+    --app-rail: #22324a;
+    --app-rail-strong: #2f4562;
+    --app-cue: #e0ac69;
   }
 }
