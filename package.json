@@ -13,8 +13,7 @@
   "files": [
     "dist",
     "dist/styles.css",
-    "src/styles/global.css",
-    "src/styles/tokens.generated.css"
+    "src/styles/*.css"
   ],
   "type": "module",
   "sideEffects": [
