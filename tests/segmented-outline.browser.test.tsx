@@ -55,7 +55,9 @@ function box(element: HTMLElement) {
   const rect = element.getBoundingClientRect();
   return {
     borders: [style.borderTopWidth, style.borderRightWidth, style.borderBottomWidth, style.borderLeftWidth].join(' '),
-    divider: style.borderLeftColor,
+    // Only where a divider is drawn: a zero-width border's colour is invisible (the first segment's
+    // still follows its pressed state).
+    divider: style.borderLeftWidth === '0px' ? 'none' : style.borderLeftColor,
     rect: [rect.left, rect.top, rect.width, rect.height].map((value) => Math.round(value * 10) / 10).join(' ')
   };
 }
@@ -81,6 +83,19 @@ describe.each(['light', 'dark'] as const)('outline segmented control, %s', (them
     }
     expect(Number.parseFloat(getComputedStyle(group()).borderTopRightRadius)).toBeGreaterThan(0);
     expect(getComputedStyle(group()).overflow).toBe('hidden');
+  });
+
+  test('a pressed segment after the first keeps its divider in the outline colour', async () => {
+    await mount(theme);
+    const outline = getComputedStyle(group()).borderTopColor;
+    const rest = [group(), ...segments()].map(box);
+    for (const index of [1, 2]) {
+      await userEvent.click(segments()[index]);
+      await expect.poll(() => segments()[index].getAttribute('aria-pressed')).toBe('true');
+      await userEvent.unhover(segments()[index]);
+      expect(getComputedStyle(segments()[index]).borderLeftColor).toBe(outline);
+      expect([group(), ...segments()].map(box), `with segment ${index} pressed`).toEqual(rest);
+    }
   });
 
   test('hovering any segment changes no border and moves nothing', async () => {
