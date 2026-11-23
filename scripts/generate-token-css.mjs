@@ -45,7 +45,14 @@ const appTokenNames = {
   destructive: 'destructive',
   destructiveForeground: 'destructive-foreground',
   accent: 'accent',
-  accentForeground: 'accent-foreground'
+  accentForeground: 'accent-foreground',
+  statusOk: 'status-ok',
+  statusWarn: 'status-warn',
+  statusBad: 'status-bad',
+  statusIdle: 'status-idle',
+  rail: 'rail',
+  railStrong: 'rail-strong',
+  cue: 'cue'
 };
 
 const colorAliases = {
@@ -86,7 +93,14 @@ const colorAliases = {
   destructive: 'destructive',
   'destructive-foreground': 'destructive-foreground',
   accent: 'accent',
-  'accent-foreground': 'accent-foreground'
+  'accent-foreground': 'accent-foreground',
+  'status-ok': 'status-ok',
+  'status-warn': 'status-warn',
+  'status-bad': 'status-bad',
+  'status-idle': 'status-idle',
+  rail: 'rail',
+  'rail-strong': 'rail-strong',
+  cue: 'cue'
 };
 
 async function loadTokens() {
@@ -166,6 +180,21 @@ async function generate() {
   --shadow-surface: ${tokens.shadows.surface};
   --shadow-raised: ${tokens.shadows.raised};
   --shadow-overlay: ${tokens.shadows.overlay};
+  --control-height-dense: ${px(tokens.controlHeights.dense)};
+  --control-height-compact: ${px(tokens.controlHeights.compact)};
+  --control-height-small: ${px(tokens.controlHeights.small)};
+  --control-height-default: ${px(tokens.controlHeights.default)};
+  --control-height-large: ${px(tokens.controlHeights.large)};
+  --focus-ring-width: ${px(tokens.focusRing.width)};
+  --focus-ring-offset: ${px(tokens.focusRing.offset)};
+  --text-caps: ${px(tokens.fontSizes.caps)};
+  --text-caption: ${px(tokens.fontSizes.caption)};
+  --text-dense: ${px(tokens.fontSizes.dense)};
+  --text-body: ${px(tokens.fontSizes.body)};
+  --text-section: ${px(tokens.fontSizes.section)};
+  --text-readout: ${px(tokens.fontSizes.readout)};
+  --tracking-caps: ${tokens.capsTracking}em;
+  --font-readout: ${tokens.monoFamily}, 'SF Mono', Menlo, Consolas, monospace;
 ${aliases}
 }
 
