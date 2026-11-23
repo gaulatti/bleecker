@@ -55,16 +55,30 @@ function box(element: HTMLElement) {
   const rect = element.getBoundingClientRect();
   return {
     borders: [style.borderTopWidth, style.borderRightWidth, style.borderBottomWidth, style.borderLeftWidth].join(' '),
+    divider: style.borderLeftColor,
     rect: [rect.left, rect.top, rect.width, rect.height].map((value) => Math.round(value * 10) / 10).join(' ')
   };
 }
 
 describe.each(['light', 'dark'] as const)('outline segmented control, %s', (theme) => {
-  test('a segment draws no border of its own; the group draws one outline', async () => {
+  test('the group draws one outline and one divider between segments, in the group colour', async () => {
     await mount(theme);
     expect(segments()).toHaveLength(3);
-    for (const segment of segments()) expect(box(segment).borders).toBe('0px 0px 0px 0px');
+    // The first segment has no border; every other one has exactly the 1 px divider on its left.
+    expect(segments().map((segment) => box(segment).borders)).toEqual([
+      '0px 0px 0px 0px',
+      '0px 0px 0px 1px',
+      '0px 0px 0px 1px'
+    ]);
     expect(box(group()).borders).toBe('1px 1px 1px 1px');
+    // A divider is drawn (solid, not transparent) in the outline's colour, including beside the
+    // pressed segment.
+    const outline = getComputedStyle(group()).borderTopColor;
+    for (const segment of segments().slice(1)) {
+      const style = getComputedStyle(segment);
+      expect(style.borderLeftStyle).toBe('solid');
+      expect(style.borderLeftColor).toBe(outline);
+    }
     expect(Number.parseFloat(getComputedStyle(group()).borderTopRightRadius)).toBeGreaterThan(0);
     expect(getComputedStyle(group()).overflow).toBe('hidden');
   });
