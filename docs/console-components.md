@@ -55,3 +55,11 @@ Additive, for the actions of a list row:
 - Destructive items sit at the bottom of the menu, apart from the others by a separator, in the danger tone.
 - A destructive item always asks first (the type requires `confirm`): `dialog` opens an `AlertDialog` titled with the `confirm` text; `inline` swaps the row's controls for that question with a destructive confirm button (focused) and Cancel, and Escape cancels. Choosing the item never runs it.
 - Keyboard: Tab reaches the primary, then the menu button; Enter or Space opens the menu on its first item; arrows move; Escape closes and returns focus to the menu button.
+
+## Notice (bleecker#571)
+
+`Notice` is a persistent inline message for a card or a section; `Alert` stays the transient toast. Additive.
+
+- Props: `tone: 'info' | 'warn' | 'bad' | 'ok'`, `title?`, `children?`, `action?` (for example a Retry button), `icon?`, `label?` (the tone word, default Info, Warning, Error or Done), `onDismiss?` with `dismissLabel?` (default "Dismiss"), `className?`.
+- `bad` announces as `role="alert"`, the others as `role="status"`. The tone is carried by the icon and the tone word as well as colour.
+- Colours come from the same tone map as `StatePill` (`utils/status-tones`); `StatePill`'s output is unchanged. In the dark theme the `bad` text is lightened a little, because the pill's own colour measures 4.4:1 on a tinted card and a notice carries a sentence (`tests/notice.browser.test.tsx` measures every tone on the background, card and muted surfaces in both themes, at 4.5:1).
