@@ -6,7 +6,7 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-const timeText = (container: HTMLElement) => container.querySelector('.font-semibold')!.textContent;
+const timeText = (container: HTMLElement) => container.querySelector('.clock-time')!.textContent;
 
 it('shows the time the host formats, every second', async () => {
   const formatTime = vi.fn(() => '21:45');
@@ -27,6 +27,11 @@ it('falls back to local HH:MM and reports an invalid timezone', async () => {
   const now = new Date();
   expect(timeText(container)).toBe(`${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`);
   expect(errors).toHaveBeenCalledWith('Invalid timezone:', 'Not/AZone');
+});
+
+it('draws the background artwork the host supplies', async () => {
+  const { container } = await render(<ClockWidget backgroundUrl='/reloj.png' showIcon={false} />);
+  expect((container.querySelector('.clock-widget') as HTMLElement).style.backgroundImage).toContain('/reloj.png');
 });
 
 it('shows the given icon image by default', async () => {

@@ -7,6 +7,8 @@ export interface ClockWidgetProps {
   timezone?: string;
   /** BCP 47 locale for the default formatter. */
   locale?: string;
+  /** Background artwork behind the clock. The host supplies the asset; none is drawn when omitted. */
+  backgroundUrl?: string;
   /**
    * Produces the displayed time for a moment. The host supplies this when the time comes from
    * somewhere other than the clock (for example a broadcast time override). Defaults to HH:MM.
@@ -32,6 +34,7 @@ export const ClockWidget: React.FC<ClockWidgetProps> = ({
   timezone,
   locale = 'en-US',
   formatTime,
+  backgroundUrl,
 }) => {
   const [time, setTime] = useState('');
 
@@ -46,9 +49,9 @@ export const ClockWidget: React.FC<ClockWidgetProps> = ({
   }, [formatTime, locale, timezone]);
 
   return (
-    <div className='flex items-center gap-4'>
-      <div className='font-semibold text-4xl leading-none tabular-nums'>{time}</div>
-      {showIcon && <div className='flex items-center justify-center'>{iconUrl ? <img src={iconUrl} alt='icon' className='h-12 w-12 object-contain' /> : null}</div>}
+    <div className='clock-widget' style={backgroundUrl ? { backgroundImage: `url('${backgroundUrl}')` } : undefined}>
+      <div className='clock-time'>{time}</div>
+      {showIcon && <div className='clock-icon'>{iconUrl ? <img src={iconUrl} alt='icon' /> : null}</div>}
     </div>
   );
 };
