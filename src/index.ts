@@ -111,6 +111,8 @@ export * from './components/table';
 export { DataTable as TanStackDataTable } from './components/data-table';
 export * from './components/tabs';
 export * from './components/theme-toggle';
+export * from './components/cronica-background';
+export * from './components/cronica-chyron';
 export * from './layout/app-shell';
 export * from './layout/admin-shell';
 export * from './layout/auth-shell';

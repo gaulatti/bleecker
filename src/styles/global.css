@@ -311,3 +311,5 @@
     scroll-behavior: auto !important;
   }
 }
+
+@import "./cronica.css";
