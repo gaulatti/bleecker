@@ -33,7 +33,8 @@ export interface FaderProps {
    * Where a value sits along the travel, for a non-linear fader such as a console taper:
    * `toPosition(value)` gives 0 (bottom or left) to 1, and `fromPosition` is its inverse.
    * The track, cap, unity mark, scale marks and pointer follow it; keys still step in the
-   * value's unit. Defaults to linear between `min` and `max`.
+   * value's unit. Defaults to linear between `min` and `max`, and `min`–`max` must cover the
+   * values the taper maps (its floor and its top).
    */
   taper?: FaderTaper;
   /** The value the fader returns to on double-click or the 0 key; drawn as a mark on the track. */
@@ -115,6 +116,8 @@ export function Fader({
   const dragging = React.useRef(false);
 
   const commit = (next: number) => {
+    // A taper can answer something that is not a number (NaN); a fader never reports one.
+    if (!Number.isFinite(next)) return;
     const settled = clampToStep(next, min, max, fine);
     if (settled !== current) onValueChange(settled);
   };
@@ -244,12 +247,12 @@ export function Fader({
               style={vertical ? { bottom: `${at(unity)}%` } : { left: `${at(unity)}%` }}
             />
           ) : null}
-          {(marks ?? []).map((mark) => {
+          {(marks ?? []).map((mark, index) => {
             const { value: markValue, label: markLabel } = typeof mark === 'number' ? { value: mark, label: undefined } : mark;
             const placed = at(markValue);
             return (
               <span
-                key={markValue}
+                key={`${index}:${markValue}`}
                 data-fader='mark'
                 aria-hidden='true'
                 className={cn(

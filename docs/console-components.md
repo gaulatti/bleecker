@@ -34,8 +34,9 @@ changes: `Kbd` and `StatusBadge` keep their API and look, and the new names sit 
 - **Fader with a taper:** `taper.toPosition(value)` gives where a value sits along the travel (0 to 1)
   and `fromPosition` is its inverse, for a console curve (for example −15 dB at half travel). The track,
   cap, unity mark, `marks` and pointer follow it; keys still step in the value's unit, and the value,
-  readout and announcement stay in that unit. `marks` are labelled scale ticks (their value rounded, or
-  their own `label`, such as `−∞`). `format` replaces the readout and the announcement (for example `−∞ dB`
+  readout and announcement stay in that unit, and `min`–`max` must cover what the taper maps (its floor and
+  top). `marks` are labelled scale ticks: by default the value rounded (−80 shows as `-80`), or a mark's own
+  `label` (`{ value: -80, label: '−∞' }` shows `−∞`). A value the taper cannot map (NaN) is never reported. `format` replaces the readout and the announcement (for example `−∞ dB`
   at the floor). A paired `meter` stays linear on `min`–`max`, so a consumer with a taper keeps its own
   meter. Without these props the Fader is unchanged.
 - **StatePill** carries its state in words; colour never carries it alone. `pulse` honours reduced motion.

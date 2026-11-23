@@ -286,6 +286,32 @@ describe('Fader with a taper and scale marks', () => {
     expect(q('[data-fader="fill"]').style.height).toBe('0%');
   });
 
+  test('a taper that answers NaN for a position never reports it', async () => {
+    const onChange = vi.fn();
+    await render(
+      <Held
+        label='Odd'
+        unit='db'
+        min={-80}
+        max={0}
+        initial={-10}
+        length='200px'
+        taper={{ toPosition: () => 0.5, fromPosition: () => Number.NaN }}
+        onChange={onChange}
+      />,
+    );
+    const box = slider().getBoundingClientRect();
+    await pointerAt(slider(), 'pointerdown', box.left + 1, box.top + 20);
+    await pointerAt(slider(), 'pointermove', box.left + 1, box.top + 40);
+    expect(onChange).not.toHaveBeenCalled();
+    expect(slider().getAttribute('aria-valuenow')).toBe('-10');
+  });
+
+  test('two marks at the same value both render', async () => {
+    await render(<Held label='Music' unit='db' min={-80} max={0} initial={-15} marks={[-15, { value: -15, label: 'ref' }]} />);
+    expect([...document.querySelectorAll('[data-fader="mark"]')].map((mark) => mark.textContent)).toEqual(['-15', 'ref']);
+  });
+
   test('without taper or marks it is the linear fader it was, with no marks drawn', async () => {
     await render(<Held label='Music' unit='db' min={-60} max={0} initial={-30} />);
     expect(q('[data-fader="fill"]').style.height).toBe('50%');
