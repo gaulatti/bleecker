@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
 
-import { Fader, type FaderProps } from '../../src/components/fader';
+import { Fader, formatFaderValue, type FaderProps, type FaderTaper } from '../../src/components/fader';
 import { InTheme } from './theme-story';
 
 /** Keeps the value as a page would, so the story can be played with. */
@@ -41,6 +41,49 @@ export const Percent: Story = { args: { label: 'Cartwall', unit: 'percent', min:
 
 /** With a level meter beside it, on the same scale, including the warning zone and a held peak. */
 export const WithMeter: Story = { args: { meter: { value: -18, peak: -9, hold: -4, warnFrom: -6 } } };
+
+// A console taper: silence at the bottom, −15 dB at half travel, 0 dB at the top.
+const consolePoints: Array<[number, number]> = [[0, -80], [0.03, -70], [0.12, -45], [0.28, -28], [0.5, -15], [0.72, -8], [0.88, -3], [1, 0]];
+const consoleTaper: FaderTaper = {
+  toPosition: (db) => {
+    for (let i = 1; i < consolePoints.length; i += 1) {
+      const [p0, d0] = consolePoints[i - 1];
+      const [p1, d1] = consolePoints[i];
+      if (db <= d1) return p0 + ((Math.max(db, d0) - d0) / (d1 - d0)) * (p1 - p0);
+    }
+    return 1;
+  },
+  fromPosition: (position) => {
+    for (let i = 1; i < consolePoints.length; i += 1) {
+      const [p0, d0] = consolePoints[i - 1];
+      const [p1, d1] = consolePoints[i];
+      if (position <= p1) return d0 + ((position - p0) / (p1 - p0)) * (d1 - d0);
+    }
+    return 0;
+  }
+};
+
+/** A console channel: the travel follows a taper, the scale is labelled in dB, and silence reads −∞. */
+export const ConsoleTaper: Story = {
+  args: {
+    label: 'Music',
+    min: -80,
+    max: 0,
+    unity: 0,
+    value: -15,
+    length: '16rem',
+    taper: consoleTaper,
+    marks: [0, -8, -15, -28, -45, { value: -80, label: '−∞' }],
+    format: (db) => (db <= -80 ? '−∞ dB' : formatFaderValue(db, 'db'))
+  },
+  play: async ({ canvasElement }) => {
+    const fader = within(canvasElement).getByRole('slider', { name: 'Music' });
+    await expect(fader).toHaveAttribute('aria-valuetext', '−15.0 dB');
+    fader.focus();
+    await userEvent.keyboard('{Home}');
+    await expect(fader).toHaveAttribute('aria-valuetext', '−∞ dB');
+  }
+};
 
 /** Disabled while the mixer loads. */
 export const Disabled: Story = { args: { disabled: true } };
