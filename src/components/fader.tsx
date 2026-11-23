@@ -12,19 +12,45 @@ export interface FaderProps {
   disabled?: boolean;
   /** What the fader sets, announced with its value ("Music: −6.0 dB"). */
   label: string;
+  /** How the readout and the announcement show a value. Defaults to `formatFaderValue`. */
+  format?: (value: number) => string;
   /** The track's length along its axis (a CSS length). Defaults to 12rem. */
   length?: string;
+  /** Labelled scale marks along the track, in the value's unit, placed through `taper`. */
+  marks?: ReadonlyArray<number | FaderMark>;
   max: number;
-  /** A level shown beside the fader on the same scale (`min` to `max`). */
+  /**
+   * A level shown beside the fader on a linear `min`–`max` scale. With a `taper` the
+   * fader's travel is not linear, so a consumer with a taper keeps its own meter.
+   */
   meter?: Pick<MeterProps, 'hold' | 'peak' | 'value' | 'warnFrom'>;
   min: number;
   onValueChange: (value: number) => void;
   orientation?: 'horizontal' | 'vertical';
   /** The fine step, for an arrow key. Defaults to 0.5 dB or 1 %. */
   step?: number;
+  /**
+   * Where a value sits along the travel, for a non-linear fader such as a console taper:
+   * `toPosition(value)` gives 0 (bottom or left) to 1, and `fromPosition` is its inverse.
+   * The track, cap, unity mark, scale marks and pointer follow it; keys still step in the
+   * value's unit. Defaults to linear between `min` and `max`, and `min`–`max` must cover the
+   * values the taper maps (its floor and its top).
+   */
+  taper?: FaderTaper;
   /** The value the fader returns to on double-click or the 0 key; drawn as a mark on the track. */
   unity?: number;
   unit: FaderUnit;
+  value: number;
+}
+
+export interface FaderTaper {
+  fromPosition: (position: number) => number;
+  toPosition: (value: number) => number;
+}
+
+export interface FaderMark {
+  /** Shown beside the mark; defaults to the value, rounded. */
+  label?: string;
   value: number;
 }
 
@@ -59,14 +85,17 @@ export function Fader({
   className,
   coarseStep,
   disabled = false,
+  format,
   label,
   length = '12rem',
+  marks,
   max,
   meter,
   min,
   onValueChange,
   orientation = 'vertical',
   step,
+  taper,
   unity,
   unit,
   value
@@ -75,13 +104,20 @@ export function Fader({
   const coarse = coarseStep ?? fine * 10;
   const vertical = orientation === 'vertical';
   const span = max - min;
-  const at = (reading: number) => (span > 0 ? Math.max(0, Math.min(100, ((reading - min) / span) * 100)) : 0);
+  const travel = (reading: number) => (taper ? taper.toPosition(reading) : span > 0 ? (reading - min) / span : 0);
+  // Where a value sits along the track, in percent of its length.
+  const at = (reading: number) => {
+    const position = travel(reading);
+    return Number.isFinite(position) ? Math.max(0, Math.min(100, position * 100)) : 0;
+  };
   const current = Math.min(max, Math.max(min, value));
   const unityInRange = unity !== undefined && unity >= min && unity <= max;
-  const readout = formatFaderValue(current, unit);
+  const readout = format ? format(current) : formatFaderValue(current, unit);
   const dragging = React.useRef(false);
 
   const commit = (next: number) => {
+    // A taper can answer something that is not a number (NaN); a fader never reports one.
+    if (!Number.isFinite(next)) return;
     const settled = clampToStep(next, min, max, fine);
     if (settled !== current) onValueChange(settled);
   };
@@ -91,7 +127,8 @@ export function Fader({
     const fraction = vertical
       ? box.height > 0 ? (box.bottom - clientY) / box.height : 0
       : box.width > 0 ? (clientX - box.left) / box.width : 0;
-    return min + Math.max(0, Math.min(1, fraction)) * span;
+    const position = Math.max(0, Math.min(1, fraction));
+    return taper ? taper.fromPosition(position) : min + position * span;
   };
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -167,7 +204,13 @@ export function Fader({
       className={cn('inline-flex gap-2 text-text-primary', vertical ? 'flex-col items-center' : 'flex-row items-center', disabled && 'opacity-50', className)}
     >
       <span className='text-xs font-medium text-text-secondary dark:text-text-primary'>{label}</span>
-      <div className={cn('flex gap-2', vertical ? 'flex-row items-stretch' : 'flex-col')} style={vertical ? { height: length } : { width: length }}>
+      <div
+        className={cn(
+          'flex gap-2',
+          vertical ? 'flex-row items-stretch' : 'flex-col',
+          // Room for the scale labels, which sit beside or below the track.
+          marks?.length ? (vertical ? 'pl-8' : 'pb-5') : undefined
+        )} style={vertical ? { height: length } : { width: length }}>
         <div
           role='slider'
           tabIndex={disabled ? -1 : 0}
@@ -204,6 +247,24 @@ export function Fader({
               style={vertical ? { bottom: `${at(unity)}%` } : { left: `${at(unity)}%` }}
             />
           ) : null}
+          {(marks ?? []).map((mark, index) => {
+            const { value: markValue, label: markLabel } = typeof mark === 'number' ? { value: mark, label: undefined } : mark;
+            const placed = at(markValue);
+            return (
+              <span
+                key={`${index}:${markValue}`}
+                data-fader='mark'
+                aria-hidden='true'
+                className={cn(
+                  'absolute whitespace-nowrap font-mono text-xs tabular-nums text-text-secondary dark:text-text-primary',
+                  vertical ? 'right-full mr-2 translate-y-1/2' : 'top-full mt-2 -translate-x-1/2'
+                )}
+                style={vertical ? { bottom: `${placed}%` } : { left: `${placed}%` }}
+              >
+                {markLabel ?? String(Math.round(markValue))}
+              </span>
+            );
+          })}
           <span
             data-fader='cap'
             aria-hidden='true'
