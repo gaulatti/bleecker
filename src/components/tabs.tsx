@@ -26,6 +26,15 @@ function abbreviateCount(count: number): string {
   return `${Math.floor(count / 1_000_000)}M`;
 }
 
+/** The button's name when it carries a count: the full value, or that the count is still loading. */
+function tabAccessibleName(tab: TabItem): string | undefined {
+  if (tab.countLoading) return `${tab.label}, loading count`;
+  if (typeof tab.count === 'number' && Number.isFinite(tab.count)) {
+    return `${tab.label}, ${tab.count.toLocaleString('en-US')} ${tab.count === 1 ? 'item' : 'items'}`;
+  }
+  return undefined;
+}
+
 function TabLabel({ tab, isActive }: { tab: TabItem; isActive: boolean }) {
   const hasCount = typeof tab.count === 'number' && Number.isFinite(tab.count);
   if (tab.countLoading) {
@@ -148,7 +157,7 @@ export function Tabs({ activeTab, 'aria-label': ariaLabel = 'Tabs', className, o
             role='tab'
             aria-selected={isActive}
             aria-controls={tab.panelId}
-            aria-label={typeof tab.count === 'number' && Number.isFinite(tab.count) ? `${tab.label}, ${tab.count.toLocaleString('en-US')} ${tab.count === 1 ? 'item' : 'items'}` : undefined}
+            aria-label={tabAccessibleName(tab)}
             tabIndex={isActive ? 0 : -1}
             onClick={() => onChange?.(tab.id)}
             onKeyDown={(event) => handleKeyDown(event, index)}
