@@ -46,6 +46,20 @@ describe('CoverTile', () => {
     expect(box.style.height).toBe('120px');
   });
 
+  it('sizes the small tile with small initials, and keeps a 16:9 ratio at every size', async () => {
+    const { container } = await render(<CoverTile label='Small' seed='Lucia Bianchi' size='sm' />);
+    const initials = container.querySelector('[data-initials]') as HTMLElement;
+    expect(initials.className).toContain('text-xs');
+    const wide = await render(<CoverTile label='Wide' seed='x' size='md' ratio='16:9' />);
+    const box = wide.container.querySelector('[data-cover-tile]') as HTMLElement;
+    expect(box.style.width).toBe('64px');
+    expect(box.style.height).toBe('36px');
+    const fill = await render(<CoverTile label='Fill' seed='x' size='fill' ratio='16:9' />);
+    const frame = fill.container.querySelector('[data-cover-tile]') as HTMLElement;
+    expect(frame.style.width).toBe('100%');
+    expect(frame.style.aspectRatio).toBe('16 / 9');
+  });
+
   it('shows the kind chip and the badge over the art', async () => {
     const { container } = await render(<CoverTile label='Song' seed='x' kind='Song' badge={<span>On air</span>} />);
     expect(container.textContent).toContain('Song');

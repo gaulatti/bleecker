@@ -65,7 +65,7 @@ export function coverFallback(seed: string): { from: string; to: string; initial
 
 export function CoverTile({ badge, className, kind, label, posterSrc, ratio = '1:1', seed, size = 'md', src }: CoverTileProps) {
   // The failed address is remembered, not a flag: a new src or poster gets its own chance to load.
-  const [brokenUrl, setBrokenUrl] = React.useState<string | null>(null);
+  const [brokenUrl, setBrokenUrl] = React.useState<string | undefined>(undefined);
   const address = src ?? posterSrc;
   const url = address && address !== brokenUrl ? address : undefined;
   const { from, to, initials } = coverFallback(seed);
@@ -85,7 +85,7 @@ export function CoverTile({ badge, className, kind, label, posterSrc, ratio = '1
           loading='lazy'
           decoding='async'
           className='h-full w-full object-cover'
-          onError={() => setBrokenUrl(address ?? null)}
+          onError={() => setBrokenUrl(url)}
         />
       ) : (
         <div
