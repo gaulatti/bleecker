@@ -519,14 +519,14 @@ export const PickerEdges: Story = {
     edgeGate.current = second;
     await userEvent.click(canvas.getByRole('button', { name: 'New token' }));
     await userEvent.click(await page.findByRole('radio', { name: /Only these/ }));
-    await expect(page.getByText('Loading your permissions…')).toBeVisible();
+    await waitFor(() => expect(page.getByText('Loading your permissions…')).toBeVisible());
     second.release();
     const read = await page.findByRole('checkbox', { name: 'monitor:events:read' });
     await userEvent.click(read);
     await userEvent.click(read);
     await expect(read).not.toBeChecked();
     await userEvent.type(page.getByRole('textbox', { name: 'Search permissions' }), 'nothing-like-this');
-    await expect(await page.findByText('No permission matches.')).toBeVisible();
+    await waitFor(() => expect(page.getByText('No permission matches.')).toBeVisible());
   }
 };
 
@@ -537,7 +537,7 @@ export const PickerWithNothingHeld: Story = {
     const page = within(document.body);
     await userEvent.click(await canvas.findByRole('button', { name: 'New token' }));
     await userEvent.click(await page.findByRole('radio', { name: /Only these/ }));
-    await expect(await page.findByText('You hold no permissions in Monitor.')).toBeVisible();
+    await waitFor(() => expect(page.getByText('You hold no permissions in Monitor.')).toBeVisible());
   }
 };
 
@@ -548,7 +548,7 @@ export const PickerListFails: Story = {
     const page = within(document.body);
     await userEvent.click(await canvas.findByRole('button', { name: 'New token' }));
     await userEvent.click(await page.findByRole('radio', { name: /Only these/ }));
-    await expect(await page.findByText('Your session has ended. Sign in again to manage access.')).toBeVisible();
+    await waitFor(() => expect(page.getByText('Your session has ended. Sign in again to manage access.')).toBeVisible());
   }
 };
 
