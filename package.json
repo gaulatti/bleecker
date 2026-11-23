@@ -1,6 +1,6 @@
 {
   "name": "@gaulatti/bleecker",
-  "version": "0.1.51",
+  "version": "0.1.52",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -13,8 +13,7 @@
   "files": [
     "dist",
     "dist/styles.css",
-    "src/styles/global.css",
-    "src/styles/tokens.generated.css"
+    "src/styles/*.css"
   ],
   "type": "module",
   "sideEffects": [

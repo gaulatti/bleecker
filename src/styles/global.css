@@ -2,6 +2,10 @@
 @import "tailwindcss" source(none);
 @import "./tokens.generated.css";
 @import "./generic-widgets.css";
+@import "./cronica.css";
+@import "./clock-widget.css";
+@import "./reloj.css";
+@import "./cronica-reiteramos.css";
 
 @source "../**/*.{ts,tsx}";
 
@@ -311,8 +315,3 @@
     scroll-behavior: auto !important;
   }
 }
-
-@import "./cronica.css";
-@import "./clock-widget.css";
-@import "./reloj.css";
-@import "./cronica-reiteramos.css";
