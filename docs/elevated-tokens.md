@@ -20,6 +20,12 @@ pins every existing export, key and type, so a removal or rename fails the build
 `statusIdle` and `cue` are not in the proposal's CSS; their values are chosen here (idle: a neutral that reads
 on both backgrounds; cue: the existing accent-text colour) and are the owner's to adjust.
 
+**Contrast, for whoever uses them.** Light `statusWarn` (`#a8741a`) is about 4.06:1 on white and light
+`statusIdle` (`#767676`) about 4.22:1 on `muted`: both are under 4.5:1, which is fine for dots, rails and
+pills but not for small body text. Dark `cue` equals dark `statusWarn` (`#e0ac69`), so the two cannot be told
+apart by colour alone in dark mode; give a cue point its own shape or label. The `cue` and `statusIdle`
+values are the owner's to adjust.
+
 `--font-readout` is deliberately not `--font-mono`: components already use Tailwind's `font-mono`, and redefining
 it would change them.
 
