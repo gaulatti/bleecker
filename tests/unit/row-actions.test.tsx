@@ -156,6 +156,31 @@ describe('RowActions', () => {
     expect(bad).toHaveLength(1);
   });
 
+  test('inline confirm: a key other than Escape leaves the question open', async () => {
+    await render(<Row confirmStyle='inline' />);
+    await userEvent.click(byLabel('More actions for Station ID')!);
+    await userEvent.click(Array.from(document.querySelectorAll<HTMLElement>('[role=menuitem]')).find((node) => node.textContent === 'Delete')!);
+    await eventually(() => expect(document.querySelector('[role=group]')).not.toBeNull());
+    await userEvent.keyboard('a');
+    expect(document.querySelector('[role=group]')).not.toBeNull();
+  });
+
+  test('shows an item icon in the menu, for safe and destructive items', async () => {
+    await render(
+      <RowActions
+        label='Row'
+        items={[
+          { label: 'Edit', icon: <i data-testid='edit-icon'>e</i>, onSelect: () => undefined },
+          { label: 'Remove', icon: <i data-testid='remove-icon'>r</i>, destructive: true, confirm: 'Remove?', onSelect: () => undefined }
+        ]}
+      />
+    );
+    await userEvent.click(byLabel('More actions for Row')!);
+    await eventually(() => expect(menu()).not.toBeNull());
+    expect(menu()!.querySelector('[data-testid=edit-icon]')).not.toBeNull();
+    expect(menu()!.querySelector('[data-testid=remove-icon]')).not.toBeNull();
+  });
+
   test('no primary shows only the menu; no items shows no menu', async () => {
     const view = await render(<RowActions label='Row' items={[{ label: 'Edit', onSelect: () => undefined }]} />);
     expect(byLabel('Play Row')).toBeNull();
