@@ -69,11 +69,12 @@
     "build-storybook": "npm run check:exports-stories && npm run check:kolibri-toggle && npm run build:css && storybook build",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "check:exports-stories": "node scripts/check-exports-and-stories.mjs",
-    "check": "npm run check:tokens && npm run typecheck && npm run check:exports-stories && npm run check:kolibri-toggle && npm run test:select-reset && npm run typecheck:theme && npm run test:theme && npm test",
+    "check": "npm run check:tokens && npm run typecheck && npm run check:exports-stories && npm run check:kolibri-toggle && npm run test:select-reset && npm run typecheck:theme && npm run test:theme && npm run test:tokens && npm test",
     "test:select-reset": "node --test tests/select-controlled-reset.test.mjs",
     "prepack": "npm run build",
     "check:runtime": "node scripts/check-package-runtime.mjs",
     "test:theme": "node --test tests/theme-provider.test.mjs",
+    "test:tokens": "node --test tests/token-kotlin.test.mjs",
     "typecheck:theme": "tsc --noEmit -p tests/tsconfig.theme.json"
   },
   "peerDependencies": {
