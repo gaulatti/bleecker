@@ -62,7 +62,19 @@ export function ToggleGroup({ children, className, disabled, size, type, variant
 
   return (
     <ToggleGroupContext.Provider value={{ type, value: currentValue, onValueChange: handleChange, size, variant, disabled }}>
-      <div role='group' className={cn('inline-flex items-center gap-0.5 rounded-[9px] border border-sand/20 bg-light-sand/65 p-1 dark:border-white/[0.07] dark:bg-white/[0.05]', className)}>
+      <div
+        role='group'
+        data-variant={variant ?? 'default'}
+        className={cn(
+          variant === 'outline'
+            ? // A segmented control (gaulatti/bleecker#557): the group owns the one rounded outline and
+              // the single dividers between segments; segments never draw a border of their own, so
+              // hover, focus and selection change nothing but colour and nothing shifts.
+              'inline-flex items-stretch divide-x divide-sand/30 overflow-hidden rounded-[9px] border border-sand/30 dark:divide-sand/40 dark:border-sand/40'
+            : 'inline-flex items-center gap-0.5 rounded-[9px] border border-sand/20 bg-light-sand/65 p-1 dark:border-white/[0.07] dark:bg-white/[0.05]',
+          className
+        )}
+      >
         {children}
       </div>
     </ToggleGroupContext.Provider>
@@ -81,7 +93,14 @@ export function ToggleGroupItem({ children, className, disabled, size, value, va
       disabled={isDisabled}
       size={size ?? ctx.size}
       variant={variant ?? ctx.variant}
-      className={cn('rounded-lg', className)}
+      className={cn(
+        (variant ?? ctx.variant) === 'outline'
+          ? // Inside an outline group a segment is borderless and square; the group's overflow and
+            // radius round the first and last, and the focus ring is drawn inside so it isn't clipped.
+            'rounded-none border-0 focus-visible:ring-inset'
+          : 'rounded-lg',
+        className
+      )}
       {...props}
     >
       {children}
