@@ -144,3 +144,4 @@ export * from './components/logo-widget';
 export * from './components/stream-wall';
 export * from './components/slideshow';
 export * from './components/video-stream';
+export * from './components/reloj-digital-loop-clock';
