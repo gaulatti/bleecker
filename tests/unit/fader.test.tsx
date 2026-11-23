@@ -217,6 +217,110 @@ describe('Fader edges', () => {
   });
 });
 
+describe('Fader with a taper and scale marks', () => {
+  // A console-like taper: silence (−80 dB) at the bottom, −15 dB at half travel, 0 dB at the top.
+  const points: Array<[number, number]> = [[0, -80], [0.5, -15], [1, 0]];
+  const taper = {
+    toPosition: (db: number) => {
+      for (let i = 1; i < points.length; i += 1) {
+        const [p0, d0] = points[i - 1];
+        const [p1, d1] = points[i];
+        if (db <= d1) return p0 + ((Math.max(db, d0) - d0) / (d1 - d0)) * (p1 - p0);
+      }
+      return 1;
+    },
+    fromPosition: (position: number) => {
+      for (let i = 1; i < points.length; i += 1) {
+        const [p0, d0] = points[i - 1];
+        const [p1, d1] = points[i];
+        if (position <= p1) return d0 + ((position - p0) / (p1 - p0)) * (d1 - d0);
+      }
+      return 0;
+    },
+  };
+  const format = (db: number) => (db <= -80 ? '−∞ dB' : formatFaderValue(db, 'db'));
+
+  test('the track, cap and pointer follow the taper while the value stays in dB', async () => {
+    await render(<Held label='Music' unit='db' min={-80} max={0} initial={-15} taper={taper} length='200px' />);
+    expect(q('[data-fader="fill"]').style.height).toBe('50%');
+    const box = slider().getBoundingClientRect();
+    await pointerAt(slider(), 'pointerdown', box.left + 1, box.bottom - 150);
+    // Three quarters of the travel is −7.5 dB on this taper, not −20 dB as on a linear one.
+    expect(slider().getAttribute('aria-valuenow')).toBe('-7.5');
+    expect(q('[data-fader="fill"]').style.height).toBe('75%');
+    // Keys still step in dB.
+    await keydown(slider(), 'ArrowDown');
+    expect(slider().getAttribute('aria-valuenow')).toBe('-8');
+  });
+
+  test('marks are placed through the taper, labelled by value or by their own label', async () => {
+    await render(
+      <Held label='Music' unit='db' min={-80} max={0} initial={-15} taper={taper} marks={[0, -15, { value: -80, label: '−∞' }]} />,
+    );
+    const marks = [...document.querySelectorAll('[data-fader="mark"]')] as HTMLElement[];
+    expect(marks.map((mark) => mark.textContent)).toEqual(['0', '-15', '−∞']);
+    expect(marks.map((mark) => mark.style.bottom)).toEqual(['100%', '50%', '0%']);
+    expect(marks.every((mark) => mark.getAttribute('aria-hidden') === 'true')).toBe(true);
+    // The labels sit beside the track, so the fader reserves their room.
+    expect(slider().parentElement!.className).toContain('pl-8');
+  });
+
+  test('horizontal marks are placed from the left', async () => {
+    await render(<Held label='Send' unit='percent' min={0} max={100} initial={50} orientation='horizontal' marks={[25]} />);
+    expect(q('[data-fader="mark"]').style.left).toBe('25%');
+    expect(slider().parentElement!.className).toContain('pb-5');
+  });
+
+  test('format sets the readout and what a screen reader hears', async () => {
+    await render(<Held label='Music' unit='db' min={-80} max={0} initial={-80} taper={taper} format={format} />);
+    expect(slider().getAttribute('aria-valuetext')).toBe('−∞ dB');
+    expect(q('output').textContent).toBe('−∞ dB');
+    await keydown(slider(), 'End');
+    expect(slider().getAttribute('aria-valuetext')).toBe('0.0 dB');
+  });
+
+  test('a taper that answers nothing usable draws the cap at the bottom', async () => {
+    await render(
+      <Held label='Odd' unit='db' min={-80} max={0} initial={-10} taper={{ toPosition: () => Number.NaN, fromPosition: () => -10 }} />,
+    );
+    expect(q('[data-fader="fill"]').style.height).toBe('0%');
+  });
+
+  test('a taper that answers NaN for a position never reports it', async () => {
+    const onChange = vi.fn();
+    await render(
+      <Held
+        label='Odd'
+        unit='db'
+        min={-80}
+        max={0}
+        initial={-10}
+        length='200px'
+        taper={{ toPosition: () => 0.5, fromPosition: () => Number.NaN }}
+        onChange={onChange}
+      />,
+    );
+    const box = slider().getBoundingClientRect();
+    await pointerAt(slider(), 'pointerdown', box.left + 1, box.top + 20);
+    await pointerAt(slider(), 'pointermove', box.left + 1, box.top + 40);
+    expect(onChange).not.toHaveBeenCalled();
+    expect(slider().getAttribute('aria-valuenow')).toBe('-10');
+  });
+
+  test('two marks at the same value both render', async () => {
+    await render(<Held label='Music' unit='db' min={-80} max={0} initial={-15} marks={[-15, { value: -15, label: 'ref' }]} />);
+    expect([...document.querySelectorAll('[data-fader="mark"]')].map((mark) => mark.textContent)).toEqual(['-15', 'ref']);
+  });
+
+  test('without taper or marks it is the linear fader it was, with no marks drawn', async () => {
+    await render(<Held label='Music' unit='db' min={-60} max={0} initial={-30} />);
+    expect(q('[data-fader="fill"]').style.height).toBe('50%');
+    expect(document.querySelector('[data-fader="mark"]')).toBeNull();
+    expect(slider().parentElement!.className).not.toMatch(/pl-8|pb-5/);
+    expect(slider().getAttribute('aria-valuetext')).toBe('−30.0 dB');
+  });
+});
+
 describe('Meter, vertical', () => {
   test('fills from the bottom and marks the peak, hold and warning zone along its height', async () => {
     await render(<Meter label='Level' value={25} min={0} max={100} peak={50} hold={95} warnFrom={90} orientation='vertical' />);
