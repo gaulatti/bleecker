@@ -117,6 +117,7 @@ export * from './components/clock-widget';
 export * from './components/webrtc-guest-source';
 export * from './components/reloj-clone';
 export * from './components/reloj-loop-clock';
+export * from './components/cronica-reiteramos';
 export * from './layout/app-shell';
 export * from './layout/admin-shell';
 export * from './layout/auth-shell';

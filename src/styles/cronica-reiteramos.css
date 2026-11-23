@@ -1,0 +1,14 @@
+/* Crónica reiteramos overlay (alcantara#383). */
+.cronica-reiteramos {
+    position: absolute;
+    top: 175px;
+    left: -190px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-style: italic;
+    font-weight: 900;
+    font-size: 88px;
+    letter-spacing: 1px;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-shadow: 8px 8px 0 #000000;
+}
