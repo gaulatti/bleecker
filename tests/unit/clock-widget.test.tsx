@@ -43,3 +43,9 @@ it('shows no icon when showIcon is off', async () => {
   const { container } = await render(<ClockWidget showIcon={false} iconUrl='https://cdn.example.test/icon.png' />);
   expect(container.querySelector('img')).toBeNull();
 });
+
+it('shows no icon image when none is given, even with the icon slot on', async () => {
+  const { container } = await render(<ClockWidget />);
+  expect(container.querySelector('.clock-icon')).not.toBeNull();
+  expect(container.querySelector('img')).toBeNull();
+});

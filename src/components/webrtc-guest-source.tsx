@@ -94,9 +94,10 @@ export function WebrtcGuestSource({
   }, [getCredentials, normalizedSlot]);
 
   useEffect(() => {
-    if (!audioRef.current) return;
-    audioRef.current.volume = suppressAudio ? 0 : gain;
-    audioRef.current.muted = suppressAudio || gain <= 0.0001;
+    // The audio element is always rendered while this effect runs, so it is read directly.
+    const audio = audioRef.current as HTMLAudioElement;
+    audio.volume = suppressAudio ? 0 : gain;
+    audio.muted = suppressAudio || gain <= 0.0001;
   }, [gain, suppressAudio]);
 
   return (
