@@ -97,7 +97,8 @@ export function Fader({
   const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (disabled) return;
     const amount = event.shiftKey ? coarse : fine;
-    // From a value between steps, the first step goes to the nearest step in that direction.
+    // From a value between steps, the first press of any step key (fine or coarse) goes to the
+    // nearest fine step in that direction.
     const onGrid = clampToStep(current, min, max, fine);
     const up = (by: number) => (onGrid > current ? onGrid : onGrid + by);
     const down = (by: number) => (onGrid < current ? onGrid : onGrid - by);

@@ -27,7 +27,8 @@ changes: `Kbd` and `StatusBadge` keep their API and look, and the new names sit 
 - **Fader** is a `role="slider"` with its unit in the value text ("−6.0 dB", "75 %") and a readout in
   tabular numerals. Arrows step by `step`, Shift with an arrow or Page Up / Page Down by `coarseStep`,
   Home and End go to the limits, and **0** or a double-click returns to `unity` (drawn as a mark).
-  From a value between steps, the first step lands on the nearest step in that direction. A pointer
+  From a value between steps, the first press of any step key (an arrow, Shift with an arrow, or
+  Page Up / Page Down) lands on the nearest fine step in that direction, then steps as usual. A pointer
   sets the value where it lands on the track and drags from there. With `meter`, a `Meter` on the same
   scale sits beside the track. Mute and solo stay separate controls.
 - **StatePill** carries its state in words; colour never carries it alone. `pulse` honours reduced motion.
