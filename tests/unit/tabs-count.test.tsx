@@ -16,8 +16,8 @@ describe('Tabs counts', () => {
   test('shows the count after the label and names it in full for screen readers', async () => {
     await render(<Tabs tabs={[{ id: 'a', label: 'Songs', count: 42 }, { id: 'b', label: 'Clips', count: 1 }]} activeTab='a' />);
     expect(tab('Songs').querySelector('[data-tab-count]')!.textContent).toBe('42');
-    expect(tab('Songs').textContent).toBe('Songs42, 42 items');
-    expect(tab('Clips').textContent).toBe('Clips1, 1 item');
+    expect(tab('Songs').textContent).toBe('Songs, 42 items42');
+    expect(tab('Clips').textContent).toBe('Clips, 1 item1');
     expect(tab('Songs').querySelector('[data-tab-count]')!.getAttribute('aria-hidden')).toBe('true');
   });
 
