@@ -6,9 +6,32 @@ import { cn } from '../utils/cn';
 export interface TabItem {
   id: string;
   label: string;
+  /** How many items the tab holds: a quiet pill after the label. `null` or absent hides it. */
+  count?: number | null;
+  /** A short skeleton in the count's place while the number loads, so it does not jump from blank. */
+  countLoading?: boolean;
   href?: string;
   external?: boolean;
   panelId?: string;
+}
+
+const countFormat = new Intl.NumberFormat('en-US');
+
+/** A count for the pill: `1.2k` for a thousand and above; the full value stays in the accessible name. */
+export function formatTabCount(count: number): string {
+  if (count < 1000) return countFormat.format(count);
+  const thousands = count / 1000;
+  return `${thousands >= 10 ? Math.round(thousands) : thousands.toFixed(1).replace(/\.0$/, '')}k`;
+}
+
+function TabCount({ count, loading }: { count?: number | null; loading?: boolean }) {
+  if (loading) return <span aria-hidden='true' className='ml-2 inline-block h-4 w-6 animate-pulse rounded-full bg-sand/30 dark:bg-white/15' />;
+  if (count === undefined || count === null) return null;
+  return (
+    <span aria-hidden='true' className='ml-2 inline-flex min-w-5 justify-center rounded-full bg-sand/25 px-1.5 text-[11px] font-semibold tabular-nums text-text-secondary dark:bg-white/10'>
+      {formatTabCount(count)}
+    </span>
+  );
 }
 
 export type TabRenderLink = (props: { item: TabItem & { href: string }; className?: string; children: React.ReactNode }) => React.ReactNode;
@@ -85,7 +108,12 @@ export function Tabs({ activeTab, 'aria-label': ariaLabel = 'Tabs', className, o
               {linkRenderer({
                 item: { ...tab, href: tab.href },
                 className: tabClassName,
-                children: tab.label
+                children: (
+                  <>
+                    {tab.label}
+                    <TabCount count={tab.count} loading={tab.countLoading} />
+                  </>
+                )
               })}
             </React.Fragment>
           );
@@ -98,12 +126,14 @@ export function Tabs({ activeTab, 'aria-label': ariaLabel = 'Tabs', className, o
             role='tab'
             aria-selected={isActive}
             aria-controls={tab.panelId}
+            aria-label={tab.count !== undefined && tab.count !== null ? `${tab.label}, ${countFormat.format(tab.count)} items` : undefined}
             tabIndex={isActive ? 0 : -1}
             onClick={() => onChange?.(tab.id)}
             onKeyDown={(event) => handleKeyDown(event, index)}
             className={tabClassName}
           >
             {tab.label}
+            <TabCount count={tab.count} loading={tab.countLoading} />
           </button>
         );
       })}

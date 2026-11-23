@@ -4,6 +4,7 @@ import { expect, userEvent, within } from 'storybook/test';
 
 import { Card } from '../../src/components/card';
 import { Tabs, type TabsProps } from '../../src/components/tabs';
+import { InTheme } from './theme-story';
 
 type TabsStoryArgs = Omit<TabsProps, 'activeTab' | 'onChange'> & {
   initialActiveTab: string;
@@ -107,4 +108,51 @@ export const ThreeTabs: Story = {
     await userEvent.keyboard('{ArrowRight}');
     await expect(canvas.getByRole('tab', { name: 'Activity' })).toHaveAttribute('aria-selected', 'true');
   }
+};
+
+export const WithCounts: Story = {
+  args: {
+    'aria-label': 'Media filters',
+    initialActiveTab: 'songs',
+    tabs: [
+      { id: 'songs', label: 'Songs', count: 42 },
+      { id: 'clips', label: 'Clips', count: 0 },
+      { id: 'artwork', label: 'Artwork', count: 1234 },
+      { id: 'other', label: 'Other' }
+    ]
+  } as never
+};
+
+export const CountLoading: Story = {
+  args: {
+    'aria-label': 'Media filters',
+    initialActiveTab: 'songs',
+    tabs: [
+      { id: 'songs', label: 'Songs', countLoading: true },
+      { id: 'clips', label: 'Clips', count: 7 }
+    ]
+  } as never
+};
+
+export const LargeCounts: Story = {
+  args: {
+    'aria-label': 'Large counts',
+    initialActiveTab: 'all',
+    tabs: [
+      { id: 'all', label: 'All', count: 12480 },
+      { id: 'live', label: 'Live', count: 987654 }
+    ]
+  } as never
+};
+
+export const WithCountsLight: Story = {
+  parameters: { themeProvider: 'story' },
+  args: WithCounts.args,
+  render: (args) => <InTheme theme='light'><Tabs {...(args as TabsProps)} activeTab='songs' /></InTheme>
+};
+
+export const WithCountsDark: Story = {
+  parameters: { themeProvider: 'story' },
+  args: WithCounts.args,
+  render: (args) => <InTheme theme='dark'><Tabs {...(args as TabsProps)} activeTab='songs' /></InTheme>
 };
