@@ -26,6 +26,9 @@ test('every token group in source.ts is in the Kotlin output with the same keys'
     BleeckerSpacing: tokens.spacing,
     BleeckerRadii: tokens.radii,
     BleeckerDurations: tokens.durations,
+    BleeckerControlHeights: tokens.controlHeights,
+    BleeckerFocusRing: tokens.focusRing,
+    BleeckerFontSizes: tokens.fontSizes,
     BleeckerLetterSpacing: tokens.letterSpacing,
     BleeckerEasing: tokens.easing,
     BleeckerLightColors: tokens.lightColors,
@@ -42,6 +45,10 @@ test('values: lengths are floats, colours are ARGB, translucent borders keep the
   assert.equal(find('BleeckerSpacing', 'page'), '64.0f');
   assert.equal(find('BleeckerDurations', 'standard'), '200');
   assert.equal(find('BleeckerLetterSpacing', 'refined'), '-0.02f');
+  assert.equal(find('BleeckerFontSizes', 'body'), '14.0f');
+  assert.equal(find('BleeckerControlHeights', 'dense'), '28.0f');
+  assert.equal(find('BleeckerFocusRing', 'width'), '2.0f');
+  assert.equal(find('BleeckerTypography', 'monoFamily'), '"ui-monospace"');
   assert.equal(find('BleeckerLightColors', 'sea'), '0xFF2C5784L');
   assert.equal(find('BleeckerDarkColors', 'sea'), '0xFF5BA3F5L');
   assert.equal(find('BleeckerLightColors', 'border'), '0x14000000L'); // rgba(0, 0, 0, 0.08)

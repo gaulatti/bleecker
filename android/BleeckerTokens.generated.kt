@@ -47,6 +47,37 @@ object BleeckerDurations {
     const val motionExit = 150
 }
 
+/** Density-independent pixels (dp). */
+object BleeckerControlHeights {
+    const val dense = 28.0f
+    const val compact = 32.0f
+    const val small = 36.0f
+    const val default = 40.0f
+    const val large = 48.0f
+}
+
+/** Density-independent pixels (dp). */
+object BleeckerFocusRing {
+    const val width = 2.0f
+    const val offset = 2.0f
+}
+
+/** Type scale for dense, hairline-first surfaces, in CSS px as defined by the web scale: not a television scale. */
+object BleeckerFontSizes {
+    const val caps = 11.0f
+    const val caption = 12.0f
+    const val dense = 13.0f
+    const val body = 14.0f
+    const val section = 20.0f
+    const val readout = 24.0f
+}
+
+/** Caps tracking in em and the monospace face. */
+object BleeckerTypography {
+    const val capsTracking = 0.1f
+    const val monoFamily = "ui-monospace"
+}
+
 /** In em. */
 object BleeckerLetterSpacing {
     const val refined = -0.02f
@@ -102,6 +133,13 @@ object BleeckerLightColors {
     const val destructiveForeground = 0xFFFFFFFFL
     const val accent = 0xFFF9F6F2L
     const val accentForeground = 0xFF2D2D2DL
+    const val statusOk = 0xFF2F7D5BL
+    const val statusWarn = 0xFFA8741AL
+    const val statusBad = 0xFFA65D57L
+    const val statusIdle = 0xFF767676L
+    const val rail = 0xFFE9E1D3L
+    const val railStrong = 0xFFD4C4A9L
+    const val cue = 0xFF8A5735L
 }
 
 /** ARGB. */
@@ -144,4 +182,11 @@ object BleeckerDarkColors {
     const val destructiveForeground = 0xFF0D1821L
     const val accent = 0xFF1A2332L
     const val accentForeground = 0xFFF0F4F8L
+    const val statusOk = 0xFF5CC49AL
+    const val statusWarn = 0xFFE0AC69L
+    const val statusBad = 0xFFD47B75L
+    const val statusIdle = 0xFF8A9BB0L
+    const val rail = 0xFF22324AL
+    const val railStrong = 0xFF2F4562L
+    const val cue = 0xFFE0AC69L
 }
