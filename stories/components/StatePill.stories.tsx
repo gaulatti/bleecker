@@ -7,7 +7,7 @@ const meta = {
   component: StatePill,
   title: 'Components/StatePill',
   args: { label: 'Measured', tone: 'ok' },
-  argTypes: { tone: { control: 'select', options: ['live', 'ok', 'warn', 'bad', 'arm', 'info', 'idle'] } },
+  argTypes: { size: { control: 'inline-radio', options: ['md', 'sm'] }, tone: { control: 'select', options: ['live', 'ok', 'warn', 'bad', 'arm', 'info', 'idle'] } },
   parameters: { layout: 'centered' }
 } satisfies Meta<typeof StatePill>;
 
@@ -32,6 +32,14 @@ const Tones = () => (
   </div>
 );
 
+const Sizes = () => (
+  <div className='flex flex-wrap items-center gap-2'>
+    <StatePill tone='live' label='On air (md, 12 px)' />
+    <StatePill tone='live' label='On air (sm, 11 px)' size='sm' />
+  </div>
+);
+
 export const Default: Story = {};
+export const Sizes_: Story = { name: 'Sizes', render: () => <Sizes /> };
 export const Light: Story = { parameters: { themeProvider: 'story' }, render: () => <InTheme theme='light'><Tones /></InTheme> };
 export const Dark: Story = { parameters: { themeProvider: 'story' }, render: () => <InTheme theme='dark'><Tones /></InTheme> };

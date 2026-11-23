@@ -3,10 +3,15 @@ import { cn } from '../utils/cn';
 
 export type { StatusBadgeVariant } from '../core';
 
+export type StatusBadgeSize = 'sm' | 'md';
+
 export interface StatusBadgeProps {
+  /** Reaches the wrapper that holds the badge and its description, not the badge itself; use `size` for the text size. */
   className?: string;
   description?: string;
   label: string;
+  /** `md` (default) is 12 px text, the console's minimum; `sm` keeps the earlier 11 px. */
+  size?: StatusBadgeSize;
   variant?: StatusBadgeVariant;
 }
 
@@ -33,11 +38,16 @@ const variantClasses: Record<StatusBadgeVariant, { badge: string; dot: string }>
   }
 };
 
-export function StatusBadge({ className, description, label, variant = 'default' }: StatusBadgeProps) {
+const sizeClasses: Record<StatusBadgeSize, string> = {
+  sm: 'min-h-6 text-[11px]',
+  md: 'min-h-6 text-xs'
+};
+
+export function StatusBadge({ className, description, label, size = 'md', variant = 'default' }: StatusBadgeProps) {
   const { badge, dot } = variantClasses[variant];
   return (
     <div className={cn('inline-flex items-center gap-2', className)}>
-      <span className={cn('inline-flex min-h-6 items-center gap-1.5 rounded-[6px] border px-2.5 py-0.5 text-[11px] font-semibold tracking-ui', badge)}>
+      <span data-size={size} className={cn('inline-flex items-center gap-1.5 rounded-[6px] border px-2.5 py-0.5 font-semibold tracking-ui', sizeClasses[size], badge)}>
         <span className={cn('h-1.5 w-1.5 rounded-full', dot)} />
         {label}
       </span>

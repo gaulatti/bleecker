@@ -5,7 +5,7 @@ changes: `Kbd` and `StatusBadge` keep their API and look, and the new names sit 
 
 | Component | Replaces or extends | Props (the contract consumers code against) |
 |---|---|---|
-| `StatePill` | the successor of `StatusBadge` for dense rows | `tone: 'live' \| 'ok' \| 'warn' \| 'bad' \| 'arm' \| 'info' \| 'idle'`, `label`, `pulse?`, `title?`, `className?` |
+| `StatePill` | the successor of `StatusBadge` for dense rows | `tone: 'live' \| 'ok' \| 'warn' \| 'bad' \| 'arm' \| 'info' \| 'idle'`, `label`, `pulse?`, `size?: 'sm' \| 'md'` (default `md`, 12 px), `title?`, `className?` |
 | `KeyCap` | a new styling of `Kbd` | `children` or `keys?: string[]` (a chord), `className?` |
 | `SegmentedFilter` | built on `ToggleGroup` | `label`, `options: { value, label, count? }[]`, `value`, `onChange(value)` (always one chosen) |
 | `Meter` | a reading and its scale | `label`, `unit?`, `value: number \| null`, `min`, `max`, `warnFrom?`, `peak?`, `hold?`, `orientation?: 'horizontal' \| 'vertical'` (default horizontal) |
@@ -39,6 +39,7 @@ changes: `Kbd` and `StatusBadge` keep their API and look, and the new names sit 
   `label` (`{ value: -80, label: '−∞' }` shows `−∞`). A value the taper cannot map (NaN) is never reported. `format` replaces the readout and the announcement (for example `−∞ dB`
   at the floor). A paired `meter` stays linear on `min`–`max`, so a consumer with a taper keeps its own
   meter. Without these props the Fader is unchanged.
+- **StatePill** and **StatusBadge** take `size`: `md` (default) is 12 px, the console's minimum text size; `sm` keeps the earlier 11 px. `StatusBadge`'s `className` reaches its wrapper, not the badge.
 - **StatePill** carries its state in words; colour never carries it alone. `pulse` honours reduced motion.
 - **SegmentedFilter** keeps one segment chosen: pressing the chosen one again does nothing.
 

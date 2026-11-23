@@ -45,7 +45,7 @@ describe('Notice', () => {
     expect(document.querySelector('button[aria-label="Dismiss"]')).not.toBeNull();
   });
 
-  test('uses the same tone colours as StatePill, and StatePill is unchanged', async () => {
+  test('uses the same tone colours as StatePill, and StatePill keeps its tones and shape', async () => {
     await render(
       <>
         <Notice tone='bad'>x</Notice>
@@ -60,7 +60,7 @@ describe('Notice', () => {
     // The pill keeps its dark text; the notice lightens it for a sentence.
     expect(pill.className).toContain('dark:text-terracotta');
     expect(notice().className).not.toContain('dark:text-terracotta');
-    expect(pill.className).toContain('h-[22px]');
+    expect(pill.className).toContain('h-6');
     expect(pill.className).toContain('rounded-full');
   });
 });
