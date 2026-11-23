@@ -113,6 +113,8 @@ export * from './components/tabs';
 export * from './components/theme-toggle';
 export * from './components/cronica-background';
 export * from './components/cronica-chyron';
+export * from './components/clock-widget';
+export * from './components/webrtc-guest-source';
 export * from './layout/app-shell';
 export * from './layout/admin-shell';
 export * from './layout/auth-shell';
