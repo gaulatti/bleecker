@@ -8,6 +8,7 @@ import { toggleSizes, toggleVariants, type ToggleSize, type ToggleVariant } from
 import { Toggle } from '../../src/components/toggle';
 import { ToggleGroup, ToggleGroupItem } from '../../src/components/toggle-group';
 import { useTheme } from '../../src/theme/theme-provider';
+import { SegmentedOutlineFixture } from './segmented-outline-fixture';
 
 const contractRoot = toggleFixture.components[0].tree[0];
 const contractPressedStates = contractRoot.props.states.pressed;
@@ -45,6 +46,15 @@ export const Outline: Story = {
       </Toggle>
     );
   }
+};
+
+/** gaulatti/bleecker#557: an outline segmented control; hover a segment, nothing but its colour changes. */
+export const ToggleGroupOutlineLight: Story = {
+  render: () => <SegmentedOutlineFixture theme='light' />
+};
+
+export const ToggleGroupOutlineDark: Story = {
+  render: () => <SegmentedOutlineFixture theme='dark' />
 };
 
 export const ToggleGroupSingle: Story = {
