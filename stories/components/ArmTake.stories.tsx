@@ -28,5 +28,7 @@ function Demo() {
 
 export const Default: Story = { render: () => <Demo /> };
 export const Disabled: Story = { args: { disabled: true } };
+// An action that is not a take says what the second press does (gaulatti/bleecker#597).
+export const ArmedLabel: Story = { args: { label: 'Fade to black', armedLabel: 'Press again to fade' } };
 export const Light: Story = { parameters: { themeProvider: 'story' }, render: () => <InTheme theme='light'><Demo /></InTheme> };
 export const Dark: Story = { parameters: { themeProvider: 'story' }, render: () => <InTheme theme='dark'><Demo /></InTheme> };

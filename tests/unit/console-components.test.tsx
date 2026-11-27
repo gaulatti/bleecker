@@ -86,6 +86,37 @@ describe('ArmTake', () => {
     expect(onTake).toHaveBeenCalledTimes(1);
   });
 
+  test('keeps every armed string byte-identical without armedLabel', async () => {
+    await render(<ArmTake label='Take' onTake={vi.fn()} />);
+    const button = q('button');
+    await click(button);
+    expect(button.getAttribute('aria-label')).toBe('Take: armed, press again to take');
+    expect(q('.relative').textContent).toBe('Press again to take');
+    expect(q('[role="status"]').textContent).toBe('Armed. Press again within the time shown to take.');
+  });
+
+  // gaulatti/bleecker#597: Fade to black sits under Take to program, and an armed fade that says
+  // "press again to take" points the operator at the wrong control.
+  test('says what the second press does with armedLabel, never "take", and still needs two presses', async () => {
+    const onTake = vi.fn();
+    await render(<ArmTake label='Fade to black' armedLabel='Press again to fade' onTake={onTake} />);
+    const button = q('button');
+    expect(button.textContent).toContain('Fade to black');
+    await click(button);
+    expect(onTake).not.toHaveBeenCalled();
+    expect(q('.relative').textContent).toBe('Press again to fade');
+    expect(button.getAttribute('aria-label')).toBe('Fade to black: armed. Press again to fade');
+    expect(q('[role="status"]').textContent).toBe('Armed. Press again to fade.');
+    for (const text of [button.getAttribute('aria-label'), q('.relative').textContent, q('[role="status"]').textContent])
+      expect(text).not.toMatch(/take/i);
+    await keydown(button, 'Escape');
+    expect(button.getAttribute('data-armed')).toBe('false');
+    expect(q('[role="status"]').textContent).toBe('');
+    await click(button);
+    await click(button);
+    expect(onTake).toHaveBeenCalledTimes(1);
+  });
+
   test('an armed control disarms itself after the arm time, and on Escape or blur', async () => {
     fakeAnimationClock();
     const onTake = vi.fn();
