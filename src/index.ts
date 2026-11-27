@@ -102,6 +102,7 @@ export * from './components/arm-take';
 export * from './components/meter';
 export * from './components/fader';
 export * from './components/on-air-strip';
+export * from './components/podcast-player';
 export * from './components/segmented-filter';
 export * from './components/transport';
 export * from './components/status-badge';
