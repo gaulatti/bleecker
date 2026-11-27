@@ -91,7 +91,7 @@ describe('ArmTake', () => {
     const button = q('button');
     await click(button);
     expect(button.getAttribute('aria-label')).toBe('Take: armed, press again to take');
-    expect(q('.relative').textContent).toBe('Press again to take');
+    expect(q('button > span.relative').textContent).toBe('Press again to take');
     expect(q('[role="status"]').textContent).toBe('Armed. Press again within the time shown to take.');
   });
 
@@ -104,10 +104,10 @@ describe('ArmTake', () => {
     expect(button.textContent).toContain('Fade to black');
     await click(button);
     expect(onTake).not.toHaveBeenCalled();
-    expect(q('.relative').textContent).toBe('Press again to fade');
+    expect(q('button > span.relative').textContent).toBe('Press again to fade');
     expect(button.getAttribute('aria-label')).toBe('Fade to black: armed. Press again to fade');
     expect(q('[role="status"]').textContent).toBe('Armed. Press again to fade.');
-    for (const text of [button.getAttribute('aria-label'), q('.relative').textContent, q('[role="status"]').textContent])
+    for (const text of [button.getAttribute('aria-label'), q('button > span.relative').textContent, q('[role="status"]').textContent])
       expect(text).not.toMatch(/take/i);
     await keydown(button, 'Escape');
     expect(button.getAttribute('data-armed')).toBe('false');
