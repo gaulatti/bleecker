@@ -151,3 +151,8 @@ export * from './components/scoreboard';
 export * from './components/earone';
 export * from './components/broadcast-layout';
 export * from './components/scene-transition-overlay';
+export * from './components/lower-third';
+export * from './components/full-screen';
+export * from './components/corner-bug';
+export * from './components/scene-notice';
+export * from './components/fade-to-black';
